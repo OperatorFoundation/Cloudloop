@@ -13,6 +13,38 @@ public struct CloudloopAPI
         name: "Cloudloop",
         url: "https://api.cloudloop.com",
         documentation: URL(string: "https://docs.cloudloop.com/reference")!,
+        types: [
+            ResultType(name: "Contract", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.identifier),
+                "plan": .structure("Plan"),
+                "hardware": .identifier
+            ]),
+            ResultType(name: "Plan", fields: [
+                "inclusive" : .float,
+                "pooled": .boolean,
+                "suspensible": .boolean,
+                "name": .string,
+                "description": .string,
+                "increment": .float,
+                "commitment": .float,
+                "id": .identifier,
+                "minimum": .float
+            ]),
+            ResultType(name: "Sim", fields: [
+                "iccid": .string,
+                "id": .identifier
+            ]),
+            ResultType(name: "Hardware", fields: [
+                "imei": .string,
+                "id": .identifier,
+                "type": .string
+            ])
+        ],
         endpoints: [
             Endpoint(
                 name: "Telephony",
@@ -21,7 +53,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
-                        resultType: ResultType(fields: [
+                        resultType: ResultType(name: "CreateSubscriberResult", fields: [
                             "createdAt": .date,
                             "sim": .identifier,
                             "contract": .optional(.identifier),

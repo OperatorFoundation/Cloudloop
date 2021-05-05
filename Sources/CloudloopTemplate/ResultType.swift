@@ -9,10 +9,12 @@ import Foundation
 
 public struct ResultType
 {
+    public let name: String
     public let fields: [String: ResultValueType]
 
-    public init(fields: [String: ResultValueType])
+    public init(name: String, fields: [String: ResultValueType])
     {
+        self.name = name
         self.fields = fields
     }
 }
@@ -21,8 +23,9 @@ public indirect enum ResultValueType
 {
     case optional(ResultValueType)
     case array(ResultValueType)
-    case structure(ResultType)
+    case structure(String)
     case float
+    case boolean
     case string
     case date
     case identifier

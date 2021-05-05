@@ -19,8 +19,6 @@ public func generate(_ api: API, target: String, resourcePath: String) -> Bool
 
     guard File.makeDirectory(atPath: sourceDir) else {return false}
 
-    print(File.currentDirectory())
-    print(resourcePath)
     guard let resources = File.contentsOfDirectory(atPath: resourcePath) else {return false}
 
     for resource in resources
@@ -36,6 +34,8 @@ public func generate(_ api: API, target: String, resourcePath: String) -> Bool
     {
         guard generateEndpoint(baseURL: api.url, target: target, endpoint: endpoint) else {return false}
     }
+
+    print("Success. Wrote files to \(sourceDir).")
 
     return true
 }
@@ -100,7 +100,7 @@ func generateFunction(baseUrl: String, function: Function) -> String
 
     let contents = """
         // \(function.documentation)
-        public func \(function.name)(\(parameters)) -> \(function.name)Result?
+        public func \(function.name)(token: String, \(parameters)) -> \(function.name)Result?
         {
     \(functionBody)
         }
@@ -135,6 +135,7 @@ func generateFunctionBody(url: String, function: Function) -> String
     let contents = """
             guard var components = URLComponents(string: "\(url)") else {return nil}
             components.queryItems = [
+                URLQueryItem(name: "token", value: token),
     \(dictionaryContents)
             ]
             guard let url = components.url else {return nil}
@@ -242,6 +243,8 @@ func generateResultValueType(valueType: ResultValueType) -> String
             return "Date"
         case .float:
             return "Float"
+        case .boolean:
+            return "Bool"
         case .optional(let subType):
             let subtypeString = generateResultValueType(valueType: subType)
             return "\(subtypeString)?"

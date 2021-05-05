@@ -12,4 +12,7 @@ import Gardener
 let cloudloop = CloudloopAPI()
 
 let success = generate(cloudloop.api, target: "Cloudloop", resourcePath: "Sources/CloudloopTemplate/Resources")
-print(success)
+if !success
+{
+    print("Failure.")
+}
