@@ -252,7 +252,6 @@ func generateResultValueType(valueType: ResultValueType) -> String
             let subtypeString = generateResultValueType(valueType: subType)
             return "[\(subtypeString)]"
         case .structure(let subType):
-            // FIXME
-            return "FIXME(\(subType))"
+            return subType
     }
 }

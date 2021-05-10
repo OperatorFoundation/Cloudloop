@@ -5,14 +5,30 @@ import Foundation
 
 public struct CreateSubscriberResult: Codable
 {
-	let contract: Identifier?
-	let createdAt: Date
 	let sim: Identifier
-	let account: Identifier
-	let description: String
 	let id: Identifier
+	let account: Identifier
+	let contract: Identifier?
 	let name: String
+	let createdAt: Date
 	let billingGroup: Identifier
+	let description: String
+}
+
+public struct GetSubscriberResult: Codable
+{
+	let id: Identifier
+	let sim: Sim
+	let name: String
+	let contract: Contract
+	let createdAt: Date
+	let account: Identifier
+	let hardware: Hardware
+}
+
+public struct SearchSubscribersResult: Codable
+{
+	let subscribers: [Subscriber]
 }
 
 public struct Telephony
@@ -30,6 +46,38 @@ public struct Telephony
         guard let resultData = try? Data(contentsOf: url) else {return nil}
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(CreateSubscriberResult.self, from: resultData) else {return nil}
+
+        return result
+    }
+
+    // https://docs.cloudloop.com/reference#retrieve
+    public func GetSubscriber(token: String, subscriber: Identifier) -> GetSubscriberResult?
+    {
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/GetSubscriber") else {return nil}
+        components.queryItems = [
+            URLQueryItem(name: "token", value: token),
+			URLQueryItem(name: "subscriber", value: subscriber.string)
+        ]
+        guard let url = components.url else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let decoder = JSONDecoder()
+        guard let result = try? decoder.decode(GetSubscriberResult.self, from: resultData) else {return nil}
+
+        return result
+    }
+
+    // https://docs.cloudloop.com/reference#search
+    public func SearchSubscribers(token: String, ) -> SearchSubscribersResult?
+    {
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/SearchSubscribers") else {return nil}
+        components.queryItems = [
+            URLQueryItem(name: "token", value: token),
+
+        ]
+        guard let url = components.url else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let decoder = JSONDecoder()
+        guard let result = try? decoder.decode(SearchSubscribersResult.self, from: resultData) else {return nil}
 
         return result
     }

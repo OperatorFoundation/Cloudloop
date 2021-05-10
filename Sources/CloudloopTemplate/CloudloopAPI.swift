@@ -43,6 +43,17 @@ public struct CloudloopAPI
                 "imei": .string,
                 "id": .identifier,
                 "type": .string
+            ]),
+            ResultType(name: "Subscriber", fields: [
+                "createdAt": .date,
+                "sim": .optional(.identifier),
+                "contract": .optional(.identifier),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier
+                
             ])
         ],
         endpoints: [
@@ -75,6 +86,33 @@ public struct CloudloopAPI
                                 optional: true
                             )
                         ]
+                    ),
+                    Function(
+                        name: "GetSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve")!,
+                        resultType: ResultType(name: "GetSubscriberResult", fields: [
+                            "createdAt": .date,
+                            "sim": .structure("Sim"),
+                            "contract": .structure("Contract"),
+                            "name": .string, "id": .identifier,
+                            "account": .identifier,
+                            "hardware": .structure("Hardware")
+                        ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber Id",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "SearchSubscribers",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#search")!,
+                        resultType: ResultType(name: "SearchSubscribersResult", fields: [
+                            "subscribers": .array(.structure("Subscriber"))
+                        ]),
+                        parameters: []
                     )
                 ]
             )
