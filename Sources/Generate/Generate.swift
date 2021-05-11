@@ -243,6 +243,8 @@ func generateResultValueType(valueType: ResultValueType) -> String
             return "Date"
         case .float:
             return "Float"
+        case .int32:
+            return "Int32"
         case .boolean:
             return "Bool"
         case .optional(let subType):
