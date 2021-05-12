@@ -120,6 +120,75 @@ public struct CloudloopAPI
                 "commitment": .float,
                 "id": .identifier,
                 "minimum": .float
+            ]),
+            ResultType(name: "SBDContract", fields: [
+                //FIXME: This one looks really odd and has some repeating fields
+                //This is from GetSubscriber in SBD
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "committedTo": .date,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .date,
+                "plan": .structure("SBDPlan")
+            ]),
+            ResultType(name: "SBDGetContract", fields: [
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "committedTo": .optional(.date),
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDPlan", fields: [
+                "feeMonthly": .float,
+                "inclusive:": .float,
+                "suspendible": .boolean,
+                "description": .string,
+                "increment": .float,
+                "commitment": .float,
+                "pooled": .boolean,
+                "terminationFee": .float,
+                "terminable": .boolean,
+                "name": .string,
+                "id": .identifier
+            ]),
+            ResultType(name: "SBDSubscriber", fields: [
+                "createdAt": .date,
+                "lastSeen": .optional(.date),
+                "contract": .optional(.identifier),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .optional(.string),
+                "id": .identifier,
+                //FIXME: I dont know the one below
+                "customMonitorThreshold": .optional(.string),
+                "account": .identifier,
+                "hardware": .identifier
+            ]),
+            ResultType(name: "SBDUsage", fields: [
+                "momsn": .float,
+                "at": .date,
+                "cost": .float,
+                "size": .float,
+                "fee": .string,
+                "contract": .identifier
+            ]),
+            ResultType(name: "SBDGetPlan", fields: [
+                "feeMonthly": .float,
+                "inclusive": .float,
+                "pooled": .boolean,
+                "suspendible": .boolean,
+                "name": .string,
+                "description": .string,
+                "increment": .float,
+                "commitment": .float,
+                "currency": .string,
+                "id": .identifier,
+                "minimum": .float
             ])
         ],
         endpoints: [
@@ -497,8 +566,410 @@ public struct CloudloopAPI
                         ]
                     ),
                 ]
-            )
-            
+            ),
+            Endpoint(
+                name: "SBD",
+                documentation: URL(string: "https://docs.cloudloop.com/reference#create-subscriber")!,
+                functions: [
+                    Function(
+                        name: "CreateSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
+                        resultType: ResultType(name: "CreateSubscriberResult", fields: [
+                            "createdAt": .date,
+                            "contract": .optional(.identifier),
+                            "billingGroup": .identifier,
+                            "name": .string,
+                            "description": .string,
+                            "id": .identifier,
+                            "account": .identifier,
+                            "hardware": .identifier
+                        ]),
+                        parameters: [
+                            Parameter(
+                                name: "hardware",
+                                description: "Cloudloop Hardware Id",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "name",
+                                type: .string,
+                                optional: true
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "GetSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#get-subscriber")!,
+                        resultType: ResultType(name: "GetSubscriberResult",
+                            fields: [
+                                //FIXME: This ones all kinds of weird
+                                "createdAt": .date,
+                                "contract": .structure("SBDContract"),
+                                //FIXME: also weird
+                                "destinations": .array(.string),
+                                "billingGroup": .identifier,
+                                "name": .string,
+                                "description": .string,
+                                "id": .identifier,
+                                "account": .identifier,
+                                "hardware": .structure("Hardware")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "imei",
+                                description: "IMEI of Subscriber",
+                                type: .string
+                            ),
+                        ]
+                    ),
+                    Function(
+                        name: "SearchSubscribers",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#search-subscribers")!,
+                        resultType: ResultType(name: "SearchSubscribersResult",
+                            fields: [
+                                "subscribers": .array(.structure("SBDSubscribers"))
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "query",
+                                description: "name or IMEI",
+                                type: .string
+                            ),
+                            Parameter(
+                                name: "status",
+                                description: "ACTIVATING / ACTIVATED / DEACTIVATING / DEACTIVATED / SUSPENDING / SUSPENDED / RESUMING / CHANGING / INVALID",
+                                type: .string
+                            ),
+                            Parameter(
+                                name: "hardware",
+                                description: "Hardware ID",
+                                type: .identifier
+                            ),
+                        ]
+                    ),
+                    Function(
+                        name: "GetUsage",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#get-usage")!,
+                        resultType: ResultType(name: "GetUsageResult",
+                            fields: [
+                                "usage": .structure("SBDUsage")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "year",
+                                type: .int32
+                            ),
+                            Parameter(
+                                name: "month",
+                                description: "1-12",
+                                type: .int32
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "GetUsageSummary",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#get-usage-summary")!,
+                        resultType: ResultType(name: "GetUsageSummaryResult",
+                            fields: [
+                                "summary": .structure("UsageSummary")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "year",
+                                type: .int32
+                            ),
+                            Parameter(
+                                name: "month",
+                                description: "1-12",
+                                type: .int32
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "GetPlans",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#get-plans")!,
+                        resultType: ResultType(name: "GetPlansResult",
+                            fields: [
+                                "plans": .structure("SBDGetPlans")
+                            ]),
+                        parameters: []
+                    ),
+                    Function(
+                        name: "GetContracts",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#get-contracts")!,
+                        resultType: ResultType(name: "GetContractsResult",
+                            fields: [
+                                "contracts": .array(.structure("SBDGetContracts"))
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "ActivateSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#activate-subscriber")!,
+                        resultType: ResultType(name: "ActivateSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .optional(.date),
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "plan",
+                                description: "CloudLoop Plan NAME",
+                                type: .string
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "DeactivateSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#deactivate-subscriber")!,
+                        resultType: ResultType(name: "DeactivateSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .date,
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "ResumeSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#resume-subscriber")!,
+                        resultType: ResultType(name: "ResumeSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .optional(.date),
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "SuspendSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#suspend-subscriber-1")!,
+                        resultType: ResultType(name: "SuspendSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .date,
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "ChangeSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#change-subscriber")!,
+                        resultType: ResultType(name: "ChangeSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .optional(.date),
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "plan",
+                                description: "CloudLoop SBD Plan NAME",
+                                type: .string
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "UpdateSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#update-subscriber")!,
+                        resultType: ResultType(name: "UpdateSubscriberResult",
+                            fields: [
+                                "createdAt": .date,
+                                "contract": .identifier,
+                                "billingGroup": .identifier,
+                                "name": .string,
+                                "description": .string,
+                                "id": .identifier,
+                                "account": .identifier,
+                                "hardware": .identifier
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "name",
+                                description: "new name for device",
+                                type: .string
+                            ),
+                            Parameter(
+                                name: "description",
+                                type: .string
+                            ),
+                        ]
+                    ),
+                    Function(
+                        name: "CreateDestination",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#create-destination")!,
+                        resultType: ResultType(name: "CreateDestinationResult",
+                            fields: [
+                                "moack": .boolean,
+                                "destination": .string,
+                                "id": .identifier,
+                                "type": .identifier,
+                                "geodata": .boolean
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "destination",
+                                type: .string
+                            ),
+                            Parameter(
+                                name: "type",
+                                description: "DIRECT_IP, EMAIL, IMEI",
+                                type: .string
+                            ),
+                            Parameter(
+                                name: "moack",
+                                type: .boolean
+                            ),
+                            Parameter(
+                                name: "geodata",
+                                type: .boolean
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "DeleteDestination",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#delete-destination")!,
+                        resultType: ResultType(name: "DeleteDestinationResult",
+                            fields: [
+                                "result": .boolean
+                            ]),
+                        parameters: [
+                        Parameter(
+                            name: "destination",
+                            type: .string)
+                        ]
+                    ),
+                    Function(
+                        name: "ReassociateSubscriber",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#swap-subscriber")!,
+                        resultType: ResultType(name: "ReassociateSubscriberResult",
+                            fields: [
+                                "subscriber" : .identifier,
+                                "networkStatus": .string,
+                                "from": .date,
+                                "id": .identifier,
+                                "state": .string,
+                                "to": .optional(.date),
+                                "plan": .structure("Plan")
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "hardware",
+                                description: "Hardware ID",
+                                type: .identifier
+                            )
+                        ]
+                    ),
+                    Function(
+                        name: "AssignBillingGroup",
+                        documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group")!,
+                        resultType: ResultType(name: "AssignBillingGroupResult",
+                            fields: [
+                                "default": .boolean,
+                                "name": .string,
+                                "id": .identifier,
+                                "account": .identifier
+                            ]),
+                        parameters: [
+                            Parameter(
+                                name: "subscriber",
+                                description: "CloudLoop Subscriber ID",
+                                type: .identifier
+                            ),
+                            Parameter(
+                                name: "billingGroup",
+                                description: "Billing Group ID",
+                                type: .identifier
+                            )
+                        ]
+                    )
+                ]
+            ),
         ]
     )
 
