@@ -81,8 +81,7 @@ public struct CloudloopAPI
                 "imsi": .optional(.identifier),
                 "msisdn": .optional(.identifier),
                 "localNumberAccess": .boolean,
-                //FIXME: null on both sides:
-                "localNumber": .optional(.float),
+                "localNumber": .optional(.string),
                 "plan": .structure("ContractPlan"),
                 "hardware": .identifier
             ]),
@@ -122,8 +121,6 @@ public struct CloudloopAPI
                 "minimum": .float
             ]),
             ResultType(name: "SBDContract", fields: [
-                //FIXME: This one looks really odd and has some repeating fields
-                //This is from GetSubscriber in SBD
                 "subscriber": .identifier,
                 "networkStatus": .string,
                 "committedTo": .date,
@@ -164,7 +161,6 @@ public struct CloudloopAPI
                 "name": .string,
                 "description": .optional(.string),
                 "id": .identifier,
-                //FIXME: I dont know the one below
                 "customMonitorThreshold": .optional(.string),
                 "account": .identifier,
                 "hardware": .identifier
@@ -264,8 +260,9 @@ public struct CloudloopAPI
                             "createdAt": .date,
                             "sim": .structure("Sim"),
                             "contract": .structure("Contract"),
-                            "name": .string, "id": .identifier,
-                            //FIXME: description and id?
+                            "name": .string,
+                            "description": .string,
+                            "id": .identifier,
                             "account": .identifier,
                             "hardware": .structure("Hardware")
                         ]),
@@ -387,8 +384,7 @@ public struct CloudloopAPI
                                 "state": .string,
                                 "to": .optional(.date),
                                 "localNumberAccess": .boolean,
-                                //FIXME: null on both sides:
-                                "localNumber": .optional(.float),
+                                "localNumber": .optional(.string),
                                 "plan": .structure("Plan"),
                                 "hardware": .identifier
                             ]),
@@ -452,8 +448,8 @@ public struct CloudloopAPI
                                 "plan": .structure("Plan"),
                                 "hardware": .identifier,
                                 //FIXME: the next two need looked at
-                                "at": .float,
-                                "error": .string
+//                                "at": .float,
+//                                "error": .string
                             ]),
                         parameters: [
                             Parameter(
@@ -581,8 +577,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group-1")!,
                         resultType: ResultType(name: "AssignBillingGroupResult",
                             fields: [
-                                //FIXME: not too sure about this one
-                                "default": .optional(.string),
+                                "default": .boolean,
                                 "name": .string,
                                 "id": .identifier,
                                 "account": .identifier
@@ -637,10 +632,8 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-subscriber")!,
                         resultType: ResultType(name: "GetSubscriberResult",
                             fields: [
-                                //FIXME: This ones all kinds of weird
                                 "createdAt": .date,
                                 "contract": .structure("SBDContract"),
-                                //FIXME: also weird
                                 "destinations": .array(.string),
                                 "billingGroup": .identifier,
                                 "name": .string,
