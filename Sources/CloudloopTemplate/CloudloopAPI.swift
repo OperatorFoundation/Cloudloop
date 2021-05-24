@@ -220,6 +220,233 @@ public struct CloudloopAPI
                 "name": .string,
                 "id": .identifier,
                 "account": .identifier
+            ]),
+            ResultType(name: "TelephonyCreateSubscriber", fields: [
+                "createdAt": .date,
+                "sim": .identifier,
+                "contract": .optional(.identifier),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier
+            ]),
+            ResultType(name: "TelephonyCreateSubscriber", fields: [
+                "createdAt": .date,
+                "sim": .structure("Sim"),
+                "contract": .structure("Contract"),
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier,
+                "hardware": .structure("Hardware")
+            ]),
+            ResultType(name: "TelephonyActivateSubscriber", fields: [
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "localNumberAccess": .boolean,
+                "localNumber": .optional(.string),
+                "plan": .structure("Plan"),
+                "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonyDeactivateSubscriber", fields: [
+                        "subscriber": .identifier,
+                        "networkStatus": .string,
+                        "from": .date,
+                        "id": .identifier,
+                        "state": .string,
+                        "to": .optional(.date),
+                        "plan": .structure("Plan"),
+                        "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonyResumeSubscriber", fields: [
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan"),
+                "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonySuspendSubscriber", fields: [
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .date,
+                "plan": .structure("Plan"),
+                "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonyChangeSubscriber", fields: [
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan"),
+                "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonyUpdateSubscriber", fields: [
+                "createdAt": .date,
+                "contract": .identifier,
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "accoundt": .identifier,
+                "hardware": .identifier
+            ]),
+            ResultType(name: "TelephonyReassociateSubscriber", fields: [
+                "createdAt": .date,
+                "sim": .structure("Sim"),
+                "contract": .optional(.identifier),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier,
+                "hardware": .optional(.identifier)
+            ]),
+            ResultType(name: "SBDCreateSubscriber", fields: [
+                "createdAt": .date,
+                "contract": .optional(.identifier),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier,
+                "hardware": .identifier
+            ]),
+            ResultType(name: "SBDGetSubscriber", fields: [
+                "createdAt": .date,
+                "contract": .structure("SBDContract"),
+                "destinations": .array(.string),
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier,
+                "hardware": .structure("Hardware")
+            ]),
+            ResultType(name: "SBDActivateSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDDeactivateSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .date,
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDResumeSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDSuspendSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .date,
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDChangeSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "SBDUpdateSubscriber", fields: [
+                "createdAt": .date,
+                "contract": .identifier,
+                "billingGroup": .identifier,
+                "name": .string,
+                "description": .string,
+                "id": .identifier,
+                "account": .identifier,
+                "hardware": .identifier
+            ]),
+            ResultType(name: "SBDCreateDestination", fields: [
+                "moack": .boolean,
+                "destination": .string,
+                "id": .identifier,
+                "type": .identifier,
+                "geodata": .boolean
+            ]),
+            ResultType(name: "SBDReassociateSubscriber", fields: [
+                "subscriber" : .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan")
+            ]),
+            ResultType(name: "DataMTGetMessage", fields: [
+                "id": .identifier,
+                "status": .string,
+                "createdAt": .date,
+                "payload": .string,
+                "submittedAt": .date,
+                "hardware": .identifier,
+                "queueSize": .float
+            ]),
+            ResultType(name: "HardwareCreateHardware", fields: [
+                "imei": .string,
+                "id": .identifier,
+                "type": .string
+            ]),
+            ResultType(name: "HardwareGetHardware", fields: [
+                "imei": .string,
+                "id": .identifier,
+                "type": .string
+            ]),
+            ResultType(name: "hardwares", fields: [
+                "imei": .string,
+                "id": .identifier,
+                "type": .string
+            ]),
+            ResultType(name: "CreateSim", fields: [
+                "iccid": .string,
+                "id": .identifier
+            ]),
+            ResultType(name: "GetSim", fields: [
+                "sim": .string,
+                "id": .identifier
+            ]),
+            ResultType(name: "SearchSims", fields: [
+                "iccid": .string,
+                "id": .identifier
+            ]),
+            ResultType(name: "CreateBillingGroup", fields: [
+                "default": .boolean,
+                "name": .string,
+                "id": .identifier,
+                "account": .identifier
             ])
         ],
         endpoints: [
@@ -231,14 +458,7 @@ public struct CloudloopAPI
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
                         resultType: ResultType(name: "CreateSubscriberResult", fields: [
-                            "createdAt": .date,
-                            "sim": .identifier,
-                            "contract": .optional(.identifier),
-                            "billingGroup": .identifier,
-                            "name": .string,
-                            "description": .string,
-                            "id": .identifier,
-                            "account": .identifier
+                            "subscriber": .structure("TelephonyCreateSubscriber"),
                         ]),
                         parameters: [
                             Parameter(
@@ -257,14 +477,7 @@ public struct CloudloopAPI
                         name: "GetSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve")!,
                         resultType: ResultType(name: "GetSubscriberResult", fields: [
-                            "createdAt": .date,
-                            "sim": .structure("Sim"),
-                            "contract": .structure("Contract"),
-                            "name": .string,
-                            "description": .string,
-                            "id": .identifier,
-                            "account": .identifier,
-                            "hardware": .structure("Hardware")
+                            "subscriber": .structure("TelephonyGetSubscriber")
                         ]),
                         parameters: [
                             Parameter(
@@ -377,16 +590,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#activate-1")!,
                         resultType: ResultType(name: "ActivateSubscriberResult",
                             fields: [
-                                "subscriber": .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "localNumberAccess": .boolean,
-                                "localNumber": .optional(.string),
-                                "plan": .structure("Plan"),
-                                "hardware": .identifier
+                                "contract": .structure("TelephonyActivateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -417,14 +621,7 @@ public struct CloudloopAPI
                         resultType: ResultType(
                             name: "DeactivateSubscriberResult",
                             fields: [
-                                "subscriber": .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan"),
-                                "hardware": .identifier
+                                "contract": .structure("TelephonyDeactivateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -439,14 +636,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#refresh-2")!,
                         resultType: ResultType(name: "ResumeSubscriberResult",
                             fields: [
-                                "subscriber": .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan"),
-                                "hardware": .identifier,
+                                "contract": .structure("TelephonyResumeSubscriber")
                                 //FIXME: the next two need looked at
 //                                "at": .float,
 //                                "error": .string
@@ -464,14 +654,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#suspend-subscriber")!,
                         resultType: ResultType(name: "SuspendSubscriberResult",
                             fields: [
-                                "subscriber": .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .date,
-                                "plan": .structure("Plan"),
-                                "hardware": .identifier,
+                                "contract": .structure("TelephonySuspendSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -486,14 +669,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#change-contract")!,
                         resultType: ResultType(name: "ChangeSubscriberResult",
                             fields: [
-                                "subscriber": .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan"),
-                                "hardware": .identifier,
+                                "contract": .structure("TelephonyChangeSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -513,14 +689,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#update-subscriber-tel")!,
                         resultType: ResultType(name: "UpdateSubscriberResult",
                             fields: [
-                                "createdAt": .date,
-                                "contract": .identifier,
-                                "billingGroup": .identifier,
-                                "name": .string,
-                                "description": .string,
-                                "id": .identifier,
-                                "accoundt": .identifier,
-                                "hardware": .identifier
+                                "subscriber": .structure("TelephonyUpdateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -544,15 +713,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#reassociate-subscriber")!,
                         resultType: ResultType(name: "ReassociateSubscriberResult",
                             fields: [
-                                "createdAt": .date,
-                                "sim": .structure("Sim"),
-                                "contract": .optional(.identifier),
-                                "billingGroup": .identifier,
-                                "name": .string,
-                                "description": .string,
-                                "id": .identifier,
-                                "account": .identifier,
-                                "hardware": .optional(.identifier)
+                                "subscriber": .structure("TelephonyReassociateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -605,14 +766,7 @@ public struct CloudloopAPI
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
                         resultType: ResultType(name: "CreateSubscriberResult", fields: [
-                            "createdAt": .date,
-                            "contract": .optional(.identifier),
-                            "billingGroup": .identifier,
-                            "name": .string,
-                            "description": .string,
-                            "id": .identifier,
-                            "account": .identifier,
-                            "hardware": .identifier
+                            "subscriber": .structure("SBDCreateSubscriber")
                         ]),
                         parameters: [
                             Parameter(
@@ -632,15 +786,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-subscriber")!,
                         resultType: ResultType(name: "GetSubscriberResult",
                             fields: [
-                                "createdAt": .date,
-                                "contract": .structure("SBDContract"),
-                                "destinations": .array(.string),
-                                "billingGroup": .identifier,
-                                "name": .string,
-                                "description": .string,
-                                "id": .identifier,
-                                "account": .identifier,
-                                "hardware": .structure("Hardware")
+                                "subscriber": .structure("SBDGetSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -757,13 +903,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#activate-subscriber")!,
                         resultType: ResultType(name: "ActivateSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan")
+                                "contract": .structure("SBDActivateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -783,13 +923,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#deactivate-subscriber")!,
                         resultType: ResultType(name: "DeactivateSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .date,
-                                "plan": .structure("Plan")
+                                "contract": .structure("SBDDeactivateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -804,13 +938,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#resume-subscriber")!,
                         resultType: ResultType(name: "ResumeSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan")
+                                "contract": .structure("SNDResumeSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -825,13 +953,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#suspend-subscriber-1")!,
                         resultType: ResultType(name: "SuspendSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .date,
-                                "plan": .structure("Plan")
+                                "contract": .structure("SBDSuspendSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -846,13 +968,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#change-subscriber")!,
                         resultType: ResultType(name: "ChangeSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan")
+                                "contract": .structure("SBDChangeSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -872,14 +988,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#update-subscriber")!,
                         resultType: ResultType(name: "UpdateSubscriberResult",
                             fields: [
-                                "createdAt": .date,
-                                "contract": .identifier,
-                                "billingGroup": .identifier,
-                                "name": .string,
-                                "description": .string,
-                                "id": .identifier,
-                                "account": .identifier,
-                                "hardware": .identifier
+                                "subscriber": .structure("SBDUpdateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -903,11 +1012,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-destination")!,
                         resultType: ResultType(name: "CreateDestinationResult",
                             fields: [
-                                "moack": .boolean,
-                                "destination": .string,
-                                "id": .identifier,
-                                "type": .identifier,
-                                "geodata": .boolean
+                                "destination": .structure("SBDCreateDestination")
                             ]),
                         parameters: [
                             Parameter(
@@ -952,13 +1057,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#swap-subscriber")!,
                         resultType: ResultType(name: "ReassociateSubscriberResult",
                             fields: [
-                                "subscriber" : .identifier,
-                                "networkStatus": .string,
-                                "from": .date,
-                                "id": .identifier,
-                                "state": .string,
-                                "to": .optional(.date),
-                                "plan": .structure("Plan")
+                                "contract": .structure("SBDReassociateSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -1082,13 +1181,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-message-status")!,
                         resultType: ResultType(name: "GetMessageResult",
                             fields: [
-                                "id": .identifier,
-                                "status": .string,
-                                "createdAt": .date,
-                                "payload": .string,
-                                "submittedAt": .date,
-                                "hardware": .identifier,
-                                "queueSize": .float
+                                "message": .structure("DataMTGetMessage")
                             ]
                         ),
                         parameters: [
@@ -1157,9 +1250,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-hardware")!,
                         resultType: ResultType(name: "CreateHardwareResult",
                             fields: [
-                                "imei": .string,
-                                "id": .identifier,
-                                "type": .string
+                                "hardware": .structure("HardwareCreateHardware")
                             ]
                         ),
                         parameters: [
@@ -1179,9 +1270,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-hardware")!,
                         resultType: ResultType(name: "GetHardwareResult",
                             fields: [
-                                "imei": .string,
-                                "id": .identifier,
-                                "type": .string
+                                "hardware": .structure("HardwareGetHardware")
                             ]
                         ),
                         parameters: [
@@ -1201,9 +1290,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#search-hardware")!,
                         resultType: ResultType(name: "SearchHardwareResult",
                             fields: [
-                                "imei": .string,
-                                "id": .identifier,
-                                "type": .string
+                                "hardwares": .array(.structure("hardwares"))
                             ]
                         ),
                         parameters: []
@@ -1219,8 +1306,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-sim")!,
                         resultType: ResultType(name: "CreateSimResult",
                             fields: [
-                                "iccid": .string,
-                                "id": .identifier
+                                "sim": .structure("CreateSim")
                             ]
                         ),
                         parameters: [
@@ -1235,8 +1321,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-sim")!,
                         resultType: ResultType(name: "GetSimResult",
                             fields: [
-                                "sim": .string,
-                                "id": .identifier
+                                "sim": .structure("GetSim")
                             ]
                         ),
                         parameters: [
@@ -1252,8 +1337,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-sims")!,
                         resultType: ResultType(name: "SearchSimsResult",
                             fields: [
-                                "iccid": .string,
-                                "id": .identifier
+                                "sims": .array(.structure("SearchSims"))
                             ]
                         ),
                         parameters: []
@@ -1269,10 +1353,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-billing-group")!,
                         resultType: ResultType(name: "CreateBillingGroup",
                             fields: [
-                                "default": .boolean,
-                                "name": .string,
-                                "id": .identifier,
-                                "account": .identifier
+                                "billingGroup": .structure("CreateBillingGroup")
                             ]
                         ),
                         parameters: [
