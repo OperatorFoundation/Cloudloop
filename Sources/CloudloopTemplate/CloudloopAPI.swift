@@ -15,10 +15,12 @@ public struct CloudloopAPI
         documentation: URL(string: "https://docs.cloudloop.com/reference")!,
         types: [
             ResultType(name: "Sim", fields: [
+                //ResultTypeMatch1
                 "iccid": .string,
                 "id": .identifier
             ]),
             ResultType(name: "Hardware", fields: [
+                //ResultTypeMatch2
                 "imei": .string,
                 "id": .identifier,
                 "type": .string
@@ -216,6 +218,7 @@ public struct CloudloopAPI
                 "status": .string
             ]),
             ResultType(name: "BillingGroups", fields: [
+                //ResultTypeMatch3
                 "default": .boolean,
                 "name": .string,
                 "id": .identifier,
@@ -254,16 +257,18 @@ public struct CloudloopAPI
                 "hardware": .identifier
             ]),
             ResultType(name: "TelephonyDeactivateSubscriber", fields: [
-                        "subscriber": .identifier,
-                        "networkStatus": .string,
-                        "from": .date,
-                        "id": .identifier,
-                        "state": .string,
-                        "to": .optional(.date),
-                        "plan": .structure("Plan"),
-                        "hardware": .identifier
+                //ResultTypeMatch4
+                "subscriber": .identifier,
+                "networkStatus": .string,
+                "from": .date,
+                "id": .identifier,
+                "state": .string,
+                "to": .optional(.date),
+                "plan": .structure("Plan"),
+                "hardware": .identifier
             ]),
             ResultType(name: "TelephonyResumeSubscriber", fields: [
+                //ResultTypeMatch4
                 "subscriber": .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -284,6 +289,7 @@ public struct CloudloopAPI
                 "hardware": .identifier
             ]),
             ResultType(name: "TelephonyChangeSubscriber", fields: [
+                //ResultTypeMatch4
                 "subscriber": .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -336,6 +342,7 @@ public struct CloudloopAPI
                 "hardware": .structure("Hardware")
             ]),
             ResultType(name: "SBDActivateSubscriber", fields: [
+                //ResultTypeMatch5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -345,6 +352,7 @@ public struct CloudloopAPI
                 "plan": .structure("Plan")
             ]),
             ResultType(name: "SBDDeactivateSubscriber", fields: [
+                //ResultTypeMatch5.5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -354,6 +362,7 @@ public struct CloudloopAPI
                 "plan": .structure("Plan")
             ]),
             ResultType(name: "SBDResumeSubscriber", fields: [
+                //ResultTypeMatch5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -363,6 +372,7 @@ public struct CloudloopAPI
                 "plan": .structure("Plan")
             ]),
             ResultType(name: "SBDSuspendSubscriber", fields: [
+                //ResultTypeMatch5.5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -372,6 +382,7 @@ public struct CloudloopAPI
                 "plan": .structure("Plan")
             ]),
             ResultType(name: "SBDChangeSubscriber", fields: [
+                //ResultTypeMatch5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -398,6 +409,7 @@ public struct CloudloopAPI
                 "geodata": .boolean
             ]),
             ResultType(name: "SBDReassociateSubscriber", fields: [
+                //ResultTypeMatch5
                 "subscriber" : .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -416,21 +428,25 @@ public struct CloudloopAPI
                 "queueSize": .float
             ]),
             ResultType(name: "HardwareCreateHardware", fields: [
+                //ResultTypeMatch2
                 "imei": .string,
                 "id": .identifier,
                 "type": .string
             ]),
             ResultType(name: "HardwareGetHardware", fields: [
+                //ResultTypeMatch2
                 "imei": .string,
                 "id": .identifier,
                 "type": .string
             ]),
             ResultType(name: "hardwares", fields: [
+                //ResultTypeMatch2
                 "imei": .string,
                 "id": .identifier,
                 "type": .string
             ]),
             ResultType(name: "CreateSim", fields: [
+                //ResultTypeMatch1
                 "iccid": .string,
                 "id": .identifier
             ]),
@@ -439,10 +455,12 @@ public struct CloudloopAPI
                 "id": .identifier
             ]),
             ResultType(name: "SearchSims", fields: [
+                //ResultTypeMatch1
                 "iccid": .string,
                 "id": .identifier
             ]),
             ResultType(name: "CreateBillingGroup", fields: [
+                //ResultTypeMatch3
                 "default": .boolean,
                 "name": .string,
                 "id": .identifier,
