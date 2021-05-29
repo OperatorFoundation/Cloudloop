@@ -1,0 +1,28 @@
+// Platform.swift
+// https://docs.cloudloop.com/reference#ping
+
+import Foundation
+
+public struct PlatformPingResult: Codable
+{
+	let ping: String
+}
+
+public struct Platform
+{
+    // https://docs.cloudloop.com/reference#ping
+    public func Ping(token: String) -> PlatformPingResult?
+    {
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Platform/Ping") else {return nil}
+        components.queryItems = [
+            URLQueryItem(name: "token", value: token),
+
+        ]
+        guard let url = components.url else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let decoder = JSONDecoder()
+        guard let result = try? decoder.decode(PlatformPingResult.self, from: resultData) else {return nil}
+
+        return result
+    }
+}

@@ -30,6 +30,8 @@ public func generate(_ api: API, target: String, resourcePath: String) -> Bool
 
     guard generateReadme(target: target, name: api.name, documentation: api.documentation) else {return false}
 
+    guard generateTypesFile(target: target, types: api.types) else {return false}
+    
     for endpoint in api.endpoints
     {
         guard generateEndpoint(baseURL: api.url, target: target, endpoint: endpoint) else {return false}
@@ -53,60 +55,110 @@ func generateReadme(target: String, name: String, documentation: URL) -> Bool
     return File.put(destination, contents: readme.data)
 }
 
+func generateTypesFile(target: String, types: [ResultType]) -> Bool {
+    let contentsResultTypes = generateTypes(types: types)
+    
+    let contents = """
+     // Types.swift
+
+     import Foundation
+
+     \(contentsResultTypes)
+     """
+
+    let destination = "Sources/\(target)/Types.swift"
+
+    return File.put(destination, contents: contents.data)
+}
+
+func generateTypes(types: [ResultType]) -> String
+{
+    let strings = types.map
+    {
+        type in
+
+        return generateType(type: type)
+    }
+
+    return strings.joined(separator: "\n\n")
+}
+
+func generateType(type: ResultType) -> String
+{
+    let resultBody = generateResultBody(resultType: type)
+
+    let contents = """
+    public struct \(type.name): Codable
+    {
+    \(resultBody)
+    }
+    """
+
+    return contents
+}
+
 func generateEndpoint(baseURL: String, target: String, endpoint: Endpoint) -> Bool
 {
     let url = "\(baseURL)/\(endpoint.name)"
 
-    guard let contentsFunctions = generateFunctions(baseUrl: url, functions: endpoint.functions) else {return false}
-    let contentsResultTypes = generateResultTypes(functions: endpoint.functions)
+    guard let contentsFunctions = generateFunctions(baseUrl: url, endpointName: endpoint.name, functions: endpoint.functions) else {return false}
+    let contentsResultTypes = generateResultTypes(endpointName: endpoint.name, functions: endpoint.functions)
 
     let contents = """
-    // \(endpoint.name).swift
-    // \(endpoint.documentation)
+     // \(endpoint.name).swift
+     // \(endpoint.documentation)
 
-    import Foundation
+     import Foundation
 
-    \(contentsResultTypes)
+     \(contentsResultTypes)
 
-    public struct \(endpoint.name)
-    {
-    \(contentsFunctions)
-    }
-    """
+     public struct \(endpoint.name)
+     {
+     \(contentsFunctions)
+     }
+     """
 
     let destination = "Sources/\(target)/\(endpoint.name).swift"
 
     return File.put(destination, contents: contents.data)
 }
 
-func generateFunctions(baseUrl: String, functions: [Function]) -> String?
+func generateFunctions(baseUrl: String, endpointName: String, functions: [Function]) -> String?
 {
     let strings = functions.map
     {
         function in
 
-        return generateFunction(baseUrl: baseUrl, function: function)
+        return generateFunction(baseUrl: baseUrl, endpointName: endpointName, function: function)
     }
 
     return strings.joined(separator: "\n\n")
 }
 
-func generateFunction(baseUrl: String, function: Function) -> String
+func generateFunction(baseUrl: String, endpointName: String, function: Function) -> String
 {
     let url = "\(baseUrl)/\(function.name)"
 
     let parameters = generateParameters(parameters: function.parameters)
-    let functionBody = generateFunctionBody(url: url, function: function)
+    let functionBody = generateFunctionBody(url: url, endpointName: endpointName, function: function)
+    if (function.parameters.count == 0) {
+        return """
+            // \(function.documentation)
+            public func \(function.name)(token: String) -> \(endpointName)\(function.resultType.name)Result?
+            {
+        \(functionBody)
+            }
+        """
+    } else {
+        return """
+            // \(function.documentation)
+            public func \(function.name)(token: String, \(parameters)) -> \(endpointName)\(function.resultType.name)Result?
+            {
+        \(functionBody)
+            }
+        """
+    }
 
-    let contents = """
-        // \(function.documentation)
-        public func \(function.name)(token: String, \(parameters)) -> \(function.name)Result?
-        {
-    \(functionBody)
-        }
-    """
-
-    return contents
 }
 
 func generateParameters(parameters: [Parameter]) -> String
@@ -128,7 +180,7 @@ func generateParameter(parameter: Parameter) -> String
     return contents
 }
 
-func generateFunctionBody(url: String, function: Function) -> String
+func generateFunctionBody(url: String, endpointName: String, function: Function) -> String
 {
     let dictionaryContents = generateDictionaryContents(parameters: function.parameters)
 
@@ -141,7 +193,7 @@ func generateFunctionBody(url: String, function: Function) -> String
             guard let url = components.url else {return nil}
             guard let resultData = try? Data(contentsOf: url) else {return nil}
             let decoder = JSONDecoder()
-            guard let result = try? decoder.decode(\(function.name)Result.self, from: resultData) else {return nil}
+            guard let result = try? decoder.decode(\(endpointName)\(function.resultType.name)Result.self, from: resultData) else {return nil}
 
             return result
     """
@@ -182,28 +234,28 @@ func generateValue(value: Parameter) -> String
         case .string:
             return "\(value.name)"
         case .date:
-            return "String(\(value.name))"
+            return "DateFormatter().string(from: \(value.name))"
     }
 }
 
-func generateResultTypes(functions: [Function]) -> String
+func generateResultTypes(endpointName: String, functions: [Function]) -> String
 {
     let strings = functions.map
     {
         function in
 
-        return generateResultType(function: function)
+        return generateResultType(endpointName: endpointName, function: function)
     }
 
     return strings.joined(separator: "\n\n")
 }
 
-func generateResultType(function: Function) -> String
+func generateResultType(endpointName: String, function: Function) -> String
 {
     let resultBody = generateResultBody(resultType: function.resultType)
 
     let contents = """
-    public struct \(function.name)Result: Codable
+    public struct \(endpointName)\(function.resultType.name)Result: Codable
     {
     \(resultBody)
     }
@@ -227,8 +279,11 @@ func generateResultBody(resultType: ResultType) -> String
 func generateField(key: String, valueType: ResultValueType) -> String
 {
     let valueString = generateResultValueType(valueType: valueType)
-
-    return "\tlet \(key): \(valueString)"
+    if key == "default" {
+        return "\tlet `\(key)`: \(valueString)"
+    } else {
+        return "\tlet \(key): \(valueString)"
+    }
 }
 
 func generateResultValueType(valueType: ResultValueType) -> String

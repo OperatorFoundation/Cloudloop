@@ -14,12 +14,12 @@ public struct CloudloopAPI
         url: "https://api.cloudloop.com",
         documentation: URL(string: "https://docs.cloudloop.com/reference")!,
         types: [
-            ResultType(name: "Sim", fields: [
+            ResultType(name: "SimResult", fields: [
                 //ResultTypeMatch1
                 "iccid": .string,
                 "id": .identifier
             ]),
-            ResultType(name: "Hardware", fields: [
+            ResultType(name: "HardwareResult", fields: [
                 //ResultTypeMatch2
                 "imei": .string,
                 "id": .identifier,
@@ -132,7 +132,7 @@ public struct CloudloopAPI
                 "to": .date,
                 "plan": .structure("SBDPlan")
             ]),
-            ResultType(name: "SBDGetContract", fields: [
+            ResultType(name: "SBDGetContracts", fields: [
                 "subscriber": .identifier,
                 "networkStatus": .string,
                 "from": .date,
@@ -144,7 +144,7 @@ public struct CloudloopAPI
             ]),
             ResultType(name: "SBDPlan", fields: [
                 "feeMonthly": .float,
-                "inclusive:": .float,
+                "inclusive": .float,
                 "suspendible": .boolean,
                 "description": .string,
                 "increment": .float,
@@ -175,7 +175,7 @@ public struct CloudloopAPI
                 "fee": .string,
                 "contract": .identifier
             ]),
-            ResultType(name: "SBDGetPlan", fields: [
+            ResultType(name: "SBDGetPlans", fields: [
                 "feeMonthly": .float,
                 "inclusive": .float,
                 "pooled": .boolean,
@@ -234,15 +234,16 @@ public struct CloudloopAPI
                 "id": .identifier,
                 "account": .identifier
             ]),
-            ResultType(name: "TelephonyCreateSubscriber", fields: [
+            ResultType(name: "TelephonyGetSubscriber", fields: [
                 "createdAt": .date,
-                "sim": .structure("Sim"),
+                "sim": .structure("SimResult"),
                 "contract": .structure("Contract"),
                 "name": .string,
                 "description": .string,
                 "id": .identifier,
                 "account": .identifier,
-                "hardware": .structure("Hardware")
+                "hardware": .structure("HardwareResult"),
+                "billingGroup": .identifier
             ]),
             ResultType(name: "TelephonyActivateSubscriber", fields: [
                 "subscriber": .identifier,
@@ -311,7 +312,7 @@ public struct CloudloopAPI
             ]),
             ResultType(name: "TelephonyReassociateSubscriber", fields: [
                 "createdAt": .date,
-                "sim": .structure("Sim"),
+                "sim": .structure("SimResult"),
                 "contract": .optional(.identifier),
                 "billingGroup": .identifier,
                 "name": .string,
@@ -339,7 +340,7 @@ public struct CloudloopAPI
                 "description": .string,
                 "id": .identifier,
                 "account": .identifier,
-                "hardware": .structure("Hardware")
+                "hardware": .structure("HardwareResult")
             ]),
             ResultType(name: "SBDActivateSubscriber", fields: [
                 //ResultTypeMatch5
@@ -475,7 +476,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
-                        resultType: ResultType(name: "CreateSubscriberResult", fields: [
+                        resultType: ResultType(name: "TelephonyCreateSubscriber", fields: [
                             "subscriber": .structure("TelephonyCreateSubscriber"),
                         ]),
                         parameters: [
@@ -494,7 +495,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve")!,
-                        resultType: ResultType(name: "GetSubscriberResult", fields: [
+                        resultType: ResultType(name: "GetSubscriber", fields: [
                             "subscriber": .structure("TelephonyGetSubscriber")
                         ]),
                         parameters: [
@@ -508,7 +509,7 @@ public struct CloudloopAPI
                     Function(
                         name: "SearchSubscribers",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#search")!,
-                        resultType: ResultType(name: "SearchSubscribersResult", fields: [
+                        resultType: ResultType(name: "SearchSubscribers", fields: [
                             "subscribers": .array(.structure("Subscriber"))
                         ]),
                         parameters: []
@@ -516,7 +517,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetUsage",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#usage-1")!,
-                        resultType: ResultType(name: "GetUsageResult",
+                        resultType: ResultType(name: "GetUsage",
                             fields: [
                                 "usage": .array(.structure("Usage"))
                             ]),
@@ -540,7 +541,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetUsageSummary",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#subscriber-summary2")!,
-                        resultType: ResultType(name: "GetUsageSummaryResult",
+                        resultType: ResultType(name: "GetUsageSummary",
                             fields: [
                                 "summary": .array(.structure("UsageSummary"))
                             ]),
@@ -564,7 +565,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetPoolSummary",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-pool-usage-summary2")!,
-                        resultType: ResultType(name: "GetPoolSummaryResult",
+                        resultType: ResultType(name: "GetPoolSummary",
                             fields: [
                                 "summary": .array(.structure("PoolSummary"))
                             ]),
@@ -582,7 +583,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetPlans",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-plans-1")!,
-                        resultType: ResultType(name: "GetPlansResult",
+                        resultType: ResultType(name: "GetPlans",
                             fields: [
                                 "plan": .array(.structure("GetPlan"))
                             ]),
@@ -591,7 +592,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetContracts",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-contracts")!,
-                        resultType: ResultType(name: "GetContractsResult",
+                        resultType: ResultType(name: "GetContracts",
                             fields: [
                                 "contracts": .array(.structure("GetContract"))
                             ]),
@@ -606,7 +607,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ActivateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#activate-1")!,
-                        resultType: ResultType(name: "ActivateSubscriberResult",
+                        resultType: ResultType(name: "ActivateSubscriber",
                             fields: [
                                 "contract": .structure("TelephonyActivateSubscriber")
                             ]),
@@ -637,7 +638,7 @@ public struct CloudloopAPI
                         name: "DeactivateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#deactivate-1")!,
                         resultType: ResultType(
-                            name: "DeactivateSubscriberResult",
+                            name: "DeactivateSubscriber",
                             fields: [
                                 "contract": .structure("TelephonyDeactivateSubscriber")
                             ]),
@@ -652,7 +653,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ResumeSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#refresh-2")!,
-                        resultType: ResultType(name: "ResumeSubscriberResult",
+                        resultType: ResultType(name: "ResumeSubscriber",
                             fields: [
                                 "contract": .structure("TelephonyResumeSubscriber")
                                 //FIXME: the next two need looked at
@@ -670,7 +671,7 @@ public struct CloudloopAPI
                     Function(
                         name: "SuspendSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#suspend-subscriber")!,
-                        resultType: ResultType(name: "SuspendSubscriberResult",
+                        resultType: ResultType(name: "SuspendSubscriber",
                             fields: [
                                 "contract": .structure("TelephonySuspendSubscriber")
                             ]),
@@ -685,7 +686,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ChangeSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#change-contract")!,
-                        resultType: ResultType(name: "ChangeSubscriberResult",
+                        resultType: ResultType(name: "ChangeSubscriber",
                             fields: [
                                 "contract": .structure("TelephonyChangeSubscriber")
                             ]),
@@ -705,7 +706,7 @@ public struct CloudloopAPI
                     Function(
                         name: "UpdateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#update-subscriber-tel")!,
-                        resultType: ResultType(name: "UpdateSubscriberResult",
+                        resultType: ResultType(name: "UpdateSubscriber",
                             fields: [
                                 "subscriber": .structure("TelephonyUpdateSubscriber")
                             ]),
@@ -729,7 +730,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ReassociateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#reassociate-subscriber")!,
-                        resultType: ResultType(name: "ReassociateSubscriberResult",
+                        resultType: ResultType(name: "ReassociateSubscriber",
                             fields: [
                                 "subscriber": .structure("TelephonyReassociateSubscriber")
                             ]),
@@ -754,7 +755,7 @@ public struct CloudloopAPI
                     Function(
                         name: "AssignBillingGroup",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group-1")!,
-                        resultType: ResultType(name: "AssignBillingGroupResult",
+                        resultType: ResultType(name: "AssignBillingGroup",
                             fields: [
                                 "default": .boolean,
                                 "name": .string,
@@ -783,7 +784,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
-                        resultType: ResultType(name: "CreateSubscriberResult", fields: [
+                        resultType: ResultType(name: "SBDCreateSubscriber", fields: [
                             "subscriber": .structure("SBDCreateSubscriber")
                         ]),
                         parameters: [
@@ -802,7 +803,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-subscriber")!,
-                        resultType: ResultType(name: "GetSubscriberResult",
+                        resultType: ResultType(name: "GetSubscriber",
                             fields: [
                                 "subscriber": .structure("SBDGetSubscriber")
                             ]),
@@ -822,9 +823,9 @@ public struct CloudloopAPI
                     Function(
                         name: "SearchSubscribers",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#search-subscribers")!,
-                        resultType: ResultType(name: "SearchSubscribersResult",
+                        resultType: ResultType(name: "SearchSubscribers",
                             fields: [
-                                "subscribers": .array(.structure("SBDSubscribers"))
+                                "subscribers": .array(.structure("SBDSubscriber"))
                             ]),
                         parameters: [
                             Parameter(
@@ -847,7 +848,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetUsage",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-usage")!,
-                        resultType: ResultType(name: "GetUsageResult",
+                        resultType: ResultType(name: "GetUsage",
                             fields: [
                                 "usage": .structure("SBDUsage")
                             ]),
@@ -871,7 +872,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetUsageSummary",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-usage-summary")!,
-                        resultType: ResultType(name: "GetUsageSummaryResult",
+                        resultType: ResultType(name: "GetUsageSummary",
                             fields: [
                                 "summary": .structure("UsageSummary")
                             ]),
@@ -895,7 +896,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetPlans",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-plans")!,
-                        resultType: ResultType(name: "GetPlansResult",
+                        resultType: ResultType(name: "GetPlans",
                             fields: [
                                 "plans": .structure("SBDGetPlans")
                             ]),
@@ -904,7 +905,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetContracts",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-contracts")!,
-                        resultType: ResultType(name: "GetContractsResult",
+                        resultType: ResultType(name: "GetContracts",
                             fields: [
                                 "contracts": .array(.structure("SBDGetContracts"))
                             ]),
@@ -919,7 +920,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ActivateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#activate-subscriber")!,
-                        resultType: ResultType(name: "ActivateSubscriberResult",
+                        resultType: ResultType(name: "ActivateSubscriber",
                             fields: [
                                 "contract": .structure("SBDActivateSubscriber")
                             ]),
@@ -939,7 +940,7 @@ public struct CloudloopAPI
                     Function(
                         name: "DeactivateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#deactivate-subscriber")!,
-                        resultType: ResultType(name: "DeactivateSubscriberResult",
+                        resultType: ResultType(name: "DeactivateSubscriber",
                             fields: [
                                 "contract": .structure("SBDDeactivateSubscriber")
                             ]),
@@ -954,9 +955,9 @@ public struct CloudloopAPI
                     Function(
                         name: "ResumeSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#resume-subscriber")!,
-                        resultType: ResultType(name: "ResumeSubscriberResult",
+                        resultType: ResultType(name: "ResumeSubscriber",
                             fields: [
-                                "contract": .structure("SNDResumeSubscriber")
+                                "contract": .structure("SBDResumeSubscriber")
                             ]),
                         parameters: [
                             Parameter(
@@ -969,7 +970,7 @@ public struct CloudloopAPI
                     Function(
                         name: "SuspendSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#suspend-subscriber-1")!,
-                        resultType: ResultType(name: "SuspendSubscriberResult",
+                        resultType: ResultType(name: "SuspendSubscriber",
                             fields: [
                                 "contract": .structure("SBDSuspendSubscriber")
                             ]),
@@ -984,7 +985,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ChangeSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#change-subscriber")!,
-                        resultType: ResultType(name: "ChangeSubscriberResult",
+                        resultType: ResultType(name: "ChangeSubscriber",
                             fields: [
                                 "contract": .structure("SBDChangeSubscriber")
                             ]),
@@ -1004,7 +1005,7 @@ public struct CloudloopAPI
                     Function(
                         name: "UpdateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#update-subscriber")!,
-                        resultType: ResultType(name: "UpdateSubscriberResult",
+                        resultType: ResultType(name: "UpdateSubscriber",
                             fields: [
                                 "subscriber": .structure("SBDUpdateSubscriber")
                             ]),
@@ -1028,7 +1029,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateDestination",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-destination")!,
-                        resultType: ResultType(name: "CreateDestinationResult",
+                        resultType: ResultType(name: "CreateDestination",
                             fields: [
                                 "destination": .structure("SBDCreateDestination")
                             ]),
@@ -1060,7 +1061,7 @@ public struct CloudloopAPI
                     Function(
                         name: "DeleteDestination",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#delete-destination")!,
-                        resultType: ResultType(name: "DeleteDestinationResult",
+                        resultType: ResultType(name: "DeleteDestination",
                             fields: [
                                 "result": .boolean
                             ]),
@@ -1073,7 +1074,7 @@ public struct CloudloopAPI
                     Function(
                         name: "ReassociateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#swap-subscriber")!,
-                        resultType: ResultType(name: "ReassociateSubscriberResult",
+                        resultType: ResultType(name: "ReassociateSubscriber",
                             fields: [
                                 "contract": .structure("SBDReassociateSubscriber")
                             ]),
@@ -1093,7 +1094,7 @@ public struct CloudloopAPI
                     Function(
                         name: "AssignBillingGroup",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group")!,
-                        resultType: ResultType(name: "AssignBillingGroupResult",
+                        resultType: ResultType(name: "AssignBillingGroup",
                             fields: [
                                 "default": .boolean,
                                 "name": .string,
@@ -1116,13 +1117,13 @@ public struct CloudloopAPI
                 ]
             ),
             Endpoint(
-                name: "Data (MO)",
+                name: "DataMO",
                 documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-messages")!,
                 functions: [
                     Function(
-                        name: "ReceiveMessage",
+                        name: "GetMessages",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-messages")!,
-                        resultType: ResultType(name: "ReceiveMessageResult",
+                        resultType: ResultType(name: "DataMOGetMessages",
                             fields: [
                                 "messages": .array(.structure("Messages"))
                             ]
@@ -1139,16 +1140,16 @@ public struct CloudloopAPI
                                 type: .date
                             ),
                             Parameter(
-                                name: "hardware",
+                                name: "to",
                                 description: "Using the ISO_LOCAL_DATE_TIME format",
                                 type: .date
                             )
                         ]
                     ),
                     Function(
-                        name: "ReceiveMessage (Long Poll)",
+                        name: "GetMessagesPolled",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-messages-long-poll")!,
-                        resultType: ResultType(name: "ReceiveMessageLongPollResult",
+                        resultType: ResultType(name: "ReceiveMessageLongPoll",
                             fields: [
                                 "lastMessageRetreived": .identifier,
                                 "messages": .array(.structure("Messages"))
@@ -1170,13 +1171,13 @@ public struct CloudloopAPI
                 ]
             ),
             Endpoint(
-                name: "Data (MT)",
+                name: "DataMT",
                 documentation: URL(string: "https://docs.cloudloop.com/reference#send-message")!,
                 functions: [
                     Function(
                         name: "SendMessage",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#send-message")!,
-                        resultType: ResultType(name: "SendMessageResult",
+                        resultType: ResultType(name: "SendMessage",
                             fields: [
                                 "requests": .array(.structure("Requests"))
                             ]
@@ -1197,7 +1198,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetMessage",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-message-status")!,
-                        resultType: ResultType(name: "GetMessageResult",
+                        resultType: ResultType(name: "GetMessage",
                             fields: [
                                 "message": .structure("DataMTGetMessage")
                             ]
@@ -1213,7 +1214,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetMessages",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-messages")!,
-                        resultType: ResultType(name: "GetMessagesResult",
+                        resultType: ResultType(name: "DataMTGetMessages",
                             fields: [
                                 "messages": .array(.structure("DataMTMessages"))
                             ]
@@ -1239,7 +1240,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetMessagesPolled",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#getmessagespolled")!,
-                        resultType: ResultType(name: "GetMessagesPolledResult",
+                        resultType: ResultType(name: "GetMessagesPolled",
                             fields: [
                                 "messages": .array(.structure("DataMTMessages"))
                             ]
@@ -1266,7 +1267,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateHardware",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-hardware")!,
-                        resultType: ResultType(name: "CreateHardwareResult",
+                        resultType: ResultType(name: "CreateHardware",
                             fields: [
                                 "hardware": .structure("HardwareCreateHardware")
                             ]
@@ -1286,7 +1287,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetHardware",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-hardware")!,
-                        resultType: ResultType(name: "GetHardwareResult",
+                        resultType: ResultType(name: "GetHardware",
                             fields: [
                                 "hardware": .structure("HardwareGetHardware")
                             ]
@@ -1306,7 +1307,7 @@ public struct CloudloopAPI
                     Function(
                         name: "SearchHardware",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#search-hardware")!,
-                        resultType: ResultType(name: "SearchHardwareResult",
+                        resultType: ResultType(name: "SearchHardware",
                             fields: [
                                 "hardwares": .array(.structure("hardwares"))
                             ]
@@ -1322,7 +1323,7 @@ public struct CloudloopAPI
                     Function(
                         name: "CreateSim",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create-sim")!,
-                        resultType: ResultType(name: "CreateSimResult",
+                        resultType: ResultType(name: "CreateSim",
                             fields: [
                                 "sim": .structure("CreateSim")
                             ]
@@ -1337,7 +1338,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetSim",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-sim")!,
-                        resultType: ResultType(name: "GetSimResult",
+                        resultType: ResultType(name: "GetSim",
                             fields: [
                                 "sim": .structure("GetSim")
                             ]
@@ -1353,7 +1354,7 @@ public struct CloudloopAPI
                     Function(
                         name: "SearchSims",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-sims")!,
-                        resultType: ResultType(name: "SearchSimsResult",
+                        resultType: ResultType(name: "SearchSims",
                             fields: [
                                 "sims": .array(.structure("SearchSims"))
                             ]
@@ -1385,7 +1386,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GetBillingGroups",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#get-billing-groups")!,
-                        resultType: ResultType(name: "GetBillingGroupsResult",
+                        resultType: ResultType(name: "GetBillingGroups",
                             fields: [
                                 "billingGroup": .array(.structure("BillingGroups"))
                             ]
@@ -1395,7 +1396,7 @@ public struct CloudloopAPI
                     Function(
                         name: "DeleteBillingGroup",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#delete-billing-group")!,
-                        resultType: ResultType(name: "DeleteBillingGroupResult",
+                        resultType: ResultType(name: "DeleteBillingGroup",
                             fields: [
                                 "result": .boolean
                             ]
@@ -1417,7 +1418,7 @@ public struct CloudloopAPI
                     Function(
                         name: "GenerateToken",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#generate-token")!,
-                        resultType: ResultType(name: "GenerateTokenResult",
+                        resultType: ResultType(name: "GenerateToken",
                             fields: [
                                 "token": .identifier
                             ]
@@ -1433,7 +1434,7 @@ public struct CloudloopAPI
                     Function(
                         name: "Ping",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#ping")!,
-                        resultType: ResultType(name: "PingResult",
+                        resultType: ResultType(name: "Ping",
                             fields: [
                                 "ping": .string
                             ]
