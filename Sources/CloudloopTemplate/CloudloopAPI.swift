@@ -16,459 +16,459 @@ public struct CloudloopAPI
         types: [
             ResultType(name: "SimResult", fields: [
                 //ResultTypeMatch1
-                 ("iccid", .string,)
+                 ("iccid", .string),
                  ("id", .identifier)
             ]),
             ResultType(name: "HardwareResult", fields: [
                 //ResultTypeMatch2
-                 ("imei", .string,)
-                 ("id", .identifier,)
+                 ("imei", .string),
+                 ("id", .identifier),
                  ("type", .string)
             ]),
             ResultType(name: "Subscriber", fields: [
-                 ("createdAt", .date,)
-                 ("sim", .optional(.identifier),)
-                 ("contract", .optional(.identifier),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
+                 ("createdAt", .date),
+                 ("sim", .optional(.identifier)),
+                 ("contract", .optional(.identifier)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
                  ("account", .identifier)
             ]),
             ResultType(name: "Usage", fields: [
-                 ("duration", .float,)
-                 ("at", .date,)
-                 ("cost", .float,)
-                 ("fee", .string,)
+                 ("duration", .float),
+                 ("at", .date),
+                 ("cost", .float),
+                 ("fee", .string),
                  ("contract", .identifier)
             ]),
             ResultType(name: "UsageSummary", fields: [
-                 ("month", .float,)
-                 ("year", .float,)
-                 ("contract", .identifier,)
-                 ("id", .identifier,)
-                 ("calculatedAt", .date,)
-                 ("remaining", .float,)
-                 ("utilisation", .float,)
+                 ("month", .float),
+                 ("year", .float),
+                 ("contract", .identifier),
+                 ("id", .identifier),
+                 ("calculatedAt", .date),
+                 ("remaining", .float),
+                 ("utilisation", .float),
                  ("allocated", .float)
             ]),
             ResultType(name: "PoolSummary", fields: [
-                 ("month", .float,)
-                 ("year", .float,)
-                 ("id", .identifier,)
-                 ("plan", .identifier,)
-                 ("calculatedAt", .date,)
-                 ("remaining", .float,)
-                 ("utilisation", .float,)
+                 ("month", .float),
+                 ("year", .float),
+                 ("id", .identifier),
+                 ("plan", .identifier),
+                 ("calculatedAt", .date),
+                 ("remaining", .float),
+                 ("utilisation", .float),
                  ("allocated", .float)
             ]),
             ResultType(name: "Contract", fields: [
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.identifier),)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.identifier)),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "GetContract", fields: [
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("commitedTo", .optional(.date),)
-                 ("imsi", .optional(.identifier),)
-                 ("msisdn", .optional(.identifier),)
-                 ("localNumberAccess", .boolean,)
-                 ("localNumber", .optional(.string),)
-                 ("plan", .structure("ContractPlan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("commitedTo", .optional(.date)),
+                 ("imsi", .optional(.identifier)),
+                 ("msisdn", .optional(.identifier)),
+                 ("localNumberAccess", .boolean),
+                 ("localNumber", .optional(.string)),
+                 ("plan", .structure("ContractPlan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "Plan", fields: [
-                "inclusive" : .float,
-                 ("pooled", .boolean,)
-                 ("suspensible", .boolean,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("increment", .float,)
-                 ("commitment", .float,)
-                 ("id", .identifier,)
+                ("inclusive", .float),
+                 ("pooled", .boolean),
+                 ("suspensible", .boolean),
+                 ("name", .string),
+                 ("description", .string),
+                 ("increment", .float),
+                 ("commitment", .float),
+                 ("id", .identifier),
                  ("minimum", .float)
             ]),
             ResultType(name: "GetPlan", fields: [
-                 ("inclusive", .float,)
-                 ("pooled", .boolean,)
-                 ("suspendible", .boolean,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("increment", .float,)
-                 ("commitment", .float,)
-                 ("currency", .string,)
-                 ("id", .identifier,)
+                 ("inclusive", .float),
+                 ("pooled", .boolean),
+                 ("suspendible", .boolean),
+                 ("name", .string),
+                 ("description", .string),
+                 ("increment", .float),
+                 ("commitment", .float),
+                 ("currency", .string),
+                 ("id", .identifier),
                  ("minimum", .float)
             ]),
             ResultType(name: "ContractPlan", fields: [
-                 ("feeMonthly", .float,)
-                 ("inclusive", .float,)
-                 ("pooled", .boolean,)
-                 ("suspendible", .boolean,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("increment", .float,)
-                 ("commitment", .float,)
-                 ("id", .identifier,)
+                 ("feeMonthly", .float),
+                 ("inclusive", .float),
+                 ("pooled", .boolean),
+                 ("suspendible", .boolean),
+                 ("name", .string),
+                 ("description", .string),
+                 ("increment", .float),
+                 ("commitment", .float),
+                 ("id", .identifier),
                  ("minimum", .float)
             ]),
             ResultType(name: "SBDContract", fields: [
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("committedTo", .date,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .date,)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("committedTo", .date),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .date),
                  ("plan", .structure("SBDPlan"))
             ]),
             ResultType(name: "SBDGetContracts", fields: [
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("committedTo", .optional(.date),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("committedTo", .optional(.date)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDPlan", fields: [
-                 ("feeMonthly", .float,)
-                 ("inclusive", .float,)
-                 ("suspendible", .boolean,)
-                 ("description", .string,)
-                 ("increment", .float,)
-                 ("commitment", .float,)
-                 ("pooled", .boolean,)
-                 ("terminationFee", .float,)
-                 ("terminable", .boolean,)
-                 ("name", .string,)
+                 ("feeMonthly", .float),
+                 ("inclusive", .float),
+                 ("suspendible", .boolean),
+                 ("description", .string),
+                 ("increment", .float),
+                 ("commitment", .float),
+                 ("pooled", .boolean),
+                 ("terminationFee", .float),
+                 ("terminable", .boolean),
+                 ("name", .string),
                  ("id", .identifier)
             ]),
             ResultType(name: "SBDSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("lastSeen", .optional(.date),)
-                 ("contract", .optional(.identifier),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .optional(.string),)
-                 ("id", .identifier,)
-                 ("customMonitorThreshold", .optional(.string),)
-                 ("account", .identifier,)
+                 ("createdAt", .date),
+                 ("lastSeen", .optional(.date)),
+                 ("contract", .optional(.identifier)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .optional(.string)),
+                 ("id", .identifier),
+                 ("customMonitorThreshold", .optional(.string)),
+                 ("account", .identifier),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "SBDUsage", fields: [
-                 ("momsn", .float,)
-                 ("at", .date,)
-                 ("cost", .float,)
-                 ("size", .float,)
-                 ("fee", .string,)
+                 ("momsn", .float),
+                 ("at", .date),
+                 ("cost", .float),
+                 ("size", .float),
+                 ("fee", .string),
                  ("contract", .identifier)
             ]),
             ResultType(name: "SBDGetPlans", fields: [
-                 ("feeMonthly", .float,)
-                 ("inclusive", .float,)
-                 ("suspendible", .boolean,)
-                 ("description", .string,)
-                 ("increment", .float,)
-                 ("commitment", .float,)
-                 ("transactionFees", .boolean,)
-                 ("pooled", .boolean,)
-                 ("activationFee", .float,)
-                 ("terminationFee", .float,)
-                 ("terminable", .boolean,)
-                 ("name", .string,)
-                 ("currency", .string,)
-                 ("id", .identifier,)
+                 ("feeMonthly", .float),
+                 ("inclusive", .float),
+                 ("suspendible", .boolean),
+                 ("description", .string),
+                 ("increment", .float),
+                 ("commitment", .float),
+                 ("transitionFees", .boolean),
+                 ("pooled", .boolean),
+                 ("activationFee", .float),
+                 ("terminationFee", .float),
+                 ("terminable", .boolean),
+                 ("name", .string),
+                 ("currency", .string),
+                 ("id", .identifier),
                  ("minimum", .float)
             ]),
             ResultType(name: "Messages", fields: [
-                 ("id", .identifier,)
-                 ("hardware", .identifier,)
-                 ("payload", .string,)
-                 ("txAt", .date,)
-                 ("rxAt", .date,)
-                 ("cdrReference", .float,)
-                 ("cepRadius", .float,)
-                 ("latitude", .float,)
-                 ("longitude", .float,)
-                 ("momsn", .float,)
+                 ("id", .identifier),
+                 ("hardware", .identifier),
+                 ("payload", .string),
+                 ("txAt", .date),
+                 ("rxAt", .date),
+                 ("cdrReference", .float),
+                 ("cepRadius", .float),
+                 ("latitude", .float),
+                 ("longitude", .float),
+                 ("momsn", .float),
                  ("status", .string)
             ]),
             ResultType(name: "Requests", fields: [
-                 ("requestAt", .optional(.date),)
-                 ("message", .optional(.identifier),)
-                 ("hardware", .identifier,)
+                 ("requestAt", .optional(.date)),
+                 ("message", .optional(.identifier)),
+                 ("hardware", .identifier),
                  ("status", .string)
             ]),
             ResultType(name: "DataMTMessages", fields: [
-                 ("createdAt", .date,)
-                 ("queueSize", .float,)
-                 ("size", .float,)
-                 ("payload", .string,)
-                 ("id", .identifier,)
-                 ("submittedAt", .date,)
-                 ("hardware", .identifier,)
+                 ("createdAt", .date),
+                 ("queueSize", .float),
+                 ("size", .float),
+                 ("payload", .string),
+                 ("id", .identifier),
+                 ("submittedAt", .date),
+                 ("hardware", .identifier),
                  ("status", .string)
             ]),
             ResultType(name: "BillingGroups", fields: [
                 //ResultTypeMatch3
-                 ("default", .boolean,)
-                 ("name", .string,)
-                 ("id", .identifier,)
+                 ("default", .boolean),
+                 ("name", .string),
+                 ("id", .identifier),
                  ("account", .identifier)
             ]),
             ResultType(name: "TelephonyCreateSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("sim", .identifier,)
-                 ("contract", .optional(.identifier),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
+                 ("createdAt", .date),
+                 ("sim", .identifier),
+                 ("contract", .optional(.identifier)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
                  ("account", .identifier)
             ]),
             ResultType(name: "TelephonyGetSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("sim", .structure("SimResult"),)
-                 ("contract", .structure("Contract"),)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("account", .identifier,)
-                 ("hardware", .structure("HardwareResult"),)
+                 ("createdAt", .date),
+                 ("sim", .structure("SimResult")),
+                 ("contract", .structure("Contract")),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("account", .identifier),
+                 ("hardware", .structure("HardwareResult")),
                  ("billingGroup", .identifier)
             ]),
             ResultType(name: "TelephonyActivateSubscriber", fields: [
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("localNumberAccess", .boolean,)
-                 ("localNumber", .optional(.string),)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("localNumberAccess", .boolean),
+                 ("localNumber", .optional(.string)),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonyDeactivateSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonyResumeSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonySuspendSubscriber", fields: [
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .date,)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .date),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonyChangeSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier,)
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
-                 ("plan", .structure("Plan"),)
+                 ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
+                 ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonyUpdateSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("contract", .identifier,)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("accoundt", .identifier,)
+                 ("createdAt", .date),
+                 ("contract", .identifier),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("accoundt", .identifier),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "TelephonyReassociateSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("sim", .structure("SimResult"),)
-                 ("contract", .optional(.identifier),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("account", .identifier,)
+                 ("createdAt", .date),
+                 ("sim", .structure("SimResult")),
+                 ("contract", .optional(.identifier)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("account", .identifier),
                  ("hardware", .optional(.identifier))
             ]),
             ResultType(name: "SBDCreateSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("contract", .optional(.identifier),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("account", .identifier,)
+                 ("createdAt", .date),
+                 ("contract", .optional(.identifier)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("account", .identifier),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "SBDGetSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("contract", .structure("SBDContract"),)
-                 ("destinations", .array(.string),)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("account", .identifier,)
+                 ("createdAt", .date),
+                 ("contract", .structure("SBDContract")),
+                 ("destinations", .array(.string)),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("account", .identifier),
                  ("hardware", .structure("HardwareResult"))
             ]),
             ResultType(name: "SBDActivateSubscriber", fields: [
                 //ResultTypeMatch5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDDeactivateSubscriber", fields: [
                 //ResultTypeMatch5.5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .date,)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .date),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDResumeSubscriber", fields: [
                 //ResultTypeMatch5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDSuspendSubscriber", fields: [
                 //ResultTypeMatch5.5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .date,)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .date),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDChangeSubscriber", fields: [
                 //ResultTypeMatch5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDUpdateSubscriber", fields: [
-                 ("createdAt", .date,)
-                 ("contract", .identifier,)
-                 ("billingGroup", .identifier,)
-                 ("name", .string,)
-                 ("description", .string,)
-                 ("id", .identifier,)
-                 ("account", .identifier,)
+                 ("createdAt", .date),
+                 ("contract", .identifier),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
+                 ("account", .identifier),
                  ("hardware", .identifier)
             ]),
             ResultType(name: "SBDCreateDestination", fields: [
-                 ("moack", .boolean,)
-                 ("destination", .string,)
-                 ("id", .identifier,)
-                 ("type", .identifier,)
+                 ("moack", .boolean),
+                 ("destination", .string),
+                 ("id", .identifier),
+                 ("type", .identifier),
                  ("geodata", .boolean)
             ]),
             ResultType(name: "SBDReassociateSubscriber", fields: [
                 //ResultTypeMatch5
-                "subscriber" : .identifier,
-                 ("networkStatus", .string,)
-                 ("from", .date,)
-                 ("id", .identifier,)
-                 ("state", .string,)
-                 ("to", .optional(.date),)
+                ("subscriber", .identifier),
+                 ("networkStatus", .string),
+                 ("from", .date),
+                 ("id", .identifier),
+                 ("state", .string),
+                 ("to", .optional(.date)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "DataMTGetMessage", fields: [
-                 ("id", .identifier,)
-                 ("status", .string,)
-                 ("createdAt", .date,)
-                 ("payload", .string,)
-                 ("submittedAt", .date,)
-                 ("hardware", .identifier,)
+                 ("id", .identifier),
+                 ("status", .string),
+                 ("createdAt", .date),
+                 ("payload", .string),
+                 ("submittedAt", .date),
+                 ("hardware", .identifier),
                  ("queueSize", .float)
             ]),
             ResultType(name: "HardwareCreateHardware", fields: [
                 //ResultTypeMatch2
-                 ("imei", .string,)
-                 ("id", .identifier,)
+                 ("imei", .string),
+                 ("id", .identifier),
                  ("type", .string)
             ]),
             ResultType(name: "HardwareGetHardware", fields: [
                 //ResultTypeMatch2
-                 ("imei", .string,)
-                 ("id", .identifier,)
+                 ("imei", .string),
+                 ("id", .identifier),
                  ("type", .string)
             ]),
             ResultType(name: "hardwares", fields: [
                 //ResultTypeMatch2
-                 ("imei", .string,)
-                 ("id", .identifier,)
+                 ("imei", .string),
+                 ("id", .identifier),
                  ("type", .string)
             ]),
             ResultType(name: "CreateSim", fields: [
                 //ResultTypeMatch1
-                 ("iccid", .string,)
+                 ("iccid", .string),
                  ("id", .identifier)
             ]),
             ResultType(name: "GetSim", fields: [
-                 ("sim", .string,)
+                 ("sim", .string),
                  ("id", .identifier)
             ]),
             ResultType(name: "SearchSims", fields: [
                 //ResultTypeMatch1
-                 ("iccid", .string,)
+                 ("iccid", .string),
                  ("id", .identifier)
             ]),
             ResultType(name: "CreateBillingGroup", fields: [
                 //ResultTypeMatch3
-                 ("default", .boolean,)
-                 ("name", .string,)
-                 ("id", .identifier,)
+                 ("default", .boolean),
+                 ("name", .string),
+                 ("id", .identifier),
                  ("account", .identifier)
             ])
         ],
@@ -481,7 +481,7 @@ public struct CloudloopAPI
                         name: "CreateSubscriber",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#create")!,
                         resultType: ResultType(name: "TelephonyCreateSubscriber", fields: [
-                             ("subscriber", .structure("TelephonyCreateSubscriber"),)
+                             ("subscriber", .structure("TelephonyCreateSubscriber")),
                         ]),
                         parameters: [
                             Parameter(
@@ -660,9 +660,6 @@ public struct CloudloopAPI
                         resultType: ResultType(name: "ResumeSubscriber",
                             fields: [
                                  ("contract", .structure("TelephonyResumeSubscriber"))
-                                //FIXME: the next two need looked at
- (//                                "at", .float,)
- (//                                "error", .string)
                             ]),
                         parameters: [
                             Parameter(
@@ -761,9 +758,9 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group-1")!,
                         resultType: ResultType(name: "AssignBillingGroup",
                             fields: [
-                                 ("default", .boolean,)
-                                 ("name", .string,)
-                                 ("id", .identifier,)
+                                 ("default", .boolean),
+                                 ("name", .string),
+                                 ("id", .identifier),
                                  ("account", .identifier)
                             ]),
                         parameters: [
@@ -1100,9 +1097,9 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#assign-billing-group")!,
                         resultType: ResultType(name: "AssignBillingGroup",
                             fields: [
-                                 ("default", .boolean,)
-                                 ("name", .string,)
-                                 ("id", .identifier,)
+                                 ("default", .boolean),
+                                 ("name", .string),
+                                 ("id", .identifier),
                                  ("account", .identifier)
                             ]),
                         parameters: [
@@ -1155,7 +1152,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-messages-long-poll")!,
                         resultType: ResultType(name: "ReceiveMessageLongPoll",
                             fields: [
-                                 ("lastMessageRetreived", .identifier,)
+                                 ("lastMessageRetreived", .identifier),
                                  ("messages", .array(.structure("Messages")))
                             ]
                         ),

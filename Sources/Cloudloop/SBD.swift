@@ -86,9 +86,9 @@ public struct SbdReassociateSubscriberResult: Codable
 public struct SbdAssignBillingGroupResult: Codable
 {
 	let `default`: Bool
-	let account: Identifier
-	let id: Identifier
 	let name: String
+	let id: Identifier
+	let account: Identifier
 }
 
 public struct Sbd

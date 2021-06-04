@@ -80,10 +80,10 @@ public struct TelephonyReassociateSubscriberResult: Codable
 
 public struct TelephonyAssignBillingGroupResult: Codable
 {
-	let id: Identifier
 	let `default`: Bool
-	let account: Identifier
 	let name: String
+	let id: Identifier
+	let account: Identifier
 }
 
 public struct Telephony
