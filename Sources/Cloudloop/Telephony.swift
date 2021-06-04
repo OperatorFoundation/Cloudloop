@@ -80,10 +80,10 @@ public struct TelephonyReassociateSubscriberResult: Codable
 
 public struct TelephonyAssignBillingGroupResult: Codable
 {
-	let name: String
-	let account: Identifier
 	let id: Identifier
 	let `default`: Bool
+	let account: Identifier
+	let name: String
 }
 
 public struct Telephony
@@ -99,6 +99,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyTelephonyCreateSubscriberResult.self, from: resultData) else {return nil}
 
@@ -115,6 +117,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetSubscriberResult.self, from: resultData) else {return nil}
 
@@ -131,6 +135,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonySearchSubscribersResult.self, from: resultData) else {return nil}
 
@@ -149,6 +155,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetUsageResult.self, from: resultData) else {return nil}
 
@@ -167,6 +175,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetUsageSummaryResult.self, from: resultData) else {return nil}
 
@@ -184,6 +194,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetPoolSummaryResult.self, from: resultData) else {return nil}
 
@@ -200,6 +212,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetPlansResult.self, from: resultData) else {return nil}
 
@@ -216,6 +230,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyGetContractsResult.self, from: resultData) else {return nil}
 
@@ -235,6 +251,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyActivateSubscriberResult.self, from: resultData) else {return nil}
 
@@ -251,6 +269,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyDeactivateSubscriberResult.self, from: resultData) else {return nil}
 
@@ -267,6 +287,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyResumeSubscriberResult.self, from: resultData) else {return nil}
 
@@ -283,6 +305,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonySuspendSubscriberResult.self, from: resultData) else {return nil}
 
@@ -300,6 +324,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyChangeSubscriberResult.self, from: resultData) else {return nil}
 
@@ -318,6 +344,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyUpdateSubscriberResult.self, from: resultData) else {return nil}
 
@@ -336,6 +364,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyReassociateSubscriberResult.self, from: resultData) else {return nil}
 
@@ -353,6 +383,8 @@ public struct Telephony
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(TelephonyAssignBillingGroupResult.self, from: resultData) else {return nil}
 

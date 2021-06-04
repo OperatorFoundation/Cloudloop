@@ -30,6 +30,8 @@ public struct Sim
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(SimCreateSimResult.self, from: resultData) else {return nil}
 
@@ -46,6 +48,8 @@ public struct Sim
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(SimGetSimResult.self, from: resultData) else {return nil}
 
@@ -62,6 +66,8 @@ public struct Sim
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(SimSearchSimsResult.self, from: resultData) else {return nil}
 

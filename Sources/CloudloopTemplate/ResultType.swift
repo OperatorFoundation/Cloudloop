@@ -10,9 +10,9 @@ import Foundation
 public struct ResultType
 {
     public let name: String
-    public let fields: [String: ResultValueType]
+    public let fields: [(String, ResultValueType)]
 
-    public init(name: String, fields: [String: ResultValueType])
+    public init(name: String, fields: [(String, ResultValueType)])
     {
         self.name = name
         self.fields = fields

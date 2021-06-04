@@ -20,6 +20,8 @@ public struct User
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(UserGenerateTokenResult.self, from: resultData) else {return nil}
 

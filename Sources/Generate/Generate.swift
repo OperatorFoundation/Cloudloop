@@ -192,6 +192,8 @@ func generateFunctionBody(url: String, endpointName: String, function: Function)
             ]
             guard let url = components.url else {return nil}
             guard let resultData = try? Data(contentsOf: url) else {return nil}
+            let dataString = String(decoding: resultData, as: UTF8.self)
+            print(dataString)
             let decoder = JSONDecoder()
             guard let result = try? decoder.decode(\(endpointName)\(function.resultType.name)Result.self, from: resultData) else {return nil}
 

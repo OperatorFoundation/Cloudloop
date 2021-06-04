@@ -36,6 +36,8 @@ public struct DataMT
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMTSendMessageResult.self, from: resultData) else {return nil}
 
@@ -52,6 +54,8 @@ public struct DataMT
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMTGetMessageResult.self, from: resultData) else {return nil}
 
@@ -70,6 +74,8 @@ public struct DataMT
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMTDataMTGetMessagesResult.self, from: resultData) else {return nil}
 
@@ -87,6 +93,8 @@ public struct DataMT
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMTGetMessagesPolledResult.self, from: resultData) else {return nil}
 

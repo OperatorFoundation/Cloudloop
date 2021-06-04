@@ -10,8 +10,8 @@ public struct DataMODataMOGetMessagesResult: Codable
 
 public struct DataMOReceiveMessageLongPollResult: Codable
 {
-	let messages: [Messages]
 	let lastMessageRetreived: Identifier
+	let messages: [Messages]
 }
 
 public struct DataMO
@@ -28,6 +28,8 @@ public struct DataMO
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMODataMOGetMessagesResult.self, from: resultData) else {return nil}
 
@@ -45,6 +47,8 @@ public struct DataMO
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        let dataString = String(decoding: resultData, as: UTF8.self)
+        print(dataString)
         let decoder = JSONDecoder()
         guard let result = try? decoder.decode(DataMOReceiveMessageLongPollResult.self, from: resultData) else {return nil}
 
