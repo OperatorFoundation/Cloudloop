@@ -295,7 +295,7 @@ func generateResultValueType(valueType: ResultValueType) -> String
         case .string:
             return "String"
         case .identifier:
-            return "Identifier"
+            return "String"
         case .date:
             return "Date"
         case .float:

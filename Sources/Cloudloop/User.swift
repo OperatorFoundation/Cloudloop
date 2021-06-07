@@ -5,7 +5,7 @@ import Foundation
 
 public struct UserGenerateTokenResult: Codable
 {
-	let token: Identifier
+	let token: String
 }
 
 public struct User

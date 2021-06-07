@@ -5,26 +5,27 @@ import Foundation
 public struct SimResult: Codable
 {
 	let iccid: String
-	let id: Identifier
+	let id: String
 }
 
 public struct HardwareResult: Codable
 {
 	let imei: String
-	let id: Identifier
+	let id: String
 	let type: String
+	let account: String
 }
 
 public struct Subscriber: Codable
 {
 	let createdAt: Date
-	let sim: Identifier?
-	let contract: Identifier?
-	let billingGroup: Identifier
+	let sim: String?
+	let contract: String?
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
 }
 
 public struct Usage: Codable
@@ -33,15 +34,15 @@ public struct Usage: Codable
 	let at: Date
 	let cost: Float
 	let fee: String
-	let contract: Identifier
+	let contract: String
 }
 
 public struct UsageSummary: Codable
 {
 	let month: Float
 	let year: Float
-	let contract: Identifier
-	let id: Identifier
+	let contract: String
+	let id: String
 	let calculatedAt: Date
 	let remaining: Float
 	let utilisation: Float
@@ -52,8 +53,8 @@ public struct PoolSummary: Codable
 {
 	let month: Float
 	let year: Float
-	let id: Identifier
-	let plan: Identifier
+	let id: String
+	let plan: String
 	let calculatedAt: Date
 	let remaining: Float
 	let utilisation: Float
@@ -62,43 +63,49 @@ public struct PoolSummary: Codable
 
 public struct Contract: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
-	let to: Identifier?
+	let to: String?
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct GetContract: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let commitedTo: Date?
-	let imsi: Identifier?
-	let msisdn: Identifier?
+	let imsi: String?
+	let msisdn: String?
 	let localNumberAccess: Bool
 	let localNumber: String?
 	let plan: ContractPlan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct Plan: Codable
 {
+	let feeMonthly: Float
 	let inclusive: Float
-	let pooled: Bool
 	let suspensible: Bool
-	let name: String
 	let description: String
 	let increment: Float
 	let commitment: Float
-	let id: Identifier
+	let transitionFees: Bool
+	let pooled: Bool
+	let activationFee: Float
+	let terminationFee: Float
+	let terminable: Bool
+	let name: String
+	let currency: String
+	let id: String
 	let minimum: Float
 }
 
@@ -112,7 +119,7 @@ public struct GetPlan: Codable
 	let increment: Float
 	let commitment: Float
 	let currency: String
-	let id: Identifier
+	let id: String
 	let minimum: Float
 }
 
@@ -126,32 +133,34 @@ public struct ContractPlan: Codable
 	let description: String
 	let increment: Float
 	let commitment: Float
-	let id: Identifier
+	let id: String
 	let minimum: Float
 }
 
 public struct SBDContract: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let committedTo: Date
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
-	let to: Date
+	let to: Date?
 	let plan: SBDPlan
+	let hardware: String
 }
 
 public struct SBDGetContracts: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let committedTo: Date?
 	let plan: Plan
+	let hardware: String
 }
 
 public struct SBDPlan: Codable
@@ -162,25 +171,28 @@ public struct SBDPlan: Codable
 	let description: String
 	let increment: Float
 	let commitment: Float
+	let transitionFees: Bool
 	let pooled: Bool
 	let terminationFee: Float
 	let terminable: Bool
 	let name: String
-	let id: Identifier
+	let currency: String
+	let id: String
+	let minimum: Float
 }
 
 public struct SBDSubscriber: Codable
 {
 	let createdAt: Date
 	let lastSeen: Date?
-	let contract: Identifier?
-	let billingGroup: Identifier
+	let contract: String?
+	let billingGroup: String
 	let name: String
 	let description: String?
-	let id: Identifier
+	let id: String
 	let customMonitorThreshold: String?
-	let account: Identifier
-	let hardware: Identifier
+	let account: String
+	let hardware: String
 }
 
 public struct SBDUsage: Codable
@@ -190,7 +202,7 @@ public struct SBDUsage: Codable
 	let cost: Float
 	let size: Float
 	let fee: String
-	let contract: Identifier
+	let contract: String
 }
 
 public struct SBDGetPlans: Codable
@@ -208,14 +220,14 @@ public struct SBDGetPlans: Codable
 	let terminable: Bool
 	let name: String
 	let currency: String
-	let id: Identifier
+	let id: String
 	let minimum: Float
 }
 
 public struct Messages: Codable
 {
-	let id: Identifier
-	let hardware: Identifier
+	let id: String
+	let hardware: String
 	let payload: String
 	let txAt: Date
 	let rxAt: Date
@@ -230,8 +242,8 @@ public struct Messages: Codable
 public struct Requests: Codable
 {
 	let requestAt: Date?
-	let message: Identifier?
-	let hardware: Identifier
+	let message: String?
+	let hardware: String
 	let status: String
 }
 
@@ -241,9 +253,9 @@ public struct DataMTMessages: Codable
 	let queueSize: Float
 	let size: Float
 	let payload: String
-	let id: Identifier
+	let id: String
 	let submittedAt: Date
-	let hardware: Identifier
+	let hardware: String
 	let status: String
 }
 
@@ -251,20 +263,20 @@ public struct BillingGroups: Codable
 {
 	let `default`: Bool
 	let name: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
 }
 
 public struct TelephonyCreateSubscriber: Codable
 {
 	let createdAt: Date
-	let sim: Identifier
-	let contract: Identifier?
-	let billingGroup: Identifier
+	let sim: String
+	let contract: String?
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
 }
 
 public struct TelephonyGetSubscriber: Codable
@@ -274,130 +286,132 @@ public struct TelephonyGetSubscriber: Codable
 	let contract: Contract
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
 	let hardware: HardwareResult
-	let billingGroup: Identifier
+	let billingGroup: String
 }
 
 public struct TelephonyActivateSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let localNumberAccess: Bool
 	let localNumber: String?
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct TelephonyDeactivateSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct TelephonyResumeSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct TelephonySuspendSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct TelephonyChangeSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
-	let hardware: Identifier
+	let hardware: String
 }
 
 public struct TelephonyUpdateSubscriber: Codable
 {
 	let createdAt: Date
-	let contract: Identifier
-	let billingGroup: Identifier
+	let contract: String
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let accoundt: Identifier
-	let hardware: Identifier
+	let id: String
+	let accoundt: String
+	let hardware: String
 }
 
 public struct TelephonyReassociateSubscriber: Codable
 {
 	let createdAt: Date
 	let sim: SimResult
-	let contract: Identifier?
-	let billingGroup: Identifier
+	let contract: String?
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
-	let hardware: Identifier?
+	let id: String
+	let account: String
+	let hardware: String?
 }
 
 public struct SBDCreateSubscriber: Codable
 {
 	let createdAt: Date
-	let contract: Identifier?
-	let billingGroup: Identifier
+	let contract: String?
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
-	let hardware: Identifier
+	let id: String
+	let account: String
+	let hardware: String
 }
 
 public struct SBDGetSubscriber: Codable
 {
 	let createdAt: Date
+	let lastSeen: Date
 	let contract: SBDContract
-	let destinations: [String]
-	let billingGroup: Identifier
+	let billingGroup: String
+	let destinations: [SBDDestination]
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let customMonitorThreshold: Float?
+	let account: String
 	let hardware: HardwareResult
 }
 
 public struct SBDActivateSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
@@ -405,10 +419,10 @@ public struct SBDActivateSubscriber: Codable
 
 public struct SBDDeactivateSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date
 	let plan: Plan
@@ -416,10 +430,10 @@ public struct SBDDeactivateSubscriber: Codable
 
 public struct SBDResumeSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
@@ -427,10 +441,10 @@ public struct SBDResumeSubscriber: Codable
 
 public struct SBDSuspendSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date
 	let plan: Plan
@@ -438,10 +452,10 @@ public struct SBDSuspendSubscriber: Codable
 
 public struct SBDChangeSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
@@ -450,30 +464,30 @@ public struct SBDChangeSubscriber: Codable
 public struct SBDUpdateSubscriber: Codable
 {
 	let createdAt: Date
-	let contract: Identifier
-	let billingGroup: Identifier
+	let contract: String
+	let billingGroup: String
 	let name: String
 	let description: String
-	let id: Identifier
-	let account: Identifier
-	let hardware: Identifier
+	let id: String
+	let account: String
+	let hardware: String
 }
 
 public struct SBDCreateDestination: Codable
 {
 	let moack: Bool
 	let destination: String
-	let id: Identifier
-	let type: Identifier
+	let id: String
+	let type: String
 	let geodata: Bool
 }
 
 public struct SBDReassociateSubscriber: Codable
 {
-	let subscriber: Identifier
+	let subscriber: String
 	let networkStatus: String
 	let from: Date
-	let id: Identifier
+	let id: String
 	let state: String
 	let to: Date?
 	let plan: Plan
@@ -481,58 +495,68 @@ public struct SBDReassociateSubscriber: Codable
 
 public struct DataMTGetMessage: Codable
 {
-	let id: Identifier
+	let id: String
 	let status: String
 	let createdAt: Date
 	let payload: String
 	let submittedAt: Date
-	let hardware: Identifier
+	let hardware: String
 	let queueSize: Float
 }
 
 public struct HardwareCreateHardware: Codable
 {
 	let imei: String
-	let id: Identifier
+	let id: String
 	let type: String
 }
 
 public struct HardwareGetHardware: Codable
 {
 	let imei: String
-	let id: Identifier
+	let id: String
 	let type: String
 }
 
 public struct hardwares: Codable
 {
 	let imei: String
-	let id: Identifier
+	let id: String
 	let type: String
 }
 
 public struct CreateSim: Codable
 {
 	let iccid: String
-	let id: Identifier
+	let id: String
 }
 
 public struct GetSim: Codable
 {
 	let sim: String
-	let id: Identifier
+	let id: String
 }
 
 public struct SearchSims: Codable
 {
 	let iccid: String
-	let id: Identifier
+	let id: String
 }
 
 public struct CreateBillingGroup: Codable
 {
 	let `default`: Bool
 	let name: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
+}
+
+public struct SBDDestination: Codable
+{
+	let route: String?
+	let moack: Bool
+	let destination: String
+	let id: String
+	let type: String
+	let geodata: Bool
 }

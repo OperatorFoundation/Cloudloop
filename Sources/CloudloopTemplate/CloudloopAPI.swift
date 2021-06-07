@@ -23,7 +23,8 @@ public struct CloudloopAPI
                 //ResultTypeMatch2
                  ("imei", .string),
                  ("id", .identifier),
-                 ("type", .string)
+                 ("type", .string),
+                 ("account", .identifier)
             ]),
             ResultType(name: "Subscriber", fields: [
                  ("createdAt", .date),
@@ -88,13 +89,19 @@ public struct CloudloopAPI
                  ("hardware", .identifier)
             ]),
             ResultType(name: "Plan", fields: [
-                ("inclusive", .float),
-                 ("pooled", .boolean),
+                 ("feeMonthly", .float),
+                 ("inclusive", .float),
                  ("suspensible", .boolean),
-                 ("name", .string),
                  ("description", .string),
                  ("increment", .float),
                  ("commitment", .float),
+                 ("transitionFees", .boolean),
+                 ("pooled", .boolean),
+                 ("activationFee", .float),
+                 ("terminationFee", .float),
+                 ("terminable", .boolean),
+                 ("name", .string),
+                 ("currency", .string),
                  ("id", .identifier),
                  ("minimum", .float)
             ]),
@@ -129,8 +136,9 @@ public struct CloudloopAPI
                  ("from", .date),
                  ("id", .identifier),
                  ("state", .string),
-                 ("to", .date),
-                 ("plan", .structure("SBDPlan"))
+                 ("to", .optional(.date)),
+                 ("plan", .structure("SBDPlan")),
+                 ("hardware", .identifier)
             ]),
             ResultType(name: "SBDGetContracts", fields: [
                  ("subscriber", .identifier),
@@ -140,7 +148,8 @@ public struct CloudloopAPI
                  ("state", .string),
                  ("to", .optional(.date)),
                  ("committedTo", .optional(.date)),
-                 ("plan", .structure("Plan"))
+                 ("plan", .structure("Plan")),
+                 ("hardware", .identifier)
             ]),
             ResultType(name: "SBDPlan", fields: [
                  ("feeMonthly", .float),
@@ -149,11 +158,14 @@ public struct CloudloopAPI
                  ("description", .string),
                  ("increment", .float),
                  ("commitment", .float),
+                 ("transitionFees", .boolean),
                  ("pooled", .boolean),
                  ("terminationFee", .float),
                  ("terminable", .boolean),
                  ("name", .string),
-                 ("id", .identifier)
+                 ("currency", .string),
+                 ("id", .identifier),
+                 ("minimum", .float)
             ]),
             ResultType(name: "SBDSubscriber", fields: [
                  ("createdAt", .date),
@@ -337,12 +349,14 @@ public struct CloudloopAPI
             ]),
             ResultType(name: "SBDGetSubscriber", fields: [
                  ("createdAt", .date),
+                 ("lastSeen", .date),
                  ("contract", .structure("SBDContract")),
-                 ("destinations", .array(.string)),
                  ("billingGroup", .identifier),
+                 ("destinations", .array(.structure("SBDDestination"))),
                  ("name", .string),
                  ("description", .string),
                  ("id", .identifier),
+                ("customMonitorThreshold", .optional(.float)),
                  ("account", .identifier),
                  ("hardware", .structure("HardwareResult"))
             ]),
@@ -470,6 +484,16 @@ public struct CloudloopAPI
                  ("name", .string),
                  ("id", .identifier),
                  ("account", .identifier)
+            ]),
+            ResultType(name: "SBDDestination", fields:
+                [
+                    ("route", .optional(.string)),
+                    ("moack", .boolean),
+                    ("destination", .string),
+                    ("id", .identifier),
+                    ("type", .string),
+                    ("geodata", .boolean)
+                    
             ])
         ],
         endpoints: [

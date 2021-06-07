@@ -87,8 +87,8 @@ public struct SbdAssignBillingGroupResult: Codable
 {
 	let `default`: Bool
 	let name: String
-	let id: Identifier
-	let account: Identifier
+	let id: String
+	let account: String
 }
 
 public struct Sbd

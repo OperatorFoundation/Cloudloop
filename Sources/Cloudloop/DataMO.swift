@@ -10,7 +10,7 @@ public struct DataMODataMOGetMessagesResult: Codable
 
 public struct DataMOReceiveMessageLongPollResult: Codable
 {
-	let lastMessageRetreived: Identifier
+	let lastMessageRetreived: String
 	let messages: [Messages]
 }
 
