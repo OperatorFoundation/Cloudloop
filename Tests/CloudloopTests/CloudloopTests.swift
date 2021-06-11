@@ -39,7 +39,7 @@
         }
         
         func testGeneratedSbdCreateDestroyDestination() {
-            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!, destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
+            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: <#T##Identifier#>, destination: <#T##String#>, type: <#T##String#>, moack: <#T##Bool#>, geodata: <#T##Bool#>)
             XCTAssertNotNil(sbdCreate)
             let sbdDelete = Sbd().DeleteDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", destination: "google.com:1234")
             XCTAssertNotNil(sbdDelete)

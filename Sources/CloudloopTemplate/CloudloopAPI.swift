@@ -91,7 +91,7 @@ public struct CloudloopAPI
             ResultType(name: "Plan", fields: [
                  ("feeMonthly", .float),
                  ("inclusive", .float),
-                 ("suspensible", .boolean),
+                 ("suspendible", .boolean),
                  ("description", .string),
                  ("increment", .float),
                  ("commitment", .float),
@@ -143,6 +143,7 @@ public struct CloudloopAPI
             ResultType(name: "SBDGetContracts", fields: [
                  ("subscriber", .identifier),
                  ("networkStatus", .string),
+                 ("committedTo", .date),
                  ("from", .date),
                  ("id", .identifier),
                  ("state", .string),

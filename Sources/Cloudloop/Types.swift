@@ -94,7 +94,7 @@ public struct Plan: Codable
 {
 	let feeMonthly: Float
 	let inclusive: Float
-	let suspensible: Bool
+	let suspendible: Bool
 	let description: String
 	let increment: Float
 	let commitment: Float
@@ -154,6 +154,7 @@ public struct SBDGetContracts: Codable
 {
 	let subscriber: String
 	let networkStatus: String
+	let committedTo: Date
 	let from: Date
 	let id: String
 	let state: String
