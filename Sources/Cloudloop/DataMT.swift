@@ -26,12 +26,12 @@ public struct DataMTGetMessagesPolledResult: Codable
 public struct DataMT
 {
     // https://docs.cloudloop.com/reference#send-message
-    public func SendMessage(token: String, hardware: Identifier, payload: String) -> DataMTSendMessageResult?
+    public func SendMessage(token: String, hardware: String, payload: String) -> DataMTSendMessageResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/SendMessage") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "hardware", value: hardware.string),
+			URLQueryItem(name: "hardware", value: hardware),
 			URLQueryItem(name: "payload", value: payload)
         ]
         guard let url = components.url else {return nil}
@@ -63,14 +63,14 @@ public struct DataMT
     }
 
     // https://docs.cloudloop.com/reference#get-messages
-    public func GetMessages(token: String, hardware: Identifier, from: Date, to: Date) -> DataMTDataMTGetMessagesResult?
+    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMTDataMTGetMessagesResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/GetMessages") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "hardware", value: hardware.string),
-			URLQueryItem(name: "from", value: DateFormatter().string(from: from)),
-			URLQueryItem(name: "to", value: DateFormatter().string(from: to))
+			URLQueryItem(name: "hardware", value: hardware),
+			URLQueryItem(name: "from", value: from),
+			URLQueryItem(name: "to", value: to)
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
@@ -83,12 +83,12 @@ public struct DataMT
     }
 
     // https://docs.cloudloop.com/reference#getmessagespolled
-    public func GetMessagesPolled(token: String, lastMessageRetrieved: Identifier, maxPollTime: Int32) -> DataMTGetMessagesPolledResult?
+    public func GetMessagesPolled(token: String, lastMessageRetrieved: String, maxPollTime: Int32) -> DataMTGetMessagesPolledResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/GetMessagesPolled") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "lastMessageRetrieved", value: lastMessageRetrieved.string),
+			URLQueryItem(name: "lastMessageRetrieved", value: lastMessageRetrieved),
 			URLQueryItem(name: "maxPollTime", value: String(maxPollTime))
         ]
         guard let url = components.url else {return nil}

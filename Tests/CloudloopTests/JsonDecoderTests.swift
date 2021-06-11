@@ -253,7 +253,7 @@
                 """
             let testData: Data! = testString.data(using: .utf8) // non-nil
             let decoder = JSONDecoder()
-            guard let result = try? decoder.decode(SbdGetSubscriberResult.self, from: testData) else {
+            guard let result = try? decoder.decode(SbdGetContractsResult.self, from: testData) else {
                 XCTFail()
                 return
             }
@@ -280,24 +280,22 @@
                 return
             }
             XCTAssertNotNil(result)
-        }
-        
-        func testDeleteDestinationDecoder() {
-            let testString = """
+            
+            let testStringDelete = """
                 {
                   "at": 1623332826611,
                   "error": "DispatcherInputException"
                 }
                 """
-            let testData: Data! = testString.data(using: .utf8) // non-nil
-            let decoder = JSONDecoder()
-            guard let result = try? decoder.decode(SbdDeleteDestinationResult.self, from: testData) else {
+            let testDataDelete: Data! = testStringDelete.data(using: .utf8) // non-nil
+            let decoderDelete = JSONDecoder()
+            guard let resultDelete = try? decoderDelete.decode(SbdDeleteDestinationResult.self, from: testDataDelete) else {
                 XCTFail()
                 return
             }
-            XCTAssertNotNil(result)
+            XCTAssertNotNil(resultDelete)
         }
-    }
     
     //example of how to add parameters and id
     //'https://api.cloudloop.com/Sbd/GetUsage?year=2018&id=23435353513' \
+    }

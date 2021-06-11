@@ -5,25 +5,25 @@
         
         func testGeneratedSbdGetSubscriber() {
             // Subscriber ID?!?!
-            let sbd = Sbd().GetSubscriber(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!, imei: "300434065343580")
+            let sbd = Sbd().GetSubscriber(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", imei: "300434065343580")
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdSearchSubscriber() {
             //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
-            let sbd = Sbd().SearchSubscribers(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", query: "300434065343580", status: "ACTIVATED", hardware: Identifier("olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ")!)
+            let sbd = Sbd().SearchSubscribers(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", query: "300434065343580", status: "ACTIVATED", hardware: "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ")
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsage() {
             // result is {"usage":[]}?????
-            let sbd = Sbd().GetUsage(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!, year: 2021, month: 6)
+            let sbd = Sbd().GetUsage(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsageSummary() {
             // result is {"summary":[]}?????
-            let sbd = Sbd().GetUsageSummary(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!, year: 2021, month: 6)
+            let sbd = Sbd().GetUsageSummary(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
@@ -34,12 +34,12 @@
         }
         
         func testGeneratedSbdGetContracts() {
-            let sbd = Sbd().GetContracts(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!)
+            let sbd = Sbd().GetContracts(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdCreateDestroyDestination() {
-            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: <#T##Identifier#>, destination: <#T##String#>, type: <#T##String#>, moack: <#T##Bool#>, geodata: <#T##Bool#>)
+            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
             XCTAssertNotNil(sbdCreate)
             let sbdDelete = Sbd().DeleteDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", destination: "google.com:1234")
             XCTAssertNotNil(sbdDelete)

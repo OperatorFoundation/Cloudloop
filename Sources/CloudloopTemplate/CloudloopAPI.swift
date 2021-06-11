@@ -17,38 +17,38 @@ public struct CloudloopAPI
             ResultType(name: "SimResult", fields: [
                 //ResultTypeMatch1
                  ("iccid", .string),
-                 ("id", .identifier)
+                 ("id", .string)
             ]),
             ResultType(name: "HardwareResult", fields: [
                 //ResultTypeMatch2
                  ("imei", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("type", .string),
-                 ("account", .identifier)
+                 ("account", .string)
             ]),
             ResultType(name: "Subscriber", fields: [
-                 ("createdAt", .date),
-                 ("sim", .optional(.identifier)),
-                 ("contract", .optional(.identifier)),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("sim", .optional(.string)),
+                 ("contract", .optional(.string)),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier)
+                 ("id", .string),
+                 ("account", .string)
             ]),
             ResultType(name: "Usage", fields: [
                  ("duration", .float),
-                 ("at", .date),
+                 ("at", .string),
                  ("cost", .float),
                  ("fee", .string),
-                 ("contract", .identifier)
+                 ("contract", .string)
             ]),
             ResultType(name: "UsageSummary", fields: [
                  ("month", .float),
                  ("year", .float),
-                 ("contract", .identifier),
-                 ("id", .identifier),
-                 ("calculatedAt", .date),
+                 ("contract", .string),
+                 ("id", .string),
+                 ("calculatedAt", .string),
                  ("remaining", .float),
                  ("utilisation", .float),
                  ("allocated", .float)
@@ -56,37 +56,37 @@ public struct CloudloopAPI
             ResultType(name: "PoolSummary", fields: [
                  ("month", .float),
                  ("year", .float),
-                 ("id", .identifier),
-                 ("plan", .identifier),
-                 ("calculatedAt", .date),
+                 ("id", .string),
+                 ("plan", .string),
+                 ("calculatedAt", .string),
                  ("remaining", .float),
                  ("utilisation", .float),
                  ("allocated", .float)
             ]),
             ResultType(name: "Contract", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.identifier)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "GetContract", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
-                 ("commitedTo", .optional(.date)),
-                 ("imsi", .optional(.identifier)),
-                 ("msisdn", .optional(.identifier)),
+                 ("to", .optional(.string)),
+                 ("commitedTo", .optional(.string)),
+                 ("imsi", .optional(.string)),
+                 ("msisdn", .optional(.string)),
                  ("localNumberAccess", .boolean),
                  ("localNumber", .optional(.string)),
                  ("plan", .structure("ContractPlan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "Plan", fields: [
                  ("feeMonthly", .float),
@@ -102,7 +102,7 @@ public struct CloudloopAPI
                  ("terminable", .boolean),
                  ("name", .string),
                  ("currency", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("minimum", .float)
             ]),
             ResultType(name: "GetPlan", fields: [
@@ -114,7 +114,7 @@ public struct CloudloopAPI
                  ("increment", .float),
                  ("commitment", .float),
                  ("currency", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("minimum", .float)
             ]),
             ResultType(name: "ContractPlan", fields: [
@@ -126,30 +126,30 @@ public struct CloudloopAPI
                  ("description", .string),
                  ("increment", .float),
                  ("commitment", .float),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("minimum", .float)
             ]),
             ResultType(name: "SBDContract", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("committedTo", .date),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("committedTo", .string),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("SBDPlan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDGetContracts", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("committedTo", .date),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("committedTo", .string),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDPlan", fields: [
                  ("feeMonthly", .float),
@@ -165,39 +165,39 @@ public struct CloudloopAPI
                  ("terminable", .boolean),
                  ("name", .string),
                  ("currency", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("minimum", .float)
             ]),
             ResultType(name: "SBDSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("lastSeen", .optional(.date)),
-                 ("contract", .optional(.identifier)),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("lastSeen", .optional(.string)),
+                 ("contract", .optional(.string)),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .optional(.string)),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("customMonitorThreshold", .optional(.string)),
-                 ("account", .identifier),
-                 ("hardware", .identifier)
+                 ("account", .string),
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDSearchSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("lastSeen", .date),
-                 ("contract", .identifier),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("lastSeen", .string),
+                 ("contract", .string),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier),
-                 ("hardware", .identifier)
+                 ("id", .string),
+                 ("account", .string),
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDUsage", fields: [
                  ("momsn", .float),
-                 ("at", .date),
+                 ("at", .string),
                  ("cost", .float),
                  ("size", .float),
                  ("fee", .string),
-                 ("contract", .identifier)
+                 ("contract", .string)
             ]),
             ResultType(name: "SBDGetPlans", fields: [
                  ("feeMonthly", .float),
@@ -213,15 +213,15 @@ public struct CloudloopAPI
                  ("terminable", .boolean),
                  ("name", .string),
                  ("currency", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("minimum", .float)
             ]),
             ResultType(name: "Messages", fields: [
-                 ("id", .identifier),
-                 ("hardware", .identifier),
+                 ("id", .string),
+                 ("hardware", .string),
                  ("payload", .string),
-                 ("txAt", .date),
-                 ("rxAt", .date),
+                 ("txAt", .string),
+                 ("rxAt", .string),
                  ("cdrReference", .float),
                  ("cepRadius", .float),
                  ("latitude", .float),
@@ -230,280 +230,280 @@ public struct CloudloopAPI
                  ("status", .string)
             ]),
             ResultType(name: "Requests", fields: [
-                 ("requestAt", .optional(.date)),
-                 ("message", .optional(.identifier)),
-                 ("hardware", .identifier),
+                 ("requestAt", .optional(.string)),
+                 ("message", .optional(.string)),
+                 ("hardware", .string),
                  ("status", .string)
             ]),
             ResultType(name: "DataMTMessages", fields: [
-                 ("createdAt", .date),
+                 ("createdAt", .string),
                  ("queueSize", .float),
                  ("size", .float),
                  ("payload", .string),
-                 ("id", .identifier),
-                 ("submittedAt", .date),
-                 ("hardware", .identifier),
+                 ("id", .string),
+                 ("submittedAt", .string),
+                 ("hardware", .string),
                  ("status", .string)
             ]),
             ResultType(name: "BillingGroups", fields: [
                 //ResultTypeMatch3
                  ("default", .boolean),
                  ("name", .string),
-                 ("id", .identifier),
-                 ("account", .identifier)
+                 ("id", .string),
+                 ("account", .string)
             ]),
             ResultType(name: "TelephonyCreateSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("sim", .identifier),
-                 ("contract", .optional(.identifier)),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("sim", .string),
+                 ("contract", .optional(.string)),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier)
+                 ("id", .string),
+                 ("account", .string)
             ]),
             ResultType(name: "TelephonyGetSubscriber", fields: [
-                 ("createdAt", .date),
+                 ("createdAt", .string),
                  ("sim", .structure("SimResult")),
                  ("contract", .structure("Contract")),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier),
+                 ("id", .string),
+                 ("account", .string),
                  ("hardware", .structure("HardwareResult")),
-                 ("billingGroup", .identifier)
+                 ("billingGroup", .string)
             ]),
             ResultType(name: "TelephonyActivateSubscriber", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("localNumberAccess", .boolean),
                  ("localNumber", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonyDeactivateSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonyResumeSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonySuspendSubscriber", fields: [
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .date),
+                 ("to", .string),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonyChangeSubscriber", fields: [
                 //ResultTypeMatch4
-                 ("subscriber", .identifier),
+                 ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan")),
-                 ("hardware", .identifier)
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonyUpdateSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("contract", .identifier),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("contract", .string),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("accoundt", .identifier),
-                 ("hardware", .identifier)
+                 ("id", .string),
+                 ("accoundt", .string),
+                 ("hardware", .string)
             ]),
             ResultType(name: "TelephonyReassociateSubscriber", fields: [
-                 ("createdAt", .date),
+                 ("createdAt", .string),
                  ("sim", .structure("SimResult")),
-                 ("contract", .optional(.identifier)),
-                 ("billingGroup", .identifier),
+                 ("contract", .optional(.string)),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier),
-                 ("hardware", .optional(.identifier))
+                 ("id", .string),
+                 ("account", .string),
+                 ("hardware", .optional(.string))
             ]),
             ResultType(name: "SBDCreateSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("contract", .optional(.identifier)),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("contract", .optional(.string)),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier),
-                 ("hardware", .identifier)
+                 ("id", .string),
+                 ("account", .string),
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDGetSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("lastSeen", .date),
+                 ("createdAt", .string),
+                 ("lastSeen", .string),
                  ("contract", .structure("SBDContract")),
-                 ("billingGroup", .identifier),
+                 ("billingGroup", .string),
                  ("destinations", .array(.structure("SBDDestination"))),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                 ("customMonitorThreshold", .optional(.float)),
-                 ("account", .identifier),
+                 ("account", .string),
                  ("hardware", .structure("HardwareResult"))
             ]),
             ResultType(name: "SBDActivateSubscriber", fields: [
                 //ResultTypeMatch5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDDeactivateSubscriber", fields: [
                 //ResultTypeMatch5.5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .date),
+                 ("to", .string),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDResumeSubscriber", fields: [
                 //ResultTypeMatch5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDSuspendSubscriber", fields: [
                 //ResultTypeMatch5.5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .date),
+                 ("to", .string),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDChangeSubscriber", fields: [
                 //ResultTypeMatch5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "SBDUpdateSubscriber", fields: [
-                 ("createdAt", .date),
-                 ("contract", .identifier),
-                 ("billingGroup", .identifier),
+                 ("createdAt", .string),
+                 ("contract", .string),
+                 ("billingGroup", .string),
                  ("name", .string),
                  ("description", .string),
-                 ("id", .identifier),
-                 ("account", .identifier),
-                 ("hardware", .identifier)
+                 ("id", .string),
+                 ("account", .string),
+                 ("hardware", .string)
             ]),
             ResultType(name: "SBDCreateDestination", fields: [
                  ("route", .optional(.string)),
                  ("moack", .boolean),
                  ("destination", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("type", .string),
                  ("geodata", .boolean)
             ]),
             ResultType(name: "SBDReassociateSubscriber", fields: [
                 //ResultTypeMatch5
-                ("subscriber", .identifier),
+                ("subscriber", .string),
                  ("networkStatus", .string),
-                 ("from", .date),
-                 ("id", .identifier),
+                 ("from", .string),
+                 ("id", .string),
                  ("state", .string),
-                 ("to", .optional(.date)),
+                 ("to", .optional(.string)),
                  ("plan", .structure("Plan"))
             ]),
             ResultType(name: "DataMTGetMessage", fields: [
-                 ("id", .identifier),
+                 ("id", .string),
                  ("status", .string),
-                 ("createdAt", .date),
+                 ("createdAt", .string),
                  ("payload", .string),
-                 ("submittedAt", .date),
-                 ("hardware", .identifier),
+                 ("submittedAt", .string),
+                 ("hardware", .string),
                  ("queueSize", .float)
             ]),
             ResultType(name: "HardwareCreateHardware", fields: [
                 //ResultTypeMatch2
                  ("imei", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("type", .string)
             ]),
             ResultType(name: "HardwareGetHardware", fields: [
                 //ResultTypeMatch2
                  ("imei", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("type", .string)
             ]),
             ResultType(name: "hardwares", fields: [
                 //ResultTypeMatch2
                  ("imei", .string),
-                 ("id", .identifier),
+                 ("id", .string),
                  ("type", .string)
             ]),
             ResultType(name: "CreateSim", fields: [
                 //ResultTypeMatch1
                  ("iccid", .string),
-                 ("id", .identifier)
+                 ("id", .string)
             ]),
             ResultType(name: "GetSim", fields: [
                  ("sim", .string),
-                 ("id", .identifier)
+                 ("id", .string)
             ]),
             ResultType(name: "SearchSims", fields: [
                 //ResultTypeMatch1
                  ("iccid", .string),
-                 ("id", .identifier)
+                 ("id", .string)
             ]),
             ResultType(name: "CreateBillingGroup", fields: [
                 //ResultTypeMatch3
                  ("default", .boolean),
                  ("name", .string),
-                 ("id", .identifier),
-                 ("account", .identifier)
+                 ("id", .string),
+                 ("account", .string)
             ]),
             ResultType(name: "SBDDestination", fields:
                 [
                     ("route", .optional(.string)),
                     ("moack", .boolean),
                     ("destination", .string),
-                    ("id", .identifier),
+                    ("id", .string),
                     ("type", .string),
                     ("geodata", .boolean)
                     
@@ -524,7 +524,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "sim",
                                 description: "Cloudloop Sim Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "name",
@@ -543,7 +543,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber Id",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -560,13 +560,13 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#usage-1")!,
                         resultType: ResultType(name: "GetUsage",
                             fields: [
-                                 ("usage", .array(.structure("Usage")))
+                                ("usage", .array(.structure("Usage")))
                             ]),
                         parameters: [
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "year",
@@ -590,7 +590,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "year",
@@ -641,7 +641,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber Id",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -656,12 +656,12 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "hardware",
                                 description: "CloudLoop Hardware ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "plan",
@@ -687,7 +687,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -702,7 +702,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -717,7 +717,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -732,7 +732,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "plan",
@@ -752,7 +752,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "name",
@@ -776,17 +776,17 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "sim",
                                 description: "CloudLoop sim ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "hardware",
                                 description: "CloudLoop hardware ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -797,19 +797,19 @@ public struct CloudloopAPI
                             fields: [
                                  ("default", .boolean),
                                  ("name", .string),
-                                 ("id", .identifier),
-                                 ("account", .identifier)
+                                 ("id", .string),
+                                 ("account", .string)
                             ]),
                         parameters: [
                             Parameter(
                                 name: "subscriber",
                                 description: "Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "billingGroup",
                                 description: "Billing Group ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -829,7 +829,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "Cloudloop Hardware Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "name",
@@ -849,7 +849,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "imei",
@@ -879,7 +879,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "Hardware ID",
-                                type: .identifier
+                                type: .string
                             ),
                         ]
                     ),
@@ -894,7 +894,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "year",
@@ -918,7 +918,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "year",
@@ -951,7 +951,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -966,7 +966,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "plan",
@@ -986,7 +986,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -1001,7 +1001,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -1016,7 +1016,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -1031,7 +1031,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "plan",
@@ -1051,7 +1051,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "name",
@@ -1075,7 +1075,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "destination",
@@ -1121,12 +1121,12 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "hardware",
                                 description: "Hardware ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     ),
@@ -1137,19 +1137,19 @@ public struct CloudloopAPI
                             fields: [
                                  ("default", .boolean),
                                  ("name", .string),
-                                 ("id", .identifier),
-                                 ("account", .identifier)
+                                 ("id", .string),
+                                 ("account", .string)
                             ]),
                         parameters: [
                             Parameter(
                                 name: "subscriber",
                                 description: "CloudLoop Subscriber ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "billingGroup",
                                 description: "Billing Group ID",
-                                type: .identifier
+                                type: .string
                             )
                         ]
                     )
@@ -1171,17 +1171,17 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "CloudLoop Hardware ID",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "from",
                                 description: "Using the ISO_LOCAL_DATE_TIME format",
-                                type: .date
+                                type: .string
                             ),
                             Parameter(
                                 name: "to",
                                 description: "Using the ISO_LOCAL_DATE_TIME format",
-                                type: .date
+                                type: .string
                             )
                         ]
                     ),
@@ -1190,7 +1190,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#retrieve-messages-long-poll")!,
                         resultType: ResultType(name: "ReceiveMessageLongPoll",
                             fields: [
-                                 ("lastMessageRetreived", .identifier),
+                                 ("lastMessageRetreived", .string),
                                  ("messages", .array(.structure("Messages")))
                             ]
                         ),
@@ -1225,7 +1225,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "csv list of cloudloop hardware id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "payload",
@@ -1262,17 +1262,17 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "cloudloop hardware id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "from",
                                 description: "Using the ISO_LOCAL_DATE_TIME format",
-                                type: .date
+                                type: .string
                             ),
                             Parameter(
                                 name: "to",
                                 description: "Using the ISO_LOCAL_DATE_TIME format",
-                                type: .date
+                                type: .string
                             )
                         ]
                     ),
@@ -1288,7 +1288,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "lastMessageRetrieved",
                                 description: "ID of last message seen",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "maxPollTime",
@@ -1335,7 +1335,7 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "hardware",
                                 description: "Cloudloop Hardware Id",
-                                type: .identifier
+                                type: .string
                             ),
                             Parameter(
                                 name: "imei",
@@ -1459,7 +1459,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#generate-token")!,
                         resultType: ResultType(name: "GenerateToken",
                             fields: [
-                                 ("token", .identifier)
+                                 ("token", .string)
                             ]
                         ),
                         parameters: []

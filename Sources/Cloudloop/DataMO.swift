@@ -17,14 +17,14 @@ public struct DataMOReceiveMessageLongPollResult: Codable
 public struct DataMO
 {
     // https://docs.cloudloop.com/reference#retrieve-messages
-    public func GetMessages(token: String, hardware: Identifier, from: Date, to: Date) -> DataMODataMOGetMessagesResult?
+    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMODataMOGetMessagesResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMO/GetMessages") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "hardware", value: hardware.string),
-			URLQueryItem(name: "from", value: DateFormatter().string(from: from)),
-			URLQueryItem(name: "to", value: DateFormatter().string(from: to))
+			URLQueryItem(name: "hardware", value: hardware),
+			URLQueryItem(name: "from", value: from),
+			URLQueryItem(name: "to", value: to)
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}

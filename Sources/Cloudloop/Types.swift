@@ -18,7 +18,7 @@ public struct HardwareResult: Codable
 
 public struct Subscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let sim: String?
 	let contract: String?
 	let billingGroup: String
@@ -31,7 +31,7 @@ public struct Subscriber: Codable
 public struct Usage: Codable
 {
 	let duration: Float
-	let at: Date
+	let at: String
 	let cost: Float
 	let fee: String
 	let contract: String
@@ -43,7 +43,7 @@ public struct UsageSummary: Codable
 	let year: Float
 	let contract: String
 	let id: String
-	let calculatedAt: Date
+	let calculatedAt: String
 	let remaining: Float
 	let utilisation: Float
 	let allocated: Float
@@ -55,7 +55,7 @@ public struct PoolSummary: Codable
 	let year: Float
 	let id: String
 	let plan: String
-	let calculatedAt: Date
+	let calculatedAt: String
 	let remaining: Float
 	let utilisation: Float
 	let allocated: Float
@@ -65,7 +65,7 @@ public struct Contract: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
 	let to: String?
@@ -77,11 +77,11 @@ public struct GetContract: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
-	let commitedTo: Date?
+	let to: String?
+	let commitedTo: String?
 	let imsi: String?
 	let msisdn: String?
 	let localNumberAccess: Bool
@@ -141,11 +141,11 @@ public struct SBDContract: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let committedTo: Date
-	let from: Date
+	let committedTo: String
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: SBDPlan
 	let hardware: String
 }
@@ -154,11 +154,11 @@ public struct SBDGetContracts: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let committedTo: Date
-	let from: Date
+	let committedTo: String
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 	let hardware: String
 }
@@ -184,8 +184,8 @@ public struct SBDPlan: Codable
 
 public struct SBDSubscriber: Codable
 {
-	let createdAt: Date
-	let lastSeen: Date?
+	let createdAt: String
+	let lastSeen: String?
 	let contract: String?
 	let billingGroup: String
 	let name: String
@@ -198,8 +198,8 @@ public struct SBDSubscriber: Codable
 
 public struct SBDSearchSubscriber: Codable
 {
-	let createdAt: Date
-	let lastSeen: Date
+	let createdAt: String
+	let lastSeen: String
 	let contract: String
 	let billingGroup: String
 	let name: String
@@ -212,7 +212,7 @@ public struct SBDSearchSubscriber: Codable
 public struct SBDUsage: Codable
 {
 	let momsn: Float
-	let at: Date
+	let at: String
 	let cost: Float
 	let size: Float
 	let fee: String
@@ -243,8 +243,8 @@ public struct Messages: Codable
 	let id: String
 	let hardware: String
 	let payload: String
-	let txAt: Date
-	let rxAt: Date
+	let txAt: String
+	let rxAt: String
 	let cdrReference: Float
 	let cepRadius: Float
 	let latitude: Float
@@ -255,7 +255,7 @@ public struct Messages: Codable
 
 public struct Requests: Codable
 {
-	let requestAt: Date?
+	let requestAt: String?
 	let message: String?
 	let hardware: String
 	let status: String
@@ -263,12 +263,12 @@ public struct Requests: Codable
 
 public struct DataMTMessages: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let queueSize: Float
 	let size: Float
 	let payload: String
 	let id: String
-	let submittedAt: Date
+	let submittedAt: String
 	let hardware: String
 	let status: String
 }
@@ -283,7 +283,7 @@ public struct BillingGroups: Codable
 
 public struct TelephonyCreateSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let sim: String
 	let contract: String?
 	let billingGroup: String
@@ -295,7 +295,7 @@ public struct TelephonyCreateSubscriber: Codable
 
 public struct TelephonyGetSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let sim: SimResult
 	let contract: Contract
 	let name: String
@@ -310,10 +310,10 @@ public struct TelephonyActivateSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let localNumberAccess: Bool
 	let localNumber: String?
 	let plan: Plan
@@ -324,10 +324,10 @@ public struct TelephonyDeactivateSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 	let hardware: String
 }
@@ -336,10 +336,10 @@ public struct TelephonyResumeSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 	let hardware: String
 }
@@ -348,10 +348,10 @@ public struct TelephonySuspendSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date
+	let to: String
 	let plan: Plan
 	let hardware: String
 }
@@ -360,17 +360,17 @@ public struct TelephonyChangeSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 	let hardware: String
 }
 
 public struct TelephonyUpdateSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let contract: String
 	let billingGroup: String
 	let name: String
@@ -382,7 +382,7 @@ public struct TelephonyUpdateSubscriber: Codable
 
 public struct TelephonyReassociateSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let sim: SimResult
 	let contract: String?
 	let billingGroup: String
@@ -395,7 +395,7 @@ public struct TelephonyReassociateSubscriber: Codable
 
 public struct SBDCreateSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let contract: String?
 	let billingGroup: String
 	let name: String
@@ -407,8 +407,8 @@ public struct SBDCreateSubscriber: Codable
 
 public struct SBDGetSubscriber: Codable
 {
-	let createdAt: Date
-	let lastSeen: Date
+	let createdAt: String
+	let lastSeen: String
 	let contract: SBDContract
 	let billingGroup: String
 	let destinations: [SBDDestination]
@@ -424,10 +424,10 @@ public struct SBDActivateSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 }
 
@@ -435,10 +435,10 @@ public struct SBDDeactivateSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date
+	let to: String
 	let plan: Plan
 }
 
@@ -446,10 +446,10 @@ public struct SBDResumeSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 }
 
@@ -457,10 +457,10 @@ public struct SBDSuspendSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date
+	let to: String
 	let plan: Plan
 }
 
@@ -468,16 +468,16 @@ public struct SBDChangeSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 }
 
 public struct SBDUpdateSubscriber: Codable
 {
-	let createdAt: Date
+	let createdAt: String
 	let contract: String
 	let billingGroup: String
 	let name: String
@@ -501,10 +501,10 @@ public struct SBDReassociateSubscriber: Codable
 {
 	let subscriber: String
 	let networkStatus: String
-	let from: Date
+	let from: String
 	let id: String
 	let state: String
-	let to: Date?
+	let to: String?
 	let plan: Plan
 }
 
@@ -512,9 +512,9 @@ public struct DataMTGetMessage: Codable
 {
 	let id: String
 	let status: String
-	let createdAt: Date
+	let createdAt: String
 	let payload: String
-	let submittedAt: Date
+	let submittedAt: String
 	let hardware: String
 	let queueSize: Float
 }
