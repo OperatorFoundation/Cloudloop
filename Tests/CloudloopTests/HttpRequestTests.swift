@@ -271,6 +271,82 @@
             task.resume()
             wait(for: [expectation], timeout: 1000)
         }
+        
+        func testSBDActivateDeactivateDestination() {
+            let expectation = XCTestExpectation()
+            
+            let session = URLSession.shared
+            let url = URL(string: "https://api.cloudloop.com/Sbd/CreateDestination?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ&destination=google.com:1234&type=DIRECT_IP&moack=true&geodata=true")!
+            let task = session.dataTask(with: url, completionHandler: { data, response, error in
+                let dataString = String(decoding: data!, as: UTF8.self)
+                print("\n data: \n")
+                print(dataString)
+
+                if error != nil {
+                    // OH NO! An error occurred...
+                    print("clientHandler error")
+                    XCTFail()
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse,
+                      // 200...299 is a sequence of OK HTTP status codes
+                      (200...299).contains(httpResponse.statusCode) else {
+                    // self.handleServerError(response)
+                    print("response status code was an error")
+                    XCTFail()
+                    return
+                }
+
+                guard let mime = response?.mimeType, mime == "application/json" else {
+                    print("wrong mime type")
+                    XCTFail()
+                    return
+                }
+
+                expectation.fulfill()
+                
+            })
+            task.resume()
+            wait(for: [expectation], timeout: 1000)
+            
+            let deleteExpectation = XCTestExpectation()
+            
+            let deleteSession = URLSession.shared
+            let deleteUrl = URL(string: "https://api.cloudloop.com/Sbd/DeleteDestination?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&destination=google.com:1234")!
+            let deleteTask = deleteSession.dataTask(with: deleteUrl, completionHandler: { deleteData, response, error in
+                let deleteDataString = String(decoding: deleteData!, as: UTF8.self)
+                print("\n data: \n")
+                print(deleteDataString)
+                
+                if error != nil {
+                    // OH NO! An error occurred...
+                    // self.handleClientError(error)
+                    print("clientHandler error")
+                    XCTFail()
+                    return
+                }
+
+                guard let httpResponse = response as? HTTPURLResponse,
+                      // 200...299 is a sequence of OK HTTP status codes
+                      (200...299).contains(httpResponse.statusCode) else {
+                    // self.handleServerError(response)
+                    print("response status code was an error")
+                    XCTFail()
+                    return
+                }
+
+                guard let mime = response?.mimeType, mime == "application/json" else {
+                    print("wrong mime type")
+                    XCTFail()
+                    return
+                }
+
+                deleteExpectation.fulfill()
+            })
+            deleteTask.resume()
+            wait(for: [deleteExpectation], timeout: 1000)
+        }
     }
     
     //example of how to add parameters and id

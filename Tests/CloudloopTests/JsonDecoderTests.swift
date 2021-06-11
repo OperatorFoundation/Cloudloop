@@ -95,89 +95,11 @@
         
         func testSearchSubscriberDecoder() {
             let testString = """
-                {
-                  "subscriber": {
-                    "createdAt": "2021-01-29T23:09:50",
-                    "lastSeen": "2021-05-25T22:27:17",
-                    "contract": {
-                      "subscriber": "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ",
-                      "networkStatus": "ACTIVATED",
-                      "committedTo": "2022-01-29T23:09:50",
-                      "from": "2021-03-04T09:48:54",
-                      "id": "JvLGDrkRelwaXWDdVXvWKgAoZPMQmdzb",
-                      "state": "CHANGED",
-                      "to": null,
-                      "plan": {
-                        "feeMonthly": 52.5,
-                        "inclusive": 50000,
-                        "suspendible": true,
-                        "description": "Cloudloop 2020 50KB pooled",
-                        "increment": 1,
-                        "commitment": 12,
-                        "transitionFees": true,
-                        "pooled": true,
-                        "activationFee": 25,
-                        "terminationFee": 75,
-                        "terminable": true,
-                        "name": "CLOUDLOOP_2020_SBD_50P",
-                        "currency": "USD",
-                        "id": "rXgwyNPpDmebJLWXyeEoARqxMdZOVGva",
-                        "minimum": 10
-                      },
-                      "hardware": "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ"
-                    },
-                    "billingGroup": "DgXeoxwVPMyrdOBJgJnGlqKRJLbajQkz",
-                    "destinations": [
-                      {
-                        "route": null,
-                        "moack": false,
-                        "destination": "jeremy@operatorfoundation.org",
-                        "id": "GjlwJvdrxpDoOBeYvxwBKbPLkQXeVAZg",
-                        "type": "EMAIL",
-                        "geodata": true
-                      },
-                      {
-                        "route": null,
-                        "moack": false,
-                        "destination": "joshua@operatorfoundation.org",
-                        "id": "QzagvADYwKoPeBQLpmlElMrXJpVORdjy",
-                        "type": "EMAIL",
-                        "geodata": true
-                      },
-                      {
-                        "route": null,
-                        "moack": true,
-                        "destination": "direct-ip-backup.rock7.com:4444",
-                        "id": "OVdRorbmlwqkNBpGZVMEJYPZvxaXpzjL",
-                        "type": "DIRECT_IP",
-                        "geodata": true
-                      },
-                      {
-                        "route": null,
-                        "moack": true,
-                        "destination": "direct-ip.rock7.com:5555",
-                        "id": "olNGxekOvAKmanjGjkbWRdpyLgXjMbVP",
-                        "type": "DIRECT_IP",
-                        "geodata": true
-                      }
-                    ],
-                    "name": "Prototype Unit 2",
-                    "description": "Josh",
-                    "id": "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ",
-                    "customMonitorThreshold": null,
-                    "account": "OJvLGDrkRelwaXBDjOWKgAoZPMQmdzbY",
-                    "hardware": {
-                      "imei": "300434065343580",
-                      "id": "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ",
-                      "type": "IRIDIUM_SBD",
-                      "account": "OJvLGDrkRelwaXBDjOWKgAoZPMQmdzbY"
-                    }
-                  }
-                }
+                {"subscribers":[{"createdAt":"2021-01-29T23:09:50","lastSeen":"2021-05-25T22:27:17","contract":"JvLGDrkRelwaXWDdVXvWKgAoZPMQmdzb","billingGroup":"DgXeoxwVPMyrdOBJgJnGlqKRJLbajQkz","name":"Prototype Unit 2","description":"Josh","id":"QzagvADYwKoPeBQXaPElMrXJpVORdjyZ","account":"OJvLGDrkRelwaXBDjOWKgAoZPMQmdzbY","hardware":"olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ"}]}
                 """
             let testData: Data! = testString.data(using: .utf8) // non-nil
             let decoder = JSONDecoder()
-            guard let result = try? decoder.decode(SbdGetSubscriberResult.self, from: testData) else {
+            guard let result = try? decoder.decode(SbdSearchSubscribersResult.self, from: testData) else {
                 XCTFail()
                 return
             }
@@ -271,10 +193,8 @@
         func testGetContractsDecoder() {
             let testString = """
                 {
-                  "subscriber": {
-                    "createdAt": "2021-01-29T23:09:50",
-                    "lastSeen": "2021-05-25T22:27:17",
-                    "contract": {
+                  "contracts": [
+                    {
                       "subscriber": "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ",
                       "networkStatus": "ACTIVATED",
                       "committedTo": "2022-01-29T23:09:50",
@@ -301,58 +221,77 @@
                       },
                       "hardware": "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ"
                     },
-                    "billingGroup": "DgXeoxwVPMyrdOBJgJnGlqKRJLbajQkz",
-                    "destinations": [
-                      {
-                        "route": null,
-                        "moack": false,
-                        "destination": "jeremy@operatorfoundation.org",
-                        "id": "GjlwJvdrxpDoOBeYvxwBKbPLkQXeVAZg",
-                        "type": "EMAIL",
-                        "geodata": true
+                    {
+                      "subscriber": "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ",
+                      "networkStatus": "CHANGED",
+                      "committedTo": "2022-01-29T23:09:50",
+                      "from": "2021-01-29T23:09:50",
+                      "id": "meJwgzdpXVxNRnoOgzQnMDlQGLPvAbky",
+                      "state": "NEW",
+                      "to": "2021-03-04T09:48:53",
+                      "plan": {
+                        "feeMonthly": 135,
+                        "inclusive": 300000,
+                        "suspendible": true,
+                        "description": "Cloudloop 2020 300KB pooled",
+                        "increment": 1,
+                        "commitment": 12,
+                        "transitionFees": true,
+                        "pooled": true,
+                        "activationFee": 25,
+                        "terminationFee": 158.5,
+                        "terminable": true,
+                        "name": "CLOUDLOOP_2020_SBD_300P",
+                        "currency": "USD",
+                        "id": "eorLzVjdQqPgkanlgRBpRyKbJZONAGYD",
+                        "minimum": 10
                       },
-                      {
-                        "route": null,
-                        "moack": false,
-                        "destination": "joshua@operatorfoundation.org",
-                        "id": "QzagvADYwKoPeBQLpmlElMrXJpVORdjy",
-                        "type": "EMAIL",
-                        "geodata": true
-                      },
-                      {
-                        "route": null,
-                        "moack": true,
-                        "destination": "direct-ip-backup.rock7.com:4444",
-                        "id": "OVdRorbmlwqkNBpGZVMEJYPZvxaXpzjL",
-                        "type": "DIRECT_IP",
-                        "geodata": true
-                      },
-                      {
-                        "route": null,
-                        "moack": true,
-                        "destination": "direct-ip.rock7.com:5555",
-                        "id": "olNGxekOvAKmanjGjkbWRdpyLgXjMbVP",
-                        "type": "DIRECT_IP",
-                        "geodata": true
-                      }
-                    ],
-                    "name": "Prototype Unit 2",
-                    "description": "Josh",
-                    "id": "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ",
-                    "customMonitorThreshold": null,
-                    "account": "OJvLGDrkRelwaXBDjOWKgAoZPMQmdzbY",
-                    "hardware": {
-                      "imei": "300434065343580",
-                      "id": "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ",
-                      "type": "IRIDIUM_SBD",
-                      "account": "OJvLGDrkRelwaXBDjOWKgAoZPMQmdzbY"
+                      "hardware": "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ"
                     }
-                  }
+                  ]
                 }
                 """
             let testData: Data! = testString.data(using: .utf8) // non-nil
             let decoder = JSONDecoder()
             guard let result = try? decoder.decode(SbdGetSubscriberResult.self, from: testData) else {
+                XCTFail()
+                return
+            }
+            XCTAssertNotNil(result)
+        }
+        
+        func testCreateDestinationDecoder() {
+            let testString = """
+                {
+                  "destination": {
+                    "route": null,
+                    "moack": true,
+                    "destination": "google.com:1234",
+                    "id": "PQkYomwxvAZaJBqQpLgBDbdOXgezVKjG",
+                    "type": "DIRECT_IP",
+                    "geodata": true
+                  }
+                }
+                """
+            let testData: Data! = testString.data(using: .utf8) // non-nil
+            let decoder = JSONDecoder()
+            guard let result = try? decoder.decode(SbdCreateDestinationResult.self, from: testData) else {
+                XCTFail()
+                return
+            }
+            XCTAssertNotNil(result)
+        }
+        
+        func testDeleteDestinationDecoder() {
+            let testString = """
+                {
+                  "at": 1623332826611,
+                  "error": "DispatcherInputException"
+                }
+                """
+            let testData: Data! = testString.data(using: .utf8) // non-nil
+            let decoder = JSONDecoder()
+            guard let result = try? decoder.decode(SbdDeleteDestinationResult.self, from: testData) else {
                 XCTFail()
                 return
             }

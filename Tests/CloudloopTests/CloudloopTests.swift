@@ -37,6 +37,13 @@
             let sbd = Sbd().GetContracts(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!)
             XCTAssertNotNil(sbd)
         }
+        
+        func testGeneratedSbdCreateDestroyDestination() {
+            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: Identifier("QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!, destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
+            XCTAssertNotNil(sbdCreate)
+            let sbdDelete = Sbd().DeleteDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", destination: "google.com:1234")
+            XCTAssertNotNil(sbdDelete)
+        }
     }
     
     //example of how to add parameters and id

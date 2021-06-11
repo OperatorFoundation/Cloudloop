@@ -147,7 +147,6 @@ public struct CloudloopAPI
                  ("id", .identifier),
                  ("state", .string),
                  ("to", .optional(.date)),
-                 ("committedTo", .optional(.date)),
                  ("plan", .structure("Plan")),
                  ("hardware", .identifier)
             ]),
@@ -160,6 +159,7 @@ public struct CloudloopAPI
                  ("commitment", .float),
                  ("transitionFees", .boolean),
                  ("pooled", .boolean),
+                 ("activationFee", .float),
                  ("terminationFee", .float),
                  ("terminable", .boolean),
                  ("name", .string),
@@ -176,6 +176,17 @@ public struct CloudloopAPI
                  ("description", .optional(.string)),
                  ("id", .identifier),
                  ("customMonitorThreshold", .optional(.string)),
+                 ("account", .identifier),
+                 ("hardware", .identifier)
+            ]),
+            ResultType(name: "SBDSearchSubscriber", fields: [
+                 ("createdAt", .date),
+                 ("lastSeen", .date),
+                 ("contract", .identifier),
+                 ("billingGroup", .identifier),
+                 ("name", .string),
+                 ("description", .string),
+                 ("id", .identifier),
                  ("account", .identifier),
                  ("hardware", .identifier)
             ]),
@@ -421,10 +432,11 @@ public struct CloudloopAPI
                  ("hardware", .identifier)
             ]),
             ResultType(name: "SBDCreateDestination", fields: [
+                 ("route", .optional(.string)),
                  ("moack", .boolean),
                  ("destination", .string),
                  ("id", .identifier),
-                 ("type", .identifier),
+                 ("type", .string),
                  ("geodata", .boolean)
             ]),
             ResultType(name: "SBDReassociateSubscriber", fields: [
@@ -850,7 +862,7 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#search-subscribers")!,
                         resultType: ResultType(name: "SearchSubscribers",
                             fields: [
-                                 ("subscribers", .array(.structure("SBDSubscriber")))
+                                 ("subscribers", .array(.structure("SBDSearchSubscriber")))
                             ]),
                         parameters: [
                             Parameter(
@@ -1088,7 +1100,8 @@ public struct CloudloopAPI
                         documentation: URL(string: "https://docs.cloudloop.com/reference#delete-destination")!,
                         resultType: ResultType(name: "DeleteDestination",
                             fields: [
-                                 ("result", .boolean)
+                                ("at", .float),
+                                ("error", .string)
                             ]),
                         parameters: [
                         Parameter(

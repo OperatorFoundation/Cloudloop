@@ -15,7 +15,7 @@ public struct SbdGetSubscriberResult: Codable
 
 public struct SbdSearchSubscribersResult: Codable
 {
-	let subscribers: [SBDSubscriber]
+	let subscribers: [SBDSearchSubscriber]
 }
 
 public struct SbdGetUsageResult: Codable
@@ -75,7 +75,8 @@ public struct SbdCreateDestinationResult: Codable
 
 public struct SbdDeleteDestinationResult: Codable
 {
-	let result: Bool
+	let at: Float
+	let error: String
 }
 
 public struct SbdReassociateSubscriberResult: Codable

@@ -158,7 +158,6 @@ public struct SBDGetContracts: Codable
 	let id: String
 	let state: String
 	let to: Date?
-	let committedTo: Date?
 	let plan: Plan
 	let hardware: String
 }
@@ -173,6 +172,7 @@ public struct SBDPlan: Codable
 	let commitment: Float
 	let transitionFees: Bool
 	let pooled: Bool
+	let activationFee: Float
 	let terminationFee: Float
 	let terminable: Bool
 	let name: String
@@ -191,6 +191,19 @@ public struct SBDSubscriber: Codable
 	let description: String?
 	let id: String
 	let customMonitorThreshold: String?
+	let account: String
+	let hardware: String
+}
+
+public struct SBDSearchSubscriber: Codable
+{
+	let createdAt: Date
+	let lastSeen: Date
+	let contract: String
+	let billingGroup: String
+	let name: String
+	let description: String
+	let id: String
 	let account: String
 	let hardware: String
 }
@@ -475,6 +488,7 @@ public struct SBDUpdateSubscriber: Codable
 
 public struct SBDCreateDestination: Codable
 {
+	let route: String?
 	let moack: Bool
 	let destination: String
 	let id: String
