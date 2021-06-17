@@ -74,7 +74,7 @@ class SbdWorkflow {
         subscriber = subscriberID
         
         
-        Sbd().GetSubscriber(token: token, subscriber: <#T##String#>, imei: <#T##String#>)
+        Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei)
     }
 
 }
