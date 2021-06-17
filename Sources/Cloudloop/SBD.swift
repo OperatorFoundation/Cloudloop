@@ -5,95 +5,186 @@ import Foundation
 
 public struct SbdSBDCreateSubscriberResult: Codable
 {
-	let subscriber: SBDCreateSubscriber
+	public let subscriber: SBDCreateSubscriber
+
+    public init(token: String, subscriber: SBDCreateSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct SbdGetSubscriberResult: Codable
 {
-	let subscriber: SBDGetSubscriber
+	public let subscriber: SBDGetSubscriber
+
+    public init(token: String, subscriber: SBDGetSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct SbdSearchSubscribersResult: Codable
 {
-	let subscribers: [SBDSearchSubscriber]
+	public let subscribers: [SBDSearchSubscriber]
+
+    public init(token: String, subscribers: [SBDSearchSubscriber])
+    {
+		self.subscribers = subscribers
+    }
 }
 
 public struct SbdGetUsageResult: Codable
 {
-	let usage: SBDUsage
+	public let usage: SBDUsage
+
+    public init(token: String, usage: SBDUsage)
+    {
+		self.usage = usage
+    }
 }
 
 public struct SbdGetUsageSummaryResult: Codable
 {
-	let summary: UsageSummary
+	public let summary: UsageSummary
+
+    public init(token: String, summary: UsageSummary)
+    {
+		self.summary = summary
+    }
 }
 
 public struct SbdGetPlansResult: Codable
 {
-	let plans: [SBDGetPlans]
+	public let plans: [SBDGetPlans]
+
+    public init(token: String, plans: [SBDGetPlans])
+    {
+		self.plans = plans
+    }
 }
 
 public struct SbdGetContractsResult: Codable
 {
-	let contracts: [SBDGetContracts]
+	public let contracts: [SBDGetContracts]
+
+    public init(token: String, contracts: [SBDGetContracts])
+    {
+		self.contracts = contracts
+    }
 }
 
 public struct SbdActivateSubscriberResult: Codable
 {
-	let contract: SBDActivateSubscriber
+	public let contract: SBDActivateSubscriber
+
+    public init(token: String, contract: SBDActivateSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdDeactivateSubscriberResult: Codable
 {
-	let contract: SBDDeactivateSubscriber
+	public let contract: SBDDeactivateSubscriber
+
+    public init(token: String, contract: SBDDeactivateSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdResumeSubscriberResult: Codable
 {
-	let contract: SBDResumeSubscriber
+	public let contract: SBDResumeSubscriber
+
+    public init(token: String, contract: SBDResumeSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdSuspendSubscriberResult: Codable
 {
-	let contract: SBDSuspendSubscriber
+	public let contract: SBDSuspendSubscriber
+
+    public init(token: String, contract: SBDSuspendSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdChangeSubscriberResult: Codable
 {
-	let contract: SBDChangeSubscriber
+	public let contract: SBDChangeSubscriber
+
+    public init(token: String, contract: SBDChangeSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdUpdateSubscriberResult: Codable
 {
-	let subscriber: SBDUpdateSubscriber
+	public let subscriber: SBDUpdateSubscriber
+
+    public init(token: String, subscriber: SBDUpdateSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct SbdCreateDestinationResult: Codable
 {
-	let destination: SBDCreateDestination
+	public let destination: SBDCreateDestination
+
+    public init(token: String, destination: SBDCreateDestination)
+    {
+		self.destination = destination
+    }
 }
 
 public struct SbdDeleteDestinationResult: Codable
 {
-	let at: Float
-	let error: String
+	public let at: Float
+	public let error: String
+
+    public init(token: String, at: Float, error: String)
+    {
+		self.at = at
+		self.error = error
+    }
 }
 
 public struct SbdReassociateSubscriberResult: Codable
 {
-	let contract: SBDReassociateSubscriber
+	public let contract: SBDReassociateSubscriber
+
+    public init(token: String, contract: SBDReassociateSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct SbdAssignBillingGroupResult: Codable
 {
-	let `default`: Bool
-	let name: String
-	let id: String
-	let account: String
+	public let `default`: Bool
+	public let name: String
+	public let id: String
+	public let account: String
+
+    public init(token: String, default: Bool, name: String, id: String, account: String)
+    {
+		self.`default` = `default`
+		self.name = name
+		self.id = id
+		self.account = account
+    }
 }
 
 public struct Sbd
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#create
     public func CreateSubscriber(token: String, hardware: String, name: String) -> SbdSBDCreateSubscriberResult?
     {

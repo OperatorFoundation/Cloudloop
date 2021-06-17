@@ -5,26 +5,48 @@ import Foundation
 
 public struct DataMTSendMessageResult: Codable
 {
-	let requests: [Requests]
+	public let requests: [Requests]
+
+    public init(token: String, requests: [Requests])
+    {
+		self.requests = requests
+    }
 }
 
 public struct DataMTGetMessageResult: Codable
 {
-	let message: DataMTGetMessage
+	public let message: DataMTGetMessage
+
+    public init(token: String, message: DataMTGetMessage)
+    {
+		self.message = message
+    }
 }
 
 public struct DataMTDataMTGetMessagesResult: Codable
 {
-	let messages: [DataMTMessages]
+	public let messages: [DataMTMessages]
+
+    public init(token: String, messages: [DataMTMessages])
+    {
+		self.messages = messages
+    }
 }
 
 public struct DataMTGetMessagesPolledResult: Codable
 {
-	let messages: [DataMTMessages]
+	public let messages: [DataMTMessages]
+
+    public init(token: String, messages: [DataMTMessages])
+    {
+		self.messages = messages
+    }
 }
 
 public struct DataMT
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#send-message
     public func SendMessage(token: String, hardware: String, payload: String) -> DataMTSendMessageResult?
     {

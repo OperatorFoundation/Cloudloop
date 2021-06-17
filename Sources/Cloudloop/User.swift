@@ -5,11 +5,18 @@ import Foundation
 
 public struct UserGenerateTokenResult: Codable
 {
-	let token: String
+
+
+    public init(token: String)
+    {
+
+    }
 }
 
 public struct User
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#generate-token
     public func GenerateToken(token: String) -> UserGenerateTokenResult?
     {

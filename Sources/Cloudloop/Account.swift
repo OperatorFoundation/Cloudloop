@@ -5,21 +5,38 @@ import Foundation
 
 public struct AccountCreateBillingGroupResult: Codable
 {
-	let billingGroup: CreateBillingGroup
+	public let billingGroup: CreateBillingGroup
+
+    public init(token: String, billingGroup: CreateBillingGroup)
+    {
+		self.billingGroup = billingGroup
+    }
 }
 
 public struct AccountGetBillingGroupsResult: Codable
 {
-	let billingGroup: [BillingGroups]
+	public let billingGroup: [BillingGroups]
+
+    public init(token: String, billingGroup: [BillingGroups])
+    {
+		self.billingGroup = billingGroup
+    }
 }
 
 public struct AccountDeleteBillingGroupResult: Codable
 {
-	let result: Bool
+	public let result: Bool
+
+    public init(token: String, result: Bool)
+    {
+		self.result = result
+    }
 }
 
 public struct Account
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#create-billing-group
     public func CreateBillingGroup(token: String, name: String) -> AccountCreateBillingGroupResult?
     {

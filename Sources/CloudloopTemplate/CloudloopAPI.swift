@@ -1458,9 +1458,7 @@ public struct CloudloopAPI
                         name: "GenerateToken",
                         documentation: URL(string: "https://docs.cloudloop.com/reference#generate-token")!,
                         resultType: ResultType(name: "GenerateToken",
-                            fields: [
-                                 ("token", .string)
-                            ]
+                            fields: []
                         ),
                         parameters: []
                     )

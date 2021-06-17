@@ -5,11 +5,18 @@ import Foundation
 
 public struct PlatformPingResult: Codable
 {
-	let ping: String
+	public let ping: String
+
+    public init(token: String, ping: String)
+    {
+		self.ping = ping
+    }
 }
 
 public struct Platform
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#ping
     public func Ping(token: String) -> PlatformPingResult?
     {

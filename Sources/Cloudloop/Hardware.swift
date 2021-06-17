@@ -5,21 +5,38 @@ import Foundation
 
 public struct HardwareCreateHardwareResult: Codable
 {
-	let hardware: HardwareCreateHardware
+	public let hardware: HardwareCreateHardware
+
+    public init(token: String, hardware: HardwareCreateHardware)
+    {
+		self.hardware = hardware
+    }
 }
 
 public struct HardwareGetHardwareResult: Codable
 {
-	let hardware: HardwareGetHardware
+	public let hardware: HardwareGetHardware
+
+    public init(token: String, hardware: HardwareGetHardware)
+    {
+		self.hardware = hardware
+    }
 }
 
 public struct HardwareSearchHardwareResult: Codable
 {
-	let hardwares: [hardwares]
+	public let hardwares: [hardwares]
+
+    public init(token: String, hardwares: [hardwares])
+    {
+		self.hardwares = hardwares
+    }
 }
 
 public struct Hardware
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#create-hardware
     public func CreateHardware(token: String, imei: String, type: String) -> HardwareCreateHardwareResult?
     {

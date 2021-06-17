@@ -5,17 +5,30 @@ import Foundation
 
 public struct DataMODataMOGetMessagesResult: Codable
 {
-	let messages: [Messages]
+	public let messages: [Messages]
+
+    public init(token: String, messages: [Messages])
+    {
+		self.messages = messages
+    }
 }
 
 public struct DataMOReceiveMessageLongPollResult: Codable
 {
-	let lastMessageRetreived: String
-	let messages: [Messages]
+	public let lastMessageRetreived: String
+	public let messages: [Messages]
+
+    public init(token: String, lastMessageRetreived: String, messages: [Messages])
+    {
+		self.lastMessageRetreived = lastMessageRetreived
+		self.messages = messages
+    }
 }
 
 public struct DataMO
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#retrieve-messages
     public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMODataMOGetMessagesResult?
     {

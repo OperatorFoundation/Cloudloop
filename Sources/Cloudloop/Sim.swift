@@ -5,21 +5,38 @@ import Foundation
 
 public struct SimCreateSimResult: Codable
 {
-	let sim: CreateSim
+	public let sim: CreateSim
+
+    public init(token: String, sim: CreateSim)
+    {
+		self.sim = sim
+    }
 }
 
 public struct SimGetSimResult: Codable
 {
-	let sim: GetSim
+	public let sim: GetSim
+
+    public init(token: String, sim: GetSim)
+    {
+		self.sim = sim
+    }
 }
 
 public struct SimSearchSimsResult: Codable
 {
-	let sims: [SearchSims]
+	public let sims: [SearchSims]
+
+    public init(token: String, sims: [SearchSims])
+    {
+		self.sims = sims
+    }
 }
 
 public struct Sim
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#create-sim
     public func CreateSim(token: String, iccid: String) -> SimCreateSimResult?
     {

@@ -86,11 +86,14 @@ func generateTypes(types: [ResultType]) -> String
 func generateType(type: ResultType) -> String
 {
     let resultBody = generateResultBody(resultType: type)
+    let resultInit = generateResultInit(resultType: type)
 
     let contents = """
     public struct \(type.name): Codable
     {
     \(resultBody)
+    
+    \(resultInit)
     }
     """
 
@@ -114,6 +117,8 @@ func generateEndpoint(baseURL: String, target: String, endpoint: Endpoint) -> Bo
 
      public struct \(endpoint.name)
      {
+        public init() {}
+     
      \(contentsFunctions)
      }
      """
@@ -255,11 +260,14 @@ func generateResultTypes(endpointName: String, functions: [Function]) -> String
 func generateResultType(endpointName: String, function: Function) -> String
 {
     let resultBody = generateResultBody(resultType: function.resultType)
-
+    let resultInit = generateResultInit(resultType: function.resultType)
+    
     let contents = """
     public struct \(endpointName)\(function.resultType.name)Result: Codable
     {
     \(resultBody)
+    
+    \(resultInit)
     }
     """
 
@@ -278,13 +286,76 @@ func generateResultBody(resultType: ResultType) -> String
     return strings.joined(separator: "\n")
 }
 
+func generateResultInit(resultType: ResultType) -> String
+{
+    let parameters = generateInitParameters(parameters: resultType.fields)
+    let functionBody = generateInitBody(resultType: resultType)
+    if (resultType.fields.count == 0) {
+        return """
+            public init(token: String)
+            {
+        \(functionBody)
+            }
+        """
+    } else {
+        return """
+            public init(token: String, \(parameters))
+            {
+        \(functionBody)
+            }
+        """
+    }
+}
+
+func generateInitParameters(parameters: [(String, ResultValueType)]) -> String
+{
+    let strings = parameters.map
+    {
+        parameter in
+
+        generateInitParameter(parameter: parameter)
+    }
+
+    return strings.joined(separator: ", ")
+}
+
+func generateInitParameter(parameter: (String, ResultValueType)) -> String
+{
+    let (name, type) = parameter
+    let typeString = generateResultValueType(valueType: type)
+    let contents = "\(name): \(typeString)"
+    
+    return contents
+}
+
+func generateInitBody(resultType: ResultType) -> String
+{
+    let strings = resultType.fields.map
+    {
+        (key, _) in
+
+        return generateInitField(key: key)
+    }
+
+    return strings.joined(separator: "\n")
+}
+
+func generateInitField(key: String) -> String
+{
+    if key == "default" {
+        return "\t\tself.`\(key)` = `\(key)`"
+    } else {
+        return "\t\tself.\(key) = \(key)"
+    }
+}
+
 func generateField(key: String, valueType: ResultValueType) -> String
 {
     let valueString = generateResultValueType(valueType: valueType)
     if key == "default" {
-        return "\tlet `\(key)`: \(valueString)"
+        return "\tpublic let `\(key)`: \(valueString)"
     } else {
-        return "\tlet \(key): \(valueString)"
+        return "\tpublic let \(key): \(valueString)"
     }
 }
 

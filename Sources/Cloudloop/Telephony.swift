@@ -5,89 +5,174 @@ import Foundation
 
 public struct TelephonyTelephonyCreateSubscriberResult: Codable
 {
-	let subscriber: TelephonyCreateSubscriber
+	public let subscriber: TelephonyCreateSubscriber
+
+    public init(token: String, subscriber: TelephonyCreateSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct TelephonyGetSubscriberResult: Codable
 {
-	let subscriber: TelephonyGetSubscriber
+	public let subscriber: TelephonyGetSubscriber
+
+    public init(token: String, subscriber: TelephonyGetSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct TelephonySearchSubscribersResult: Codable
 {
-	let subscribers: [Subscriber]
+	public let subscribers: [Subscriber]
+
+    public init(token: String, subscribers: [Subscriber])
+    {
+		self.subscribers = subscribers
+    }
 }
 
 public struct TelephonyGetUsageResult: Codable
 {
-	let usage: [Usage?]
+	public let usage: [Usage]
+
+    public init(token: String, usage: [Usage])
+    {
+		self.usage = usage
+    }
 }
 
 public struct TelephonyGetUsageSummaryResult: Codable
 {
-	let summary: [UsageSummary]
+	public let summary: [UsageSummary]
+
+    public init(token: String, summary: [UsageSummary])
+    {
+		self.summary = summary
+    }
 }
 
 public struct TelephonyGetPoolSummaryResult: Codable
 {
-	let summary: [PoolSummary]
+	public let summary: [PoolSummary]
+
+    public init(token: String, summary: [PoolSummary])
+    {
+		self.summary = summary
+    }
 }
 
 public struct TelephonyGetPlansResult: Codable
 {
-	let plan: [GetPlan]
+	public let plan: [GetPlan]
+
+    public init(token: String, plan: [GetPlan])
+    {
+		self.plan = plan
+    }
 }
 
 public struct TelephonyGetContractsResult: Codable
 {
-	let contracts: [GetContract]
+	public let contracts: [GetContract]
+
+    public init(token: String, contracts: [GetContract])
+    {
+		self.contracts = contracts
+    }
 }
 
 public struct TelephonyActivateSubscriberResult: Codable
 {
-	let contract: TelephonyActivateSubscriber
+	public let contract: TelephonyActivateSubscriber
+
+    public init(token: String, contract: TelephonyActivateSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct TelephonyDeactivateSubscriberResult: Codable
 {
-	let contract: TelephonyDeactivateSubscriber
+	public let contract: TelephonyDeactivateSubscriber
+
+    public init(token: String, contract: TelephonyDeactivateSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct TelephonyResumeSubscriberResult: Codable
 {
-	let contract: TelephonyResumeSubscriber
+	public let contract: TelephonyResumeSubscriber
+
+    public init(token: String, contract: TelephonyResumeSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct TelephonySuspendSubscriberResult: Codable
 {
-	let contract: TelephonySuspendSubscriber
+	public let contract: TelephonySuspendSubscriber
+
+    public init(token: String, contract: TelephonySuspendSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct TelephonyChangeSubscriberResult: Codable
 {
-	let contract: TelephonyChangeSubscriber
+	public let contract: TelephonyChangeSubscriber
+
+    public init(token: String, contract: TelephonyChangeSubscriber)
+    {
+		self.contract = contract
+    }
 }
 
 public struct TelephonyUpdateSubscriberResult: Codable
 {
-	let subscriber: TelephonyUpdateSubscriber
+	public let subscriber: TelephonyUpdateSubscriber
+
+    public init(token: String, subscriber: TelephonyUpdateSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct TelephonyReassociateSubscriberResult: Codable
 {
-	let subscriber: TelephonyReassociateSubscriber
+	public let subscriber: TelephonyReassociateSubscriber
+
+    public init(token: String, subscriber: TelephonyReassociateSubscriber)
+    {
+		self.subscriber = subscriber
+    }
 }
 
 public struct TelephonyAssignBillingGroupResult: Codable
 {
-	let `default`: Bool
-	let name: String
-	let id: String
-	let account: String
+	public let `default`: Bool
+	public let name: String
+	public let id: String
+	public let account: String
+
+    public init(token: String, default: Bool, name: String, id: String, account: String)
+    {
+		self.`default` = `default`
+		self.name = name
+		self.id = id
+		self.account = account
+    }
 }
 
 public struct Telephony
 {
+   public init() {}
+
     // https://docs.cloudloop.com/reference#create
     public func CreateSubscriber(token: String, sim: String, name: String) -> TelephonyTelephonyCreateSubscriberResult?
     {

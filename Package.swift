@@ -17,6 +17,9 @@ let package = Package(
         .executable(
             name: "Generate",
             targets: ["Generate"]),
+        .library(
+            name: "CloudloopSbd",
+            targets: ["CloudloopSbd"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -37,9 +40,14 @@ let package = Package(
         .target(
             name: "Generate",
             dependencies: ["CloudloopTemplate", "Gardener"]),
+        .target(
+            name: "CloudloopSbd",
+            dependencies: ["Cloudloop"]),
         .testTarget(
             name: "CloudloopTests",
-            dependencies: ["Cloudloop"]),
+            dependencies: ["Cloudloop"],
+            exclude: ["Examples"]
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )
