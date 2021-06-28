@@ -15,6 +15,12 @@
             XCTAssertNotNil(sbd)
         }
         
+        func testGeneratedSbdSearchSubscriberWithNilParams() {
+            //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
+            let sbd = Sbd().SearchSubscribers(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", query: "300434065343580", status: nil, hardware: nil)
+            XCTAssertNotNil(sbd)
+        }
+        
         func testGeneratedSbdGetUsage() {
             // result is {"usage":[]}?????
             let sbd = Sbd().GetUsage(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", year: 2021, month: 6)

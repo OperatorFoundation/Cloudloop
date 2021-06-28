@@ -1,22 +1,24 @@
 import Foundation
 import Cloudloop
 
-class SbdWorkflow {
+public class SbdWorkflow {
     
-    let token: String
-    var billingGroup: String
-    var subscriber: String
-    var hardware: String
+    public let token: String
+    public let imei: String
+    public var billingGroup: String
+    public var subscriber: String
+    public var hardware: String
     
-    init(token: String) {
+    public init(token: String, imei: String) {
         self.token = token
+        self.imei = imei
         self.billingGroup = ""
         self.subscriber = ""
         self.hardware = ""
     }
     
     // TODO: subscriber name could be optional
-    func modemSetup(imei: String, subscriberName: String, billingGroupName: String, hardwareType: String = "IRIDIUM_SBD") {
+    public func modemSetup(subscriberName: String, billingGroupName: String, hardwareType: String = "IRIDIUM_SBD") {
         // create hardware
         guard let createHardwareResult = Hardware().CreateHardware(token: token, imei: imei, type: hardwareType) else {
             print("Hardware could not be created.")
@@ -59,9 +61,9 @@ class SbdWorkflow {
         }
     }
     
-    func modemAssign(planName: String) {
-        // check to make sure properties have been initialized
-        checkInfo(isSubscriber: true, isHardware: false, isBillingGroup: true)
+    public func modemAssign(planName: String) {
+        // fetch the most updated information
+        refreshInfo()
         
         // activate subscriber with chosen plan
         guard Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
@@ -76,38 +78,42 @@ class SbdWorkflow {
         }
     }
     
-    //TODISCUSS: The workflow example for Telephony just calls deactivateSubscriber. If thats all we need to do, do we need a workflow for it?
-//    func modemShutdown(imei: String, subscriberID: String) {
-        // TODISCUSS: do we need to clear out all the destinations, or do they go away upon deactivation of subscriber?  Same for billing group.
-//        guard let getSubscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriberID, imei: imei) else {
-//            print("Could not find Subscriber with provided info.")
-//            return
-//        }
-//        let destinations = getSubscriberResult.subscriber.destinations
-//        for destination in destinations {
-//            // Is it the destination name or ID that we need?@
-//            let _ = Sbd().DeleteDestination(token: token, destination: destination.destination)
-//        }
-//        Account().DeleteBillingGroup(token: token, BillingGroup: billingGroup)
-//        Sbd().DeactivateSubscriber(token: token, subscriber: subscriber)
-//    }
+    public func modemShutdown(subscriberID: String) {
+        // fetch the most updated information
+        refreshInfo()
+        
+        guard let getSubscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriberID, imei: imei) else {
+            print("Could not find Subscriber with provided info.")
+            return
+        }
+        let destinations = getSubscriberResult.subscriber.destinations
+        for destination in destinations {
+            let _ = Sbd().DeleteDestination(token: token, destination: destination.destination)
+        }
+        guard Sbd().DeactivateSubscriber(token: token, subscriber: subscriber) != nil else {
+            print("failed to deactivate subscriber")
+            return
+        }
+    }
 
-    // TODO: One optimization that would be nice is for the setup to store the subscriber id and imei so get info doesnt need to take anything
-    // TODISCUSS: Will we eventually hardcode the class properties?  If not, should I not require getInfo to be called to use other workflows? My approach ensures up to date info, but makes it reliant on getInfo()
-    func getInfo(imei: String, subscriberID: String) {
-        // call all the get function
-        guard let getSubscriber = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else {
-            print("Could not get subscriber information with the provided ID and IMEI.")
+    public func refreshInfo() {
+        // call searchSubscriber using just the IMEI and store the most up to date variables
+        guard let maybeSearchSubscriber = Sbd().SearchSubscribers(token: token, query: imei, status: "", hardware: "") else {
+            print("Could not get info with provided IMEI")
+            return
+        }
+        
+        // make sure that the IMEI has an associated subscriber
+        guard let searchSubscriber = maybeSearchSubscriber.subscribers.first else {
+            print("Provided IMEI has no associated subscribers")
             return
         }
         
         // set global variables to the most accessible information
-        subscriber = getSubscriber.subscriber.id
-        hardware = getSubscriber.subscriber.hardware.id
-        billingGroup = getSubscriber.subscriber.billingGroup
+        subscriber = searchSubscriber.id
+        hardware = searchSubscriber.hardware
+        billingGroup = searchSubscriber.billingGroup
         
-        // TODO: Since subscriber id is needed for the function, should we print it?
-        // TODISCUSS: Do we want this function to also gather data about the destinations, or shall we put that in its own function?
         print("""
             Subscriber ID set to \(subscriber)
             Your Hardware ID: \(hardware)
@@ -116,17 +122,37 @@ class SbdWorkflow {
         
     }
     
-    func newDestination(previousDestination: String?, nextDestination: String, type: String, moack: Bool, geodata: Bool) -> String {
-        // check for previous destination
-        if previousDestination != nil {
-            Sbd().DeleteDestination(token: token, destination: previousDestination!)
+    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) {
+        // fetch the most updated information
+        refreshInfo()
+        
+        // call getsubscriber here and fetch the destination list
+        guard let getSubscriber = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else{
+            print("could not get destination list")
+            return
         }
+        
+        // delete all previous destinations
+        let destinations = getSubscriber.subscriber.destinations
+        for destination in destinations {
+            let destinationID = destination.id
+            guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else {
+                print("could not delete previous destinations")
+                return
+            }
+        }
+
         // create new destination
-        Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata)
-        return nextDestination
+        guard Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) != nil else {
+            print("Invalid destination")
+            return
+        }
     }
     
-    func refreshMessages(messageCheckTime: Int32) {
+    public func refreshMessages(messageCheckTime: Int32) {
+        // fetch the most updated information
+        refreshInfo()
+        
         // FIXME: lastMessageReceived should be optional
         let retrieveMessages = DataMO().GetMessagesPolled(token: token, maxPollTime: messageCheckTime, lastMessageReceived: "")
         guard (retrieveMessages?.messages != nil) else {
@@ -146,11 +172,32 @@ class SbdWorkflow {
         }
     }
     
-    func sendMessage() {
+    // TODISCUSS: send message uses registered hardware ID's?!  Whats the point of destinations?
+    public func sendMessage(recipients: [String], message: String) {
         
+        guard let messageResults = DataMT().SendMessage(token: token, hardware: "recipients", payload: message)?.requests else {
+            print("sendMessage failed")
+            return
+        }
+        
+        for messageResult in messageResults {
+            guard messageResult.status == "QUEUED" else {
+                print("failed to send message to \(messageResult.hardware). message status: \(messageResult.status)")
+                return
+            }
+        }
+        
+        // The query param for hardware might be an array itself.
+//        for recipient in recipients {
+//            guard DataMT().SendMessage(token: token, hardware: recipient, payload: message) != nil else {
+//                print("Message failed to send.")
+//                return
+//            }
+//        }
     }
     
-    func checkInfo(isSubscriber: Bool, isHardware: Bool, isBillingGroup: Bool) {
+    // delete after changing each function to call refreshInfo at the start
+    public func checkInfo(isSubscriber: Bool, isHardware: Bool, isBillingGroup: Bool) {
         // Check to make sure subscriber is initialized if it is needed
         if isSubscriber {
             guard subscriber != "" else {

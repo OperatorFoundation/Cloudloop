@@ -869,17 +869,20 @@ public struct CloudloopAPI
                             Parameter(
                                 name: "query",
                                 description: "name or IMEI",
-                                type: .string
+                                type: .string,
+                                optional: true
                             ),
                             Parameter(
                                 name: "status",
                                 description: "ACTIVATING / ACTIVATED / DEACTIVATING / DEACTIVATED / SUSPENDING / SUSPENDED / RESUMING / CHANGING / INVALID",
-                                type: .string
+                                type: .string,
+                                optional: true
                             ),
                             Parameter(
                                 name: "hardware",
                                 description: "Hardware ID",
-                                type: .string
+                                type: .string,
+                                optional: true
                             ),
                         ]
                     ),

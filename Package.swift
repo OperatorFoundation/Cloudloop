@@ -45,7 +45,7 @@ let package = Package(
             dependencies: ["Cloudloop"]),
         .testTarget(
             name: "CloudloopTests",
-            dependencies: ["Cloudloop"],
+            dependencies: ["Cloudloop", "CloudloopSbd"],
             exclude: ["Examples"]
         ),
     ],
