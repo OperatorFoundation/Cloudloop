@@ -180,9 +180,15 @@ func generateParameters(parameters: [Parameter]) -> String
 
 func generateParameter(parameter: Parameter) -> String
 {
-    let contents = "\(parameter.name): \(parameter.type.rawValue)"
+    if parameter.optional {
+        let contents = "\(parameter.name): \(parameter.type.rawValue)? = nil"
     
-    return contents
+        return contents
+    } else {
+        let contents = "\(parameter.name): \(parameter.type.rawValue)"
+    
+        return contents
+    }
 }
 
 func generateFunctionBody(url: String, endpointName: String, function: Function) -> String
@@ -222,26 +228,41 @@ func generateDictionaryContents(parameters: [Parameter]) -> String
 
 func generateDictionaryPair(parameter: Parameter) -> String
 {
-    let value = generateValue(value: parameter)
-    let contents = "\t\t\tURLQueryItem(name: \"\(parameter.name)\", value: \(value))"
+    if parameter.optional {
+        let value = generateValue(value: parameter)
+        let contents = "\t\t\tURLQueryItem(name: \"\(parameter.name)\", value: \(value))"
 
-    return contents
+        return contents
+    } else {
+        let value = generateValue(value: parameter)
+        let contents = "\t\t\tURLQueryItem(name: \"\(parameter.name)\", value: \(value))"
+
+        return contents
+    }
 }
 
 func generateValue(value: Parameter) -> String
 {
-    switch value.type
-    {
-        case .boolean:
-            return "String(\(value.name))"
-        case .identifier:
-            return "\(value.name).string"
-        case .int32:
-            return "String(\(value.name))"
-        case .string:
-            return "\(value.name)"
-        case .date:
-            return "DateFormatter().string(from: \(value.name))"
+    if value.optional {
+        switch value.type
+        {
+            case .boolean:
+                return "String(\(value.name) ?? \"\")"
+            case .int32:
+                return "String(\(value.name) ?? \"\")"
+            case .string:
+                return "\(value.name) ?? \"\""
+        }
+    } else {
+        switch value.type
+        {
+            case .boolean:
+                return "String(\(value.name))"
+            case .int32:
+                return "String(\(value.name))"
+            case .string:
+                return "\(value.name)"
+        }
     }
 }
 

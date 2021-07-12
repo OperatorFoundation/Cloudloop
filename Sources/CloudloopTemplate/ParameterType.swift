@@ -11,7 +11,5 @@ public enum ParameterType: String
 {
     case string = "String"
     case int32 = "Int32"
-    case identifier = "Identifier"
     case boolean = "Bool"
-    case date = "Date"
 }

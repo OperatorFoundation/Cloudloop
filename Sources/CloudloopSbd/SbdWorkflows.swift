@@ -98,7 +98,7 @@ public class SbdWorkflow {
 
     public func refreshInfo() {
         // call searchSubscriber using just the IMEI and store the most up to date variables
-        guard let maybeSearchSubscriber = Sbd().SearchSubscribers(token: token, query: imei, status: "", hardware: "") else {
+        guard let maybeSearchSubscriber = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else {
             print("Could not get info with provided IMEI")
             return
         }
@@ -149,6 +149,8 @@ public class SbdWorkflow {
         }
     }
     
+    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
+    // NOTETOSELF: Dont make an enum case for this
     public func refreshMessages(messageCheckTime: Int32) {
         // fetch the most updated information
         refreshInfo()
@@ -172,7 +174,8 @@ public class SbdWorkflow {
         }
     }
     
-    // TODISCUSS: send message uses registered hardware ID's?!  Whats the point of destinations?
+    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
+    // NOTETOSELF: Dont make an enum case for this
     public func sendMessage(recipients: [String], message: String) {
         
         guard let messageResults = DataMT().SendMessage(token: token, hardware: "recipients", payload: message)?.requests else {

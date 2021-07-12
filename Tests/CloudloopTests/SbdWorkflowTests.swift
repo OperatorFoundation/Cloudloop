@@ -4,6 +4,7 @@
 
     final class SbdWorkflowTests: XCTestCase {
         
+        
         func testModemSetup() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
             
@@ -32,7 +33,7 @@
         }
         
         func testRefreshMessages() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
+            let workflow = SbdWorkflow(token: "4e69a59-3c05-4d9d-ab14-bd0c9513870d", imei: "300434065343580")
             
             guard workflow.refreshMessages(messageCheckTime: 10) != nil else {
                 XCTFail()

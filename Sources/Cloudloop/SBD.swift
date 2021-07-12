@@ -186,13 +186,13 @@ public struct Sbd
    public init() {}
 
     // https://docs.cloudloop.com/reference#create
-    public func CreateSubscriber(token: String, hardware: String, name: String) -> SbdSBDCreateSubscriberResult?
+    public func CreateSubscriber(token: String, hardware: String, name: String? = nil) -> SbdSBDCreateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/CreateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
-			URLQueryItem(name: "name", value: name)
+			URLQueryItem(name: "name", value: name ?? "")
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
@@ -224,14 +224,14 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#search-subscribers
-    public func SearchSubscribers(token: String, query: String, status: String, hardware: String) -> SbdSearchSubscribersResult?
+    public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SbdSearchSubscribersResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SearchSubscribers") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "query", value: query),
-			URLQueryItem(name: "status", value: status),
-			URLQueryItem(name: "hardware", value: hardware)
+			URLQueryItem(name: "query", value: query ?? ""),
+			URLQueryItem(name: "status", value: status ?? ""),
+			URLQueryItem(name: "hardware", value: hardware ?? "")
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}

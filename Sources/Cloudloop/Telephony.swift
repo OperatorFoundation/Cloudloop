@@ -174,13 +174,13 @@ public struct Telephony
    public init() {}
 
     // https://docs.cloudloop.com/reference#create
-    public func CreateSubscriber(token: String, sim: String, name: String) -> TelephonyTelephonyCreateSubscriberResult?
+    public func CreateSubscriber(token: String, sim: String, name: String? = nil) -> TelephonyTelephonyCreateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/CreateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "sim", value: sim),
-			URLQueryItem(name: "name", value: name)
+			URLQueryItem(name: "name", value: name ?? "")
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
