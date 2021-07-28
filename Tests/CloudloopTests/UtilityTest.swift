@@ -3,8 +3,14 @@
 
     final class UtilityTests: XCTestCase {
         func testGetPlansResultPrintMethod1() {
+            guard let token = readFile(fileName: "token.txt") else {
+                print("could not find token.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
             // get and print plans
-            guard let getPlansResult = Sbd().GetPlans(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d") else {
+            guard let getPlansResult = Sbd().GetPlans(token: token) else {
                 print("could not get plans")
                 return
             }
@@ -34,8 +40,14 @@
         }
         
         func testGetPlansResultPrintMethod2() {
+            guard let token = readFile(fileName: "token.txt") else {
+                print("could not find token.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
             // get and print plans
-            guard let getPlansResult = Sbd().GetPlans(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d") else {
+            guard let getPlansResult = Sbd().GetPlans(token: token) else {
                 print("could not get plans")
                 return
             }
