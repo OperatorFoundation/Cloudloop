@@ -5,49 +5,74 @@
         
         func testGeneratedSbdGetSubscriber() {
             // Subscriber ID?!?!
-            let sbd = Sbd().GetSubscriber(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", imei: "300434065343580")
+            let (token, imei) = setTokenImei()
+            guard let subscriber = readFile(fileName: "subscriber.txt") else {
+                print("could not find subscriber.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
+            let sbd = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdSearchSubscriber() {
+            let (token, imei) = setTokenImei()
+            guard let hardware = readFile(fileName: "hardware.txt") else {
+                print("could not find hardware.txt in ~/Documents")
+                XCTFail()
+                return
+            }
             //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
-            let sbd = Sbd().SearchSubscribers(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", query: "300434065343580", status: "ACTIVATED", hardware: "olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ")
+            let sbd = Sbd().SearchSubscribers(token: token, query: imei, status: "ACTIVATED", hardware: hardware)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdSearchSubscriberWithNilParams() {
+            let (token, imei) = setTokenImei()
             //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
-            let sbd = Sbd().SearchSubscribers(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", query: "300434065343580", status: nil, hardware: nil)
+            let sbd = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsage() {
+            let (token, subscriber) = setTokenSubscriber()
             // result is {"usage":[]}?????
-            let sbd = Sbd().GetUsage(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", year: 2021, month: 6)
+            let sbd = Sbd().GetUsage(token: token, subscriber: subscriber, year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsageSummary() {
+            let (token, subscriber) = setTokenSubscriber()
             // result is {"summary":[]}?????
-            let sbd = Sbd().GetUsageSummary(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", year: 2021, month: 6)
+            let sbd = Sbd().GetUsageSummary(token: token, subscriber: subscriber, year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSBDGetPlans() {
+            guard let token = readFile(fileName: "token.txt") else {
+                print("could not find token.txt in ~/Documents")
+                XCTFail()
+                return
+            }
             // These variable are to my knowledge, accurate for our use case on my device
-            let sbd = Sbd().GetPlans(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d")
+            let sbd = Sbd().GetPlans(token: token)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetContracts() {
-            let sbd = Sbd().GetContracts(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")
+            let (token, subscriber) = setTokenSubscriber()
+            
+            let sbd = Sbd().GetContracts(token: token, subscriber: subscriber)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdCreateDestroyDestination() {
-            let sbdCreate = Sbd().CreateDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", subscriber: "QzagvADYwKoPeBQXaPElMrXJpVORdjyZ", destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
+            let (token, subscriber) = setTokenSubscriber()
+            
+            let sbdCreate = Sbd().CreateDestination(token: token, subscriber: subscriber, destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
             XCTAssertNotNil(sbdCreate)
-            let sbdDelete = Sbd().DeleteDestination(token: "94e69a59-3c05-4d9d-ab14-bd0c9513870d", destination: "google.com:1234")
+            let sbdDelete = Sbd().DeleteDestination(token: token, destination: "google.com:1234")
             XCTAssertNotNil(sbdDelete)
         }
     }

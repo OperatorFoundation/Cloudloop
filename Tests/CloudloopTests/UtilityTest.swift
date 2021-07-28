@@ -48,3 +48,44 @@
             }
         }
     }
+
+    public func readFile(fileName: String) -> String? {
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+
+        let fileURL = dir!.appendingPathComponent(fileName)
+
+        // reading
+        guard let result = try? String(contentsOf: fileURL, encoding: .utf8) else {
+            print("could not find \(fileName) in ~/Documents")
+            return nil
+        }
+        return result
+    }
+    
+    public func setTokenImei() -> (token: String?, imei: String?) {
+        guard let token = readFile(fileName: "token.txt") else {
+            print("could not find the file in ~/Documents where token was stored")
+            XCTFail()
+            return
+        }
+        guard let imei = readFile(fileName: "imei.txt") else {
+            print("could not find the file in ~/Documents where imei was stored")
+            XCTFail()
+            return
+        }
+        return (token, imei)
+    }
+
+    public func setTokenSubscriber() -> (token: String?, subscriber: String?) {
+        guard let token = readFile(fileName: "token.txt") else {
+            print("could not find the file in ~/Docuents where token was stored")
+            XCTFail()
+            return
+        }
+        guard let imei = readFile(fileName: "subscriber.txt") else {
+            print("could not find the file in ~/Documents where subscriber was stored")
+            XCTFail()
+            return
+        }
+        return (token, imei)
+    }

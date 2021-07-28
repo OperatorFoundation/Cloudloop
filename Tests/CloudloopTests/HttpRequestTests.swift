@@ -5,8 +5,15 @@
         func testSbdGetSubscriber() {
             let expectation = XCTestExpectation()
             
+            let (token, imei) = setTokenImei()
+            guard let subscriber = readFile(fileName: "subscriber.txt") else {
+                print("could not find subscriber.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscriber?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ&imei=300434065343580")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscriber?token=\(token)&subscriber=\(subscriber)&imei=\(imei)")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -50,8 +57,15 @@
         func testSbdSearchSubscriber() {
             let expectation = XCTestExpectation()
             
+            let (token, imei) = setTokenImei()
+            guard let hardware = readFile(fileName: "hardware.txt") else {
+                print("could not find hardware.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscribers?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&query=300434065343580&status=ACTIVATED&hardware=olNGxekOvAKmaEjQQrWRdpyLgXjMbVPZ")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscribers?token=\(token)&query=\(imei)&status=ACTIVATED&hardware=\(hardware)")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -95,8 +109,10 @@
         func testSbdGetUsage() {
             let expectation = XCTestExpectation()
             
+            let (token, subscriber) = setTokenSubscriber()
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsage?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ&year=2021&month=6")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsage?token=\(token)&subscriber=\(subscriber)&year=2021&month=6")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -141,8 +157,10 @@
         func testSbdGetUsageSummary() {
             let expectation = XCTestExpectation()
             
+            let (token, subscriber) = setTokenSubscriber()
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsageSummary?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ&year=2021&month=6")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsageSummary?token=\(token)&subscriber=\(subscriber)&year=2021&month=6")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -186,8 +204,14 @@
         func testSBDGetPlans() {
             let expectation = XCTestExpectation()
             
+            guard let token = readFile(fileName: "token.txt") else {
+                print("could not find token.txt in ~/Documents")
+                XCTFail()
+                return
+            }
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetPlans?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetPlans?token=\(token)")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -231,8 +255,10 @@
         func testSBDGetContracts() {
             let expectation = XCTestExpectation()
             
+            let (token, subscriber) = setTokenSubscriber()
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetContracts?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/GetContracts?token=\(token)&subscriber=\(subscriber)")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -276,8 +302,10 @@
         func testSBDActivateDeactivateDestination() {
             let expectation = XCTestExpectation()
             
+            let (token, subscriber) = setTokenSubscriber()
+            
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/CreateDestination?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&subscriber=QzagvADYwKoPeBQXaPElMrXJpVORdjyZ&destination=google.com:1234&type=DIRECT_IP&moack=true&geodata=true")!
+            let url = URL(string: "https://api.cloudloop.com/Sbd/CreateDestination?token=\(token)&subscriber=\(subscriber)&destination=google.com:1234&type=DIRECT_IP&moack=true&geodata=true")!
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -314,7 +342,7 @@
             let deleteExpectation = XCTestExpectation()
             
             let deleteSession = URLSession.shared
-            let deleteUrl = URL(string: "https://api.cloudloop.com/Sbd/DeleteDestination?token=94e69a59-3c05-4d9d-ab14-bd0c9513870d&destination=google.com:1234")!
+            let deleteUrl = URL(string: "https://api.cloudloop.com/Sbd/DeleteDestination?token=\(token)&destination=google.com:1234")!
             let deleteTask = deleteSession.dataTask(with: deleteUrl, completionHandler: { deleteData, response, error in
                 let deleteDataString = String(decoding: deleteData!, as: UTF8.self)
                 print("\n data: \n")
