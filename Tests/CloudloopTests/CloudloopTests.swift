@@ -12,7 +12,7 @@
                 return
             }
             
-            let sbd = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei)
+            let sbd = Sbd().GetSubscriber(token: token!, subscriber: subscriber, imei: imei!)
             XCTAssertNotNil(sbd)
         }
         
@@ -24,28 +24,28 @@
                 return
             }
             //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
-            let sbd = Sbd().SearchSubscribers(token: token, query: imei, status: "ACTIVATED", hardware: hardware)
+            let sbd = Sbd().SearchSubscribers(token: token!, query: imei!, status: "ACTIVATED", hardware: hardware)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdSearchSubscriberWithNilParams() {
             let (token, imei) = setTokenImei()
             //FIXME: its getting a DISPATCHERMETHODUNKNOWNEXCEPTION
-            let sbd = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil)
+            let sbd = Sbd().SearchSubscribers(token: token!, query: imei!, status: nil, hardware: nil)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsage() {
             let (token, subscriber) = setTokenSubscriber()
             // result is {"usage":[]}?????
-            let sbd = Sbd().GetUsage(token: token, subscriber: subscriber, year: 2021, month: 6)
+            let sbd = Sbd().GetUsage(token: token!, subscriber: subscriber!, year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdGetUsageSummary() {
             let (token, subscriber) = setTokenSubscriber()
             // result is {"summary":[]}?????
-            let sbd = Sbd().GetUsageSummary(token: token, subscriber: subscriber, year: 2021, month: 6)
+            let sbd = Sbd().GetUsageSummary(token: token!, subscriber: subscriber!, year: 2021, month: 6)
             XCTAssertNotNil(sbd)
         }
         
@@ -63,16 +63,16 @@
         func testGeneratedSbdGetContracts() {
             let (token, subscriber) = setTokenSubscriber()
             
-            let sbd = Sbd().GetContracts(token: token, subscriber: subscriber)
+            let sbd = Sbd().GetContracts(token: token!, subscriber: subscriber!)
             XCTAssertNotNil(sbd)
         }
         
         func testGeneratedSbdCreateDestroyDestination() {
             let (token, subscriber) = setTokenSubscriber()
             
-            let sbdCreate = Sbd().CreateDestination(token: token, subscriber: subscriber, destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
+            let sbdCreate = Sbd().CreateDestination(token: token!, subscriber: subscriber!, destination: "google.com:1234", type: "DIRECT_IP", moack: true, geodata: true)
             XCTAssertNotNil(sbdCreate)
-            let sbdDelete = Sbd().DeleteDestination(token: token, destination: "google.com:1234")
+            let sbdDelete = Sbd().DeleteDestination(token: token!, destination: "google.com:1234")
             XCTAssertNotNil(sbdDelete)
         }
     }

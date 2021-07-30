@@ -34,7 +34,7 @@
         
         func testRefreshMessages() {
             let (token, imei) = setTokenImei()
-            let workflow = SbdWorkflow(token: token, imei: imei)
+            let workflow = SbdWorkflow(token: token!, imei: imei!)
             
             guard workflow.refreshMessages(messageCheckTime: 10) != nil else {
                 XCTFail()

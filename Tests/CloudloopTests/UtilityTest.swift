@@ -78,12 +78,12 @@
         guard let token = readFile(fileName: "token.txt") else {
             print("could not find the file in ~/Documents where token was stored")
             XCTFail()
-            return
+            return (nil, nil)
         }
         guard let imei = readFile(fileName: "imei.txt") else {
             print("could not find the file in ~/Documents where imei was stored")
             XCTFail()
-            return
+            return (nil, nil)
         }
         return (token, imei)
     }
@@ -92,12 +92,12 @@
         guard let token = readFile(fileName: "token.txt") else {
             print("could not find the file in ~/Docuents where token was stored")
             XCTFail()
-            return
+            return (nil, nil)
         }
         guard let imei = readFile(fileName: "subscriber.txt") else {
             print("could not find the file in ~/Documents where subscriber was stored")
             XCTFail()
-            return
+            return (nil, nil)
         }
         return (token, imei)
     }
