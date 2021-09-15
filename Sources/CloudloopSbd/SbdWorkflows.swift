@@ -149,78 +149,80 @@ public class SbdWorkflow {
         }
     }
     
-    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
-    // NOTETOSELF: Dont make an enum case for this
-    public func refreshMessages(messageCheckTime: Int32) {
-        // fetch the most updated information
-        refreshInfo()
+    public func setImei() {
         
-        // FIXME: lastMessageReceived should be optional
-        let retrieveMessages = DataMO().GetMessagesPolled(token: token, maxPollTime: messageCheckTime, lastMessageReceived: "")
-        guard (retrieveMessages?.messages != nil) else {
-            print("No new messages!")
-            return
-        }
-        let messages = retrieveMessages!.messages
-        for message in messages {
-            print("""
-                New message!
-                Message ID: \(message.id)
-                Hardware ID: \(message.hardware)
-                Sent: \(message.txAt)
-                message: \(message.payload)
-                
-                """)
-        }
     }
-    
     // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
     // NOTETOSELF: Dont make an enum case for this
-    public func sendMessage(recipients: [String], message: String) {
-        
-        guard let messageResults = DataMT().SendMessage(token: token, hardware: "recipients", payload: message)?.requests else {
-            print("sendMessage failed")
-            return
-        }
-        
-        for messageResult in messageResults {
-            guard messageResult.status == "QUEUED" else {
-                print("failed to send message to \(messageResult.hardware). message status: \(messageResult.status)")
-                return
-            }
-        }
-        
-        // The query param for hardware might be an array itself.
+//    public func refreshMessages(messageCheckTime: Int32) {
+//        // fetch the most updated information
+//        refreshInfo()
+//
+//        // FIXME: lastMessageReceived should be optional
+//        let retrieveMessages = DataMO().GetMessagesPolled(token: token, maxPollTime: messageCheckTime, lastMessageReceived: "")
+//        guard (retrieveMessages?.messages != nil) else {
+//            print("No new messages!")
+//            return
+//        }
+//        let messages = retrieveMessages!.messages
+//        for message in messages {
+//            print("""
+//                New message!
+//                Message ID: \(message.id)
+//                Hardware ID: \(message.hardware)
+//                Sent: \(message.txAt)
+//                message: \(message.payload)
+//
+//                """)
+//        }
+//    }
+//
+//    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
+//    // NOTETOSELF: Dont make an enum case for this
+//    public func sendMessage(recipients: [String], message: String) {
+//
+//        guard let messageResults = DataMT().SendMessage(token: token, hardware: "recipients", payload: message)?.requests else {
+//            print("sendMessage failed")
+//            return
+//        }
+//
+//        for messageResult in messageResults {
+//            guard messageResult.status == "QUEUED" else {
+//                print("failed to send message to \(messageResult.hardware). message status: \(messageResult.status)")
+//                return
+//            }
+//        }
+// The query param for hardware might be an array itself.
 //        for recipient in recipients {
 //            guard DataMT().SendMessage(token: token, hardware: recipient, payload: message) != nil else {
 //                print("Message failed to send.")
 //                return
 //            }
 //        }
-    }
-    
-    // delete after changing each function to call refreshInfo at the start
-    public func checkInfo(isSubscriber: Bool, isHardware: Bool, isBillingGroup: Bool) {
-        // Check to make sure subscriber is initialized if it is needed
-        if isSubscriber {
-            guard subscriber != "" else {
-                print("Subscriber ID not initialized.")
-                return
-            }
-        }
-        
-        if isHardware {
-            guard hardware != "" else {
-                print("Hardware ID not initialized.")
-                return
-            }
-        }
-        
-        if isBillingGroup {
-            guard billingGroup != "" else {
-                print("Billing Group ID not initialized.")
-                return
-            }
-        }
-    }
+//    }
+//
+// delete after changing each function to call refreshInfo at the start
+//    public func checkInfo(isSubscriber: Bool, isHardware: Bool, isBillingGroup: Bool) {
+//        // Check to make sure subscriber is initialized if it is needed
+//        if isSubscriber {
+//            guard subscriber != "" else {
+//                print("Subscriber ID not initialized.")
+//                return
+//            }
+//        }
+//
+//        if isHardware {
+//            guard hardware != "" else {
+//                print("Hardware ID not initialized.")
+//                return
+//            }
+//        }
+//
+//        if isBillingGroup {
+//            guard billingGroup != "" else {
+//                print("Billing Group ID not initialized.")
+//                return
+//            }
+//        }
+//    }
 }
