@@ -97,6 +97,7 @@ public class SbdWorkflow {
     }
 
     public func refreshInfo() {
+        print("Cloudloop.refreshInfo() called")
         // call searchSubscriber using just the IMEI and store the most up to date variables
         guard let maybeSearchSubscriber = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else {
             print("Could not get info with provided IMEI")
@@ -123,6 +124,7 @@ public class SbdWorkflow {
     }
     
     public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) {
+        print("Cloudloop.newDestination() called.")
         // fetch the most updated information
         refreshInfo()
         

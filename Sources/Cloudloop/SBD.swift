@@ -226,6 +226,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#search-subscribers
     public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SbdSearchSubscribersResult?
     {
+        print("SBD.SearchSubscribers() called")
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SearchSubscribers") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
@@ -235,6 +236,7 @@ public struct Sbd
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        print("Retrieved data contents of \(url.path)")
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
