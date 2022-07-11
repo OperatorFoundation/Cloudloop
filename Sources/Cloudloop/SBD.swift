@@ -3,6 +3,10 @@
 
 import Foundation
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 public struct SbdSBDCreateSubscriberResult: Codable
 {
 	public let subscriber: SBDCreateSubscriber

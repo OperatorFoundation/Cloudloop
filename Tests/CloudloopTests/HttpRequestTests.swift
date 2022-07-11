@@ -4,8 +4,13 @@
     final class HttpRequestTests: XCTestCase {
         func testSbdGetSubscriber() {
             let expectation = XCTestExpectation()
+            let (maybeToken, maybeIMEI) = setTokenImei()
+            guard let token = maybeToken, let imei = maybeIMEI else
+            {
+                XCTFail()
+                return
+            }
             
-            let (token, imei) = setTokenImei()
             guard let subscriber = readFile(fileName: "subscriber.txt") else {
                 print("could not find subscriber.txt in ~/Documents")
                 XCTFail()
@@ -13,7 +18,14 @@
             }
             
             let session = URLSession.shared
-            let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscriber?token=\(token)&subscriber=\(subscriber)&imei=\(imei)")!
+            
+            
+            guard let url = URL(string: "https://api.cloudloop.com/Sbd/GetSubscriber?token=\(token)&subscriber=\(subscriber)&imei=\(imei)") else
+                {
+                    XCTFail()
+                    return
+                }
+            
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 let dataString = String(decoding: data!, as: UTF8.self)
                 print("\n data: \n")
@@ -57,7 +69,13 @@
         func testSbdSearchSubscriber() {
             let expectation = XCTestExpectation()
             
-            let (token, imei) = setTokenImei()
+            let (maybeToken, maybeIMEI) = setTokenImei()
+            guard let token = maybeToken, let imei = maybeIMEI else
+            {
+                XCTFail()
+                return
+            }
+            
             guard let hardware = readFile(fileName: "hardware.txt") else {
                 print("could not find hardware.txt in ~/Documents")
                 XCTFail()
@@ -109,7 +127,12 @@
         func testSbdGetUsage() {
             let expectation = XCTestExpectation()
             
-            let (token, subscriber) = setTokenSubscriber()
+            let (maybeToken, maybeSubscriber) = setTokenSubscriber()
+            guard let token = maybeToken, let subscriber = maybeSubscriber else
+            {
+                XCTFail()
+                return
+            }
             
             let session = URLSession.shared
             let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsage?token=\(token)&subscriber=\(subscriber)&year=2021&month=6")!
@@ -157,7 +180,12 @@
         func testSbdGetUsageSummary() {
             let expectation = XCTestExpectation()
             
-            let (token, subscriber) = setTokenSubscriber()
+            let (maybeToken, maybeSubscriber) = setTokenSubscriber()
+            guard let token = maybeToken, let subscriber = maybeSubscriber else
+            {
+                XCTFail()
+                return
+            }
             
             let session = URLSession.shared
             let url = URL(string: "https://api.cloudloop.com/Sbd/GetUsageSummary?token=\(token)&subscriber=\(subscriber)&year=2021&month=6")!
@@ -255,7 +283,12 @@
         func testSBDGetContracts() {
             let expectation = XCTestExpectation()
             
-            let (token, subscriber) = setTokenSubscriber()
+            let (maybeToken, maybeSubscriber) = setTokenSubscriber()
+            guard let token = maybeToken, let subscriber = maybeSubscriber else
+            {
+                XCTFail()
+                return
+            }
             
             let session = URLSession.shared
             let url = URL(string: "https://api.cloudloop.com/Sbd/GetContracts?token=\(token)&subscriber=\(subscriber)")!
@@ -302,7 +335,12 @@
         func testSBDActivateDeactivateDestination() {
             let expectation = XCTestExpectation()
             
-            let (token, subscriber) = setTokenSubscriber()
+            let (maybeToken, maybeSubscriber) = setTokenSubscriber()
+            guard let token = maybeToken, let subscriber = maybeSubscriber else
+            {
+                XCTFail()
+                return
+            }
             
             let session = URLSession.shared
             let url = URL(string: "https://api.cloudloop.com/Sbd/CreateDestination?token=\(token)&subscriber=\(subscriber)&destination=google.com:1234&type=DIRECT_IP&moack=true&geodata=true")!
