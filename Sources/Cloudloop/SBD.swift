@@ -232,15 +232,28 @@ public struct Sbd
     {
         print("SBD.SearchSubscribers() called")
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SearchSubscribers") else {return nil}
-        components.queryItems = [
-            URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "query", value: query ?? ""),
-			URLQueryItem(name: "status", value: status ?? ""),
-			URLQueryItem(name: "hardware", value: hardware ?? "")
-        ]
+
+        components.queryItems = [URLQueryItem(name: "token", value: token)]
+        
+        if let query = query {
+            let queryItem = URLQueryItem(name: "query", value: query)
+            components.queryItems?.append(queryItem)
+        }
+        
+        if let status = status {
+            let statusItem = URLQueryItem(name: "status", value: status)
+            components.queryItems?.append(statusItem)
+        }
+        
+        if let hardware = hardware {
+            let hardwareItem = URLQueryItem(name: "hardware", value: hardware)
+            components.queryItems?.append(hardwareItem)
+        }
+        
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
-        print("Retrieved data contents of \(url.path)")
+        
+        print("Retrieved data contents of \(url.path): ")
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
