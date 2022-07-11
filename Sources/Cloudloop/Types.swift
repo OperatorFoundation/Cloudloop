@@ -816,7 +816,7 @@ public struct SBDGetSubscriber: Codable
 	public let billingGroup: String
 	public let destinations: [SBDDestination]
 	public let name: String
-	public let description: String
+	public let description: String?
 	public let id: String
 	public let customMonitorThreshold: Float?
 	public let account: String
