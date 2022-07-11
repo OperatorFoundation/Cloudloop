@@ -244,9 +244,17 @@ public struct Sbd
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(SbdSearchSubscribersResult.self, from: resultData) else {return nil}
-
-        return result
+        
+        do
+        {
+            let result = try decoder.decode(SbdSearchSubscribersResult.self, from: resultData)
+            return result
+        }
+        catch
+        {
+            print("Failed to decode the Sbd/SearchSubscribers response into valid json. Errror: \n\(error)")
+            return nil
+        }
     }
 
     // https://docs.cloudloop.com/reference#get-usage
@@ -454,9 +462,17 @@ public struct Sbd
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(SbdCreateDestinationResult.self, from: resultData) else {return nil}
-
-        return result
+        
+        do
+        {
+            let result = try decoder.decode(SbdCreateDestinationResult.self, from: resultData)
+            return result
+        }
+        catch
+        {
+            print("Failed to decode the data from Sbd/CreateDestination to valid JSON. Error: \(error)")
+            return nil
+        }
     }
 
     // https://docs.cloudloop.com/reference#delete-destination
@@ -472,9 +488,17 @@ public struct Sbd
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(SbdDeleteDestinationResult.self, from: resultData) else {return nil}
-
-        return result
+        
+        do
+        {
+            let result = try decoder.decode(SbdDeleteDestinationResult.self, from: resultData)
+            return result
+        }
+        catch
+        {
+            print("Failed to decode the data from Sbd/DeleteDestination to valid JSON. Error: \(error)")
+            return nil
+        }
     }
 
     // https://docs.cloudloop.com/reference#swap-subscriber
