@@ -222,9 +222,17 @@ public struct Sbd
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(SbdGetSubscriberResult.self, from: resultData) else {return nil}
-
-        return result
+        
+        do
+        {
+            let result = try decoder.decode(SbdGetSubscriberResult.self, from: resultData)
+            return result
+        }
+        catch
+        {
+            print("Failed to decode result from /Sbd/GetSubscriber to valid JSON. Error: \(error)")
+            return nil
+        }
     }
 
     // https://docs.cloudloop.com/reference#search-subscribers
