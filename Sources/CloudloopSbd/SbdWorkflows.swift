@@ -150,8 +150,9 @@ public class SbdWorkflow {
         }
 
         // create new destination
-        guard Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) != nil else {
-            print("Invalid destination")
+        guard Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) != nil else
+        {
+            print("Failed to create a new destination for subscriber \(subscriber.description): Invalid destination")
             return
         }
     }
