@@ -147,15 +147,13 @@ public struct SbdCreateDestinationResult: Codable
     }
 }
 
-public struct SbdDeleteDestinationResult: Codable
+public struct SbdDeleteDestinationResult: Codable, SBDResult
 {
-	public let at: Float
-	public let error: String
+	public let result: Bool
 
-    public init(token: String, at: Float, error: String)
+    public init(token: String, result: Bool)
     {
-		self.at = at
-		self.error = error
+		self.result = result
     }
 }
 
@@ -166,6 +164,18 @@ public struct SbdReassociateSubscriberResult: Codable
     public init(token: String, contract: SBDReassociateSubscriber)
     {
 		self.contract = contract
+    }
+}
+
+public struct SbdErrorResult: Codable, SBDResult
+{
+    public let at: Float
+    public let error: String
+
+    public init(token: String, at: Float, error: String)
+    {
+        self.at = at
+        self.error = error
     }
 }
 
@@ -184,6 +194,8 @@ public struct SbdAssignBillingGroupResult: Codable
 		self.account = account
     }
 }
+
+public protocol SBDResult { }
 
 public struct Sbd
 {
@@ -497,7 +509,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#delete-destination
-    public func DeleteDestination(token: String, destination: String) -> SbdDeleteDestinationResult?
+    public func DeleteDestination(token: String, destination: String) -> SBDResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DeleteDestination") else {return nil}
         components.queryItems = [
@@ -512,15 +524,19 @@ public struct Sbd
         
         let decoder = JSONDecoder()
         
-        do
+        if let result = try? decoder.decode(SbdDeleteDestinationResult.self, from: resultData)
         {
-            let result = try decoder.decode(SbdDeleteDestinationResult.self, from: resultData)
             print("Decoded the response to SbdDeleteDestinationResult")
             return result
         }
-        catch
+        else if let sbdError = try? decoder.decode(SbdErrorResult.self, from: resultData)
         {
-            print("Failed to decode the json data from Sbd/DeleteDestination to an SbdDeleteDestinationResult object. Error: \(error)")
+            print("Decoded the response to SbdErrorResult")
+            return sbdError
+        }
+        else
+        {
+            print("Failed to decode the json data from Sbd/DeleteDestination to an SbdDeleteDestinationResult object.")
             return nil
         }
     }
