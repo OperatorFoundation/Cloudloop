@@ -135,9 +135,13 @@ public class SbdWorkflow {
             return
         }
         
+        print("Cloudloop.newDestination() retrieved the subscriber information.")
+        
         // delete all previous destinations
         let destinations = getSubscriber.subscriber.destinations
-        for destination in destinations {
+        for destination in destinations
+        {
+            print("Deleting destination: \(destination.destination)")
             let destinationID = destination.id
             guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else {
                 print("could not delete previous destinations")

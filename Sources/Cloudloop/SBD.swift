@@ -506,18 +506,21 @@ public struct Sbd
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
+        
         let dataString = String(decoding: resultData, as: UTF8.self)
-        print(dataString)
+        print("SBD Delete Destination response: \n\(dataString)")
+        
         let decoder = JSONDecoder()
         
         do
         {
             let result = try decoder.decode(SbdDeleteDestinationResult.self, from: resultData)
+            print("Decoded the response to SbdDeleteDestinationResult")
             return result
         }
         catch
         {
-            print("Failed to decode the data from Sbd/DeleteDestination to valid JSON. Error: \(error)")
+            print("Failed to decode the json data from Sbd/DeleteDestination to an SbdDeleteDestinationResult object. Error: \(error)")
             return nil
         }
     }
