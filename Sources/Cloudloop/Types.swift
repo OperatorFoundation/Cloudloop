@@ -334,8 +334,8 @@ public struct SBDPlan: Codable
 	public let commitment: Float
 	public let transitionFees: Bool
 	public let pooled: Bool
-	public let activationFee: Float
-	public let terminationFee: Float
+	public let feeActivation: Float
+	public let feeTermination: Float
 	public let terminable: Bool
 	public let name: String
 	public let currency: String
@@ -352,8 +352,8 @@ public struct SBDPlan: Codable
 		self.commitment = commitment
 		self.transitionFees = transitionFees
 		self.pooled = pooled
-		self.activationFee = activationFee
-		self.terminationFee = terminationFee
+		self.feeActivation = activationFee
+		self.feeTermination = terminationFee
 		self.terminable = terminable
 		self.name = name
 		self.currency = currency
