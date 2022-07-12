@@ -243,6 +243,7 @@ public struct Sbd
 			URLQueryItem(name: "subscriber", value: subscriber),
 			URLQueryItem(name: "imei", value: imei)
         ]
+        
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
 //        let dataString = String(decoding: resultData, as: UTF8.self)
@@ -260,6 +261,7 @@ public struct Sbd
             return nil
         }
     }
+    
 
     // https://docs.cloudloop.com/reference#search-subscribers
     public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SBDResult?

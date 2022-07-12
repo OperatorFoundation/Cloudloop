@@ -62,7 +62,8 @@ public class SbdWorkflow {
         }
     }
     
-    public func modemAssign(planName: String) {
+    public func modemAssign(planName: String)
+    {
         // fetch the most updated information
         refreshInfo()
         
@@ -133,12 +134,10 @@ public class SbdWorkflow {
         }
     }
     
-    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) {
+    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false)
+    {
         print("Cloudloop.newDestination() called.")
-        // fetch the most updated information
-        refreshInfo()
         
-        // call getsubscriber here and fetch the destination list
         guard let subscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else{
             print("could not get destination list")
             return
@@ -163,17 +162,17 @@ public class SbdWorkflow {
         // create new destination
         guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
         {
-            print("Failed to create a new destination for subscriber \(subscriber.description): Invalid destination")
+            print("Failed to create a new destination for subscriber \(subscriberResult.subscriber.id): Invalid destination")
             return
         }
         
         if let errorResult = result as? SBDErrorResult
         {
-            print("Received an error while attempting to add a new destination for \(subscriber): \(errorResult)")
+            print("Received an error while attempting to add a new destination for \(subscriberResult.subscriber.id): \(errorResult)")
         }
         else
         {
-            print("New destination created for \(subscriber)")
+            print("New destination created for \(subscriberResult.subscriber.id)")
         }
     }
     
