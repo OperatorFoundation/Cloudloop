@@ -139,15 +139,15 @@ public class SbdWorkflow {
         refreshInfo()
         
         // call getsubscriber here and fetch the destination list
-        guard let getSubscriber = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else{
+        guard let subscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else{
             print("could not get destination list")
             return
         }
         
-        print("Cloudloop.newDestination() retrieved the subscriber information.")
+        print("Cloudloop.newDestination() retrieved the subscriber information: \(subscriberResult)")
         
         // delete all previous destinations
-        let destinations = getSubscriber.subscriber.destinations
+        let destinations = subscriberResult.subscriber.destinations
         
         print("Subscriber has \(destinations.count) current destinations.")
         for destination in destinations
@@ -161,7 +161,7 @@ public class SbdWorkflow {
         }
 
         // create new destination
-        guard let result = Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
+        guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
         {
             print("Failed to create a new destination for subscriber \(subscriber.description): Invalid destination")
             return
@@ -169,7 +169,7 @@ public class SbdWorkflow {
         
         if let errorResult = result as? SBDErrorResult
         {
-            print("Received an error while attempting to add a new destination for \(subscriber.description): \(errorResult)")
+            print("Received an error while attempting to add a new destination for \(subscriber): \(errorResult)")
         }
         else
         {
