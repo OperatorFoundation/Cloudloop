@@ -143,7 +143,7 @@ public class SbdWorkflow {
             return
         }
         
-        print("Cloudloop.newDestination() retrieved the subscriber information: \(subscriberResult)")
+        print("Cloudloop.newDestination() retrieved the subscriber information: \(subscriberResult.subscriber.id)")
         
         // delete all previous destinations
         let destinations = subscriberResult.subscriber.destinations
