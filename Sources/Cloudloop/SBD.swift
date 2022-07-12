@@ -245,8 +245,8 @@ public struct Sbd
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
-        let dataString = String(decoding: resultData, as: UTF8.self)
-        print("\nGetSubscriber response: \(dataString)")
+//        let dataString = String(decoding: resultData, as: UTF8.self)
+//        print("\nGetSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
         
         do
@@ -516,8 +516,8 @@ public struct Sbd
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}
-        let dataString = String(decoding: resultData, as: UTF8.self)
-        print("\nCreate destination response: \(dataString)")
+//        let dataString = String(decoding: resultData, as: UTF8.self)
+//        print("\nCreate destination response: \(dataString)")
         let decoder = JSONDecoder()
         
         do

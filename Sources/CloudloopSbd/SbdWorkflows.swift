@@ -101,7 +101,7 @@ public class SbdWorkflow {
         print("Cloudloop.refreshInfo() called")
         
         // call searchSubscriber using just the IMEI and store the most up to date variables
-        guard let maybeSearchResult = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else
+        guard let searchResult = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else
         {
             print("Could not get info with provided IMEI")
             return
@@ -109,7 +109,7 @@ public class SbdWorkflow {
         
         // make sure that the IMEI has an associated subscriber
 
-        if let searchResult = maybeSearchResult as? SbdSearchSubscribersResult, let subscriberResult = searchResult.subscribers.first
+        if let subscribersResult = searchResult as? SbdSearchSubscribersResult, let subscriberResult = subscribersResult.subscribers.first
         {
             // set global variables to the most accessible information
             subscriber = subscriberResult.id
@@ -122,9 +122,13 @@ public class SbdWorkflow {
                 Your Billing Group ID: \(billingGroup)
                 """)
         }
+        else if let errorResult = searchResult as? SBDErrorResult
+        {
+            print("Received an error result from SearchSubscribers: \(errorResult)")
+        }
         else
         {
-            print("Provided IMEI has no associated subscribers")
+            print("Received an unexpected result from SearchSubscribers: \(searchResult)")
             return
         }
     }
@@ -144,6 +148,8 @@ public class SbdWorkflow {
         
         // delete all previous destinations
         let destinations = getSubscriber.subscriber.destinations
+        
+        print("Subscriber has \(destinations.count) current destinations.")
         for destination in destinations
         {
             print("Deleting destination: \(destination.destination)")
