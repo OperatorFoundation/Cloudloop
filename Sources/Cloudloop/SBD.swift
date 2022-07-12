@@ -299,12 +299,11 @@ public struct Sbd
         }
         catch
         {
-            print("Failed to decode the Sbd/SearchSubscribers response into SbdSearchSubscribersResult. Errror: \n\(error)")
-            print("Checking for an error result")
-            
             do
             {
                 let result = try decoder.decode(SBDErrorResult.self, from: resultData)
+                print("Received an error result from SearchSubscribers: \(result)")
+                
                 return result
             }
             catch
@@ -529,12 +528,10 @@ public struct Sbd
         }
         catch
         {
-            print("Failed to decode the data from Sbd/CreateDestination to SbdCreateDestinationResult. Error: \(error)")
             do
             {
-                //SbdCreateDestinationResult
                 let result = try decoder.decode(SBDErrorResult.self, from: resultData)
-                
+                print("Received an error result from CreateDestination: \(result)")
                 return result
             }
             catch
