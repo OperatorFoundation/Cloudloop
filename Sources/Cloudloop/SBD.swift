@@ -301,9 +301,7 @@ public struct Sbd
         {
             do
             {
-                let result = try decoder.decode(SBDErrorResult.self, from: resultData)
-                print("Received an error result from SearchSubscribers: \(result)")
-                
+                let result = try decoder.decode(SBDErrorResult.self, from: resultData)                
                 return result
             }
             catch
@@ -531,7 +529,6 @@ public struct Sbd
             do
             {
                 let result = try decoder.decode(SBDErrorResult.self, from: resultData)
-                print("Received an error result from CreateDestination: \(result)")
                 return result
             }
             catch

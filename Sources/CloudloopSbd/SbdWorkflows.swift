@@ -169,7 +169,7 @@ public class SbdWorkflow {
         
         if let errorResult = result as? SBDErrorResult
         {
-            print("Received an error while attempting to add a new destination for \(subscriber): \(errorResult)")
+            print("Received an error while attempting to add a new destination for \(subscriber.description): \(errorResult)")
         }
         else
         {
