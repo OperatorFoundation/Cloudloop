@@ -27,7 +27,7 @@ public struct SbdGetSubscriberResult: Codable
     }
 }
 
-public struct SbdSearchSubscribersResult: Codable
+public struct SbdSearchSubscribersResult: Codable, SBDResult
 {
 	public let subscribers: [SBDSearchSubscriber]
 
@@ -137,7 +137,7 @@ public struct SbdUpdateSubscriberResult: Codable
     }
 }
 
-public struct SbdCreateDestinationResult: Codable
+public struct SbdCreateDestinationResult: Codable, SBDResult
 {
 	public let destination: SBDCreateDestination
 
@@ -167,15 +167,29 @@ public struct SbdReassociateSubscriberResult: Codable
     }
 }
 
-public struct SbdErrorResult: Codable, SBDResult
+public struct SBDErrorResult: Codable, SBDResult
 {
     public let at: Float
     public let error: String
+    public let exceptions: [SBDExceptionType]?
 
-    public init(token: String, at: Float, error: String)
+    public init(token: String, at: Float, error: String, exceptions: [SBDExceptionType]?)
     {
         self.at = at
         self.error = error
+        self.exceptions = exceptions
+    }
+}
+
+public struct SBDExceptionType: Codable
+{
+    public let name: String
+    public let id: Float
+    
+    public init(name: String, id: Float)
+    {
+        self.name = name
+        self.id = id
     }
 }
 
@@ -248,7 +262,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#search-subscribers
-    public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SbdSearchSubscribersResult?
+    public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SBDResult?
     {
         print("SBD.SearchSubscribers() called")
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SearchSubscribers") else {return nil}
@@ -285,8 +299,19 @@ public struct Sbd
         }
         catch
         {
-            print("Failed to decode the Sbd/SearchSubscribers response into valid json. Errror: \n\(error)")
-            return nil
+            print("Failed to decode the Sbd/SearchSubscribers response into SbdSearchSubscribersResult. Errror: \n\(error)")
+            print("Checking for an error result")
+            
+            do
+            {
+                let result = try decoder.decode(SBDErrorResult.self, from: resultData)
+                return result
+            }
+            catch
+            {
+                print("Failed to decode the Sbd/SearchSubscribers response into SBDErrorResult. Errror: \n\(error)")
+                return nil
+            }
         }
     }
 
@@ -479,7 +504,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#create-destination
-    public func CreateDestination(token: String, subscriber: String, destination: String, type: String, moack: Bool, geodata: Bool) -> SbdCreateDestinationResult?
+    public func CreateDestination(token: String, subscriber: String, destination: String, type: String, moack: Bool, geodata: Bool) -> SBDResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/CreateDestination") else {return nil}
         components.queryItems = [
@@ -498,13 +523,25 @@ public struct Sbd
         
         do
         {
+            //SbdCreateDestinationResult
             let result = try decoder.decode(SbdCreateDestinationResult.self, from: resultData)
             return result
         }
         catch
         {
-            print("Failed to decode the data from Sbd/CreateDestination to valid JSON. Error: \(error)")
-            return nil
+            print("Failed to decode the data from Sbd/CreateDestination to SbdCreateDestinationResult. Error: \(error)")
+            do
+            {
+                //SbdCreateDestinationResult
+                let result = try decoder.decode(SBDErrorResult.self, from: resultData)
+                
+                return result
+            }
+            catch
+            {
+                print("Failed to decode the data from Sbd/CreateDestination to valid JSON. Error: \(error)")
+                return nil
+            }
         }
     }
 
@@ -528,7 +565,7 @@ public struct Sbd
         {
             return result
         }
-        else if let sbdError = try? decoder.decode(SbdErrorResult.self, from: resultData)
+        else if let sbdError = try? decoder.decode(SBDErrorResult.self, from: resultData)
         {
             return sbdError
         }

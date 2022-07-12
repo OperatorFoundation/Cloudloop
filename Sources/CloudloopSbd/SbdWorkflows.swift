@@ -99,29 +99,34 @@ public class SbdWorkflow {
 
     public func refreshInfo() {
         print("Cloudloop.refreshInfo() called")
+        
         // call searchSubscriber using just the IMEI and store the most up to date variables
-        guard let maybeSearchSubscriber = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else {
+        guard let maybeSearchResult = Sbd().SearchSubscribers(token: token, query: imei, status: nil, hardware: nil) else
+        {
             print("Could not get info with provided IMEI")
             return
         }
         
         // make sure that the IMEI has an associated subscriber
-        guard let searchSubscriber = maybeSearchSubscriber.subscribers.first else {
+
+        if let searchResult = maybeSearchResult as? SbdSearchSubscribersResult, let subscriberResult = searchResult.subscribers.first
+        {
+            // set global variables to the most accessible information
+            subscriber = subscriberResult.id
+            hardware = subscriberResult.hardware
+            billingGroup = subscriberResult.billingGroup
+            
+            print("""
+                Subscriber ID set to \(subscriber)
+                Your Hardware ID: \(hardware)
+                Your Billing Group ID: \(billingGroup)
+                """)
+        }
+        else
+        {
             print("Provided IMEI has no associated subscribers")
             return
         }
-        
-        // set global variables to the most accessible information
-        subscriber = searchSubscriber.id
-        hardware = searchSubscriber.hardware
-        billingGroup = searchSubscriber.billingGroup
-        
-        print("""
-            Subscriber ID set to \(subscriber)
-            Your Hardware ID: \(hardware)
-            Your Billing Group ID: \(billingGroup)
-            """)
-        
     }
     
     public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) {
@@ -150,10 +155,19 @@ public class SbdWorkflow {
         }
 
         // create new destination
-        guard Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) != nil else
+        guard let result = Sbd().CreateDestination(token: token, subscriber: subscriber, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
         {
             print("Failed to create a new destination for subscriber \(subscriber.description): Invalid destination")
             return
+        }
+        
+        if let errorResult = result as? SBDErrorResult
+        {
+            print("Received an error while attempting to add a new destination for \(subscriber): \(errorResult)")
+        }
+        else
+        {
+            print("New destination created for \(subscriber)")
         }
     }
     
