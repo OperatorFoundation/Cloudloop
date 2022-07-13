@@ -518,6 +518,7 @@ public struct Sbd
         guard let resultData = try? Data(contentsOf: url) else {return nil}
 //        let dataString = String(decoding: resultData, as: UTF8.self)
 //        print("\nCreate destination response: \(dataString)")
+        
         let decoder = JSONDecoder()
         
         do

@@ -35,7 +35,18 @@
         
         func testDestination() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            workflow.newDestination(nextDestination: "nextDestination", type: "type")
+            let result = workflow.newDestination(nextDestination: "nextDestination", type: "type")
+            
+            switch result {
+                case .success:
+                    print("newDestination test succeeded")
+                case .sbdError(let sBDErrorResult):
+                    print(sBDErrorResult)
+                    XCTFail()
+                case .failure(let reason):
+                    print(reason)
+                    XCTFail()
+            }
         }
         
         func testShutdown() {

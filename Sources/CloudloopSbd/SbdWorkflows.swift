@@ -1,16 +1,23 @@
 import Foundation
 import Cloudloop
 
+public enum SwitchboardResponse
+{
+    case success
+    case sbdError(SBDErrorResult)
+    case failure(reason: String)
+}
 
-public class SbdWorkflow {
-    
+public class SbdWorkflow
+{
     public let token: String
     public let imei: String
     public var billingGroup: String
     public var subscriber: String
     public var hardware: String
     
-    public init(token: String, imei: String) {
+    public init(token: String, imei: String)
+    {
         self.token = token
         self.imei = imei
         self.billingGroup = ""
@@ -134,58 +141,78 @@ public class SbdWorkflow {
         }
     }
     
-    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false)
+    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) -> SwitchboardResponse
     {
         print("Cloudloop.newDestination() called.")
         
-        guard let subscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else{
-            print("could not get destination list")
-            return
+        guard let subscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else
+        {
+            let failure = "Get subscriber request failed"
+            print(failure)
+            return .failure(reason: failure)
         }
         
-        print("Cloudloop.newDestination() retrieved the subscriber information: \(subscriberResult.subscriber.id)")
+        print("Cloudloop.newDestination: Retrieved the subscriber information: \(subscriberResult.subscriber.id)")
         
         // delete all previous destinations
         let destinations = subscriberResult.subscriber.destinations
         
-        print("Subscriber has \(destinations.count) current destinations.")
+        print("Cloudloop.newDestination: Subscriber has \(destinations.count) current destinations.")
+        
         for destination in destinations
         {
-            print("Deleting destination: \(destination.destination)")
             let destinationID = destination.id
-            guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else {
-                print("could not delete previous destinations")
-                return
+            
+            // If the current destination is already the same as the requested destination return success
+            // TODO: Are we checking the right things?
+            print("Current destination type \(destination.type) and ID \(destination.id)")
+            print("requested destination type \(type) and id \(nextDestination)")
+
+            if destination.type == type && destination.id == nextDestination
+            {
+                print("Current destination type \(destination.type) and destination ID \(destination.id) are the same as the requested type \(type) and id \(nextDestination)")
+                return .success
+            }
+            
+            print("Deleting destination: \(destination.destination)")
+            
+            guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else
+            {
+                let failure = "Delete destination request failed for destination ID \(destinationID)"
+                print(failure)
+                return .failure(reason: failure)
             }
         }
 
         // create new destination
         guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
         {
-            print("Failed to create a new destination for subscriber \(subscriberResult.subscriber.id): Invalid destination")
-            return
+            let failure = "Failed to create a new destination for subscriber \(subscriberResult.subscriber.id): Invalid destination"
+            print(failure)
+            return .failure(reason: failure)
         }
         
         if let errorResult = result as? SBDErrorResult
         {
             print("Received an error while attempting to add a new destination for \(subscriberResult.subscriber.id): \(errorResult)")
+            
+            return .sbdError(errorResult)
         }
         else
         {
             print("New destination created for \(subscriberResult.subscriber.id)")
+            return .success
         }
     }
     
     public func setImei() {
         
     }
-    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
-    // NOTETOSELF: Dont make an enum case for this
+
 //    public func refreshMessages(messageCheckTime: Int32) {
 //        // fetch the most updated information
 //        refreshInfo()
 //
-//        // FIXME: lastMessageReceived should be optional
 //        let retrieveMessages = DataMO().GetMessagesPolled(token: token, maxPollTime: messageCheckTime, lastMessageReceived: "")
 //        guard (retrieveMessages?.messages != nil) else {
 //            print("No new messages!")
@@ -204,8 +231,6 @@ public class SbdWorkflow {
 //        }
 //    }
 //
-//    // NOTETOSELF: This is not the method we will use for message sending, but well keep it anyway
-//    // NOTETOSELF: Dont make an enum case for this
 //    public func sendMessage(recipients: [String], message: String) {
 //
 //        guard let messageResults = DataMT().SendMessage(token: token, hardware: "recipients", payload: message)?.requests else {
