@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Cloudloop",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(
             name: "Cloudloop",
