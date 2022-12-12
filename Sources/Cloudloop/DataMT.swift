@@ -48,13 +48,13 @@ public struct DataMT
    public init() {}
 
     // https://docs.cloudloop.com/reference#send-message
-    public func SendMessage(token: String, hardware: String, payload: String) -> DataMTSendMessageResult?
+    public func SendMessage(hardware: String, payload: String, flushMT: Bool = false) -> DataMTSendMessageResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/SendMessage") else {return nil}
         components.queryItems = [
-            URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
-			URLQueryItem(name: "payload", value: payload)
+			URLQueryItem(name: "payload", value: payload),
+            URLQueryItem(name: "flushMt", value: String(flushMT))
         ]
         guard let url = components.url else {return nil}
         guard let resultData = try? Data(contentsOf: url) else {return nil}

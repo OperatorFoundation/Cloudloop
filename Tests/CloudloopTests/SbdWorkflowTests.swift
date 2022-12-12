@@ -15,6 +15,11 @@
             workflow.modemAssign(planName: "planName")
         }
         
+        func testSendMessage() {
+            let workflow = SbdWorkflow(token: "token", imei: "imei")
+            let result = workflow.sendMessage(payload: "test")
+        }
+        
 //        func testSendMessages() {
 //            let workflow = SbdWorkflow(token: "token", imei: "imei")
 //            guard workflow.sendMessage(recipients: ["Recipients"], message: "message") != nil else {

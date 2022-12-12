@@ -208,6 +208,19 @@ public class SbdWorkflow
     public func setImei() {
         
     }
+    
+    public func sendMessage(payload: String, flushMT: Bool = false) -> SwitchboardResponse {
+        refreshInfo()
+        
+        guard let result = DataMT().SendMessage(hardware: self.hardware, payload: payload, flushMT: flushMT) else
+        {
+            let failure = "Failed to send new message: "
+            print(failure)
+            return .failure(reason: failure)
+        }
+        
+        return .success
+    }
 
 //    public func refreshMessages(messageCheckTime: Int32) {
 //        // fetch the most updated information
