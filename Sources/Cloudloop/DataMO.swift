@@ -50,7 +50,7 @@ public struct DataMO
     }
 
     // https://docs.cloudloop.com/reference#retrieve-messages-long-poll
-    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String) -> DataMOReceiveMessageLongPollResult?
+    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) -> DataMOReceiveMessageLongPollResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMO/GetMessagesPolled") else {return nil}
         components.queryItems = [

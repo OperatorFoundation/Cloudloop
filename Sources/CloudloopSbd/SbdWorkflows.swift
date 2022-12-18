@@ -212,9 +212,21 @@ public class SbdWorkflow
     public func sendMessage(payload: String, flushMT: Bool = false) -> SwitchboardResponse {
         refreshInfo()
         
-        guard let result = DataMT().SendMessage(hardware: self.hardware, payload: payload, flushMT: flushMT) else
+        guard let result = DataMT().SendMessage(token: self.token, hardware: self.hardware, payload: payload, flushMT: flushMT) else
         {
             let failure = "Failed to send new message: "
+            print(failure)
+            return .failure(reason: failure)
+        }
+        
+        return .success
+    }
+    
+    public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) -> SwitchboardResponse {
+        refreshInfo()
+        
+        guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 0, lastMessageReceived: lastMessageRetrieved) else {
+            let failure = "Failed to retrieve messages: "
             print(failure)
             return .failure(reason: failure)
         }
