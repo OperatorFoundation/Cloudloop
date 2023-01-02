@@ -232,9 +232,7 @@ public class SbdWorkflow
             return .failure(reason: failure)
         }
         
-        let lastMessageRetrievedID = result.lastMessageRetreived
-        
-        return .success
+        return .messages(result)
     }
 
 //    public func refreshMessages(messageCheckTime: Int32) {
