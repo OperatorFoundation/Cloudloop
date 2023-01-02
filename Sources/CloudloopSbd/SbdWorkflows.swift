@@ -6,6 +6,7 @@ public enum SwitchboardResponse
     case success
     case sbdError(SBDErrorResult)
     case failure(reason: String)
+    case messages(DataMORetrieveMessageLongPollResult)
 }
 
 public class SbdWorkflow
@@ -230,6 +231,8 @@ public class SbdWorkflow
             print(failure)
             return .failure(reason: failure)
         }
+        
+        let lastMessageRetrievedID = result.lastMessageRetreived
         
         return .success
     }

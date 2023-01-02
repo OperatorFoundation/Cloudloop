@@ -13,7 +13,7 @@ public struct DataMODataMOGetMessagesResult: Codable
     }
 }
 
-public struct DataMOReceiveMessageLongPollResult: Codable
+public struct DataMORetrieveMessageLongPollResult: Codable
 {
 	public let lastMessageRetreived: String
 	public let messages: [Messages]
@@ -50,7 +50,7 @@ public struct DataMO
     }
 
     // https://docs.cloudloop.com/reference#retrieve-messages-long-poll
-    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) -> DataMOReceiveMessageLongPollResult?
+    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) -> DataMORetrieveMessageLongPollResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMO/GetMessagesPolled") else {return nil}
         components.queryItems = [
@@ -63,7 +63,7 @@ public struct DataMO
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(DataMOReceiveMessageLongPollResult.self, from: resultData) else {return nil}
+        guard let result = try? decoder.decode(DataMORetrieveMessageLongPollResult.self, from: resultData) else {return nil}
 
         return result
     }
