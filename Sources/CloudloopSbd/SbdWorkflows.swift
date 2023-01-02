@@ -1,12 +1,28 @@
 import Foundation
 import Cloudloop
 
-public enum SwitchboardResponse
+public enum SwitchboardResponse: Codable
 {
     case success
     case sbdError(SBDErrorResult)
     case failure(reason: String)
     case messages(DataMORetrieveMessageLongPollResult)
+}
+
+extension SwitchboardResponse
+{
+    public var jsonData: Data?
+    {
+        let encoder = JSONEncoder()
+        return try? encoder.encode(self)
+    }
+    
+    public init(jsonData: Data) throws
+    {
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode(Self.self, from: jsonData)
+        self = decoded
+    }
 }
 
 public class SbdWorkflow
