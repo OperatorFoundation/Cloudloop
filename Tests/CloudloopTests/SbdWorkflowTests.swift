@@ -51,6 +51,8 @@
                 case .failure(let reason):
                     print(reason)
                     XCTFail()
+                default:
+                    XCTFail()
             }
         }
         

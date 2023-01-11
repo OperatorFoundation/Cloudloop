@@ -1,7 +1,7 @@
 import Foundation
 import Cloudloop
 
-public enum SwitchboardResponse: Codable
+public enum CloudloopResponse: Codable
 {
     case success
     case sbdError(SBDErrorResult)
@@ -9,7 +9,7 @@ public enum SwitchboardResponse: Codable
     case messages(DataMORetrieveMessageLongPollResult)
 }
 
-extension SwitchboardResponse
+extension CloudloopResponse
 {
     public var jsonData: Data?
     {
@@ -158,7 +158,7 @@ public class SbdWorkflow
         }
     }
     
-    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) -> SwitchboardResponse
+    public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) -> CloudloopResponse
     {
         print("Cloudloop.newDestination() called.")
         
@@ -226,7 +226,7 @@ public class SbdWorkflow
         
     }
     
-    public func sendMessage(payload: String, flushMT: Bool = false) -> SwitchboardResponse {
+    public func sendMessage(payload: String, flushMT: Bool = false) -> CloudloopResponse {
         refreshInfo()
         
         guard let result = DataMT().SendMessage(token: self.token, hardware: self.hardware, payload: payload, flushMT: flushMT) else
@@ -239,7 +239,7 @@ public class SbdWorkflow
         return .success
     }
     
-    public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) -> SwitchboardResponse {
+    public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) -> CloudloopResponse {
         refreshInfo()
         
         guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 0, lastMessageReceived: lastMessageRetrieved) else {
