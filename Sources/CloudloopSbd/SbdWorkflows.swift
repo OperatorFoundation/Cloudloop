@@ -160,6 +160,7 @@ public class SbdWorkflow
     
     public func newDestination(nextDestination: String, type: String, moack: Bool = false, geodata: Bool = false) -> CloudloopResponse
     {
+        refreshInfo()
         print("Cloudloop.newDestination() called.")
         
         guard let subscriberResult = Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else
@@ -171,36 +172,33 @@ public class SbdWorkflow
         
         print("Cloudloop.newDestination: Retrieved the subscriber information: \(subscriberResult.subscriber.id)")
         
-        // delete all previous destinations
-        let destinations = subscriberResult.subscriber.destinations
+        var destinations = subscriberResult.subscriber.destinations
         
-        print("Cloudloop.newDestination: Subscriber has \(destinations.count) current destinations.")
-        
-        for destination in destinations
-        {
-            let destinationID = destination.id
-            
-            // If the current destination is already the same as the requested destination return success
-            // TODO: Are we checking the right things?
-            print("Current destination type \(destination.type) and ID \(destination.id)")
-            print("requested destination type \(type) and id \(nextDestination)")
-
-            if destination.type == type && destination.id == nextDestination
+        if destinations.count > 0 {
+            print("Deleting previous destinations")
+            for destination in destinations
             {
-                print("Current destination type \(destination.type) and destination ID \(destination.id) are the same as the requested type \(type) and id \(nextDestination)")
-                return .success
-            }
-            
-            print("Deleting destination: \(destination.destination)")
-            
-            guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else
-            {
-                let failure = "Delete destination request failed for destination ID \(destinationID)"
-                print(failure)
-                return .failure(reason: failure)
+                let destinationID = destination.id
+                
+                // If the current destination is already the same as the requested destination return success
+                // TODO: Are we checking the right things?
+                //            print("Current destination type \(destination.type) and ID \(destination.id)")
+                //            print("requested destination type \(type) and id \(nextDestination)")
+                
+                //            if destination.type == type && destination.id == nextDestination
+                //            {
+                //                print("Current destination type \(destination.type) and destination ID \(destination.id) are the same as the requested type \(type) and id \(nextDestination)")
+                //                return .success
+                //            }
+                
+                guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else
+                {
+                    let failure = "Delete destination request failed for destination ID \(destinationID)"
+                    print(failure)
+                    return .failure(reason: failure)
+                }
             }
         }
-
         // create new destination
         guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
         {
