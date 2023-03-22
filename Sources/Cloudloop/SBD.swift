@@ -167,7 +167,7 @@ public struct SbdReassociateSubscriberResult: Codable
     }
 }
 
-public struct SBDErrorResult: Codable, SBDResult
+public struct SBDErrorResult: Codable, SBDResult, Error
 {
     public let at: Float
     public let error: String
@@ -235,7 +235,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-subscriber
-    public func GetSubscriber(token: String, subscriber: String, imei: String) -> SbdGetSubscriberResult?
+    public func GetSubscriber(token: String, subscriber: String, imei: String) throws -> SbdGetSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetSubscriber") else {return nil}
         components.queryItems = [
@@ -257,8 +257,13 @@ public struct Sbd
         }
         catch
         {
+            if let errorResult = try? decoder.decode(SBDErrorResult.self, from: resultData)
+            {
+                throw errorResult
+            }
+            
             print("Failed to decode result from /Sbd/GetSubscriber to valid JSON. Error: \(error)")
-            return nil
+            throw SBDError.unknownResponse
         }
     }
     
@@ -610,4 +615,9 @@ public struct Sbd
 
         return result
     }
+}
+
+public enum SBDError: Error
+{
+    case unknownResponse
 }

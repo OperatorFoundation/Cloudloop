@@ -17,7 +17,7 @@
         
         func testSendMessage() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.sendMessage(payload: "test")
+            _ = workflow.sendMessage(payload: "test")
         }
         
 //        func testSendMessages() {

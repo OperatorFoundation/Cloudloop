@@ -12,8 +12,17 @@
                 return
             }
             
-            let sbd = Sbd().GetSubscriber(token: token!, subscriber: subscriber, imei: imei!)
-            XCTAssertNotNil(sbd)
+            do
+            {
+                let sbd = try Sbd().GetSubscriber(token: token!, subscriber: subscriber, imei: imei!)
+                XCTAssertNotNil(sbd)
+            }
+            catch
+            {
+                print("Get Subscriber Failure: \(error)")
+                XCTFail()
+            }
+            
         }
         
         func testGeneratedSbdSearchSubscriber() {
