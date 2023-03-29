@@ -17,7 +17,20 @@
         
         func testSendMessage() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            _ = workflow.sendMessage(payload: "test")
+            let result = workflow.sendMessage(payload: "test")
+            
+            switch result {
+                case .success:
+                    print("newDestination test succeeded")
+                case .sbdError(let sBDErrorResult):
+                    print(sBDErrorResult)
+                    XCTFail()
+                case .failure(let reason):
+                    print(reason)
+                    XCTFail()
+                default:
+                    XCTFail()
+            }
         }
         
 //        func testSendMessages() {
@@ -40,7 +53,7 @@
         
         func testDestination() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.newDestination(nextDestination: "nextDestination", type: "type")
+            let result = workflow.newDestination(nextDestination: "destination", type: "IMEI")
             
             switch result {
                 case .success:

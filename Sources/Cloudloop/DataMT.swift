@@ -50,7 +50,7 @@ public struct DataMT
     // https://docs.cloudloop.com/reference#send-message
     public func SendMessage(token: String, hardware: String, payload: String, flushMT: Bool = false) -> DataMTSendMessageResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/SendMessage") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/DoSendMessage") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
@@ -70,7 +70,7 @@ public struct DataMT
     // https://docs.cloudloop.com/reference#get-message-status
     public func GetMessage(token: String, message: String) -> DataMTGetMessageResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/GetMessage") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessage") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "message", value: message)
@@ -88,7 +88,7 @@ public struct DataMT
     // https://docs.cloudloop.com/reference#get-messages
     public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMTDataMTGetMessagesResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/GetMessages") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessages") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
@@ -108,7 +108,7 @@ public struct DataMT
     // https://docs.cloudloop.com/reference#getmessagespolled
     public func GetMessagesPolled(token: String, lastMessageRetrieved: String, maxPollTime: Int32) -> DataMTGetMessagesPolledResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMT/GetMessagesPolled") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessagesPolled") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "lastMessageRetrieved", value: lastMessageRetrieved),

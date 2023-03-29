@@ -272,7 +272,7 @@ public struct Sbd
     public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SBDResult?
     {
         print("SBD.SearchSubscribers() called")
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SearchSubscribers") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetSubscribers") else {return nil}
 
         components.queryItems = [URLQueryItem(name: "token", value: token)]
         
