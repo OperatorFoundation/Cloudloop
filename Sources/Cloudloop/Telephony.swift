@@ -213,7 +213,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#search
     public func SearchSubscribers(token: String) -> TelephonySearchSubscribersResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/SearchSubscribers") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/GetSubscribers") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 
@@ -326,7 +326,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#activate-1
     public func ActivateSubscriber(token: String, subscriber: String, hardware: String, plan: String, localNumberAccess: Bool) -> TelephonyActivateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/ActivateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoActivateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -347,7 +347,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#deactivate-1
     public func DeactivateSubscriber(token: String, subscriber: String) -> TelephonyDeactivateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DeactivateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoDeactivateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -365,7 +365,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#refresh-2
     public func ResumeSubscriber(token: String, subscriber: String) -> TelephonyResumeSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/ResumeSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoResumeSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -383,7 +383,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#suspend-subscriber
     public func SuspendSubscriber(token: String, subscriber: String) -> TelephonySuspendSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/SuspendSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoSuspendSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -401,7 +401,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#change-contract
     public func ChangeSubscriber(token: String, subscriber: String, plan: String) -> TelephonyChangeSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/ChangeSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoChangeSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -440,7 +440,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#reassociate-subscriber
     public func ReassociateSubscriber(token: String, subscriber: String, sim: String, hardware: String) -> TelephonyReassociateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/ReassociateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoReassociateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -460,7 +460,7 @@ public struct Telephony
     // https://docs.cloudloop.com/reference#assign-billing-group-1
     public func AssignBillingGroup(token: String, subscriber: String, billingGroup: String) -> TelephonyAssignBillingGroupResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/AssignBillingGroup") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Telephony/DoAssignBillingGroup") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),

@@ -32,7 +32,7 @@ public struct DataMO
     // https://docs.cloudloop.com/reference#retrieve-messages
     public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMODataMOGetMessagesResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMO/GetMessages") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMo/GetMessages") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
@@ -52,7 +52,7 @@ public struct DataMO
     // https://docs.cloudloop.com/reference#retrieve-messages-long-poll
     public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) -> DataMORetrieveMessageLongPollResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMO/GetMessagesPolled") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/DataMo/GetMessagesPolled") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "maxPollTime", value: String(maxPollTime)),

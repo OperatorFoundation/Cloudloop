@@ -78,7 +78,7 @@ public struct Hardware
     // https://docs.cloudloop.com/reference#search-hardware
     public func SearchHardware(token: String) -> HardwareSearchHardwareResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/SearchHardware") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/GetHardwares") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 

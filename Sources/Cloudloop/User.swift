@@ -20,7 +20,7 @@ public struct User
     // https://docs.cloudloop.com/reference#generate-token
     public func GenerateToken(token: String) -> UserGenerateTokenResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/User/GenerateToken") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/User/DoGenerateToken") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 

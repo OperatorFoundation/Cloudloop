@@ -271,7 +271,7 @@ public class SbdWorkflow
     public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) -> CloudloopResponse {
         refreshInfo()
         
-        guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 0, lastMessageReceived: lastMessageRetrieved) else {
+        guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 60, lastMessageReceived: lastMessageRetrieved) else {
             let failure = "Failed to retrieve messages: "
             print(failure)
             return .failure(reason: failure)

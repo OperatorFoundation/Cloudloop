@@ -76,7 +76,7 @@ public struct Sim
     // https://docs.cloudloop.com/reference#get-sims
     public func SearchSims(token: String) -> SimSearchSimsResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sim/SearchSims") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sim/GetSims") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 

@@ -398,7 +398,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#activate-subscriber
     public func ActivateSubscriber(token: String, subscriber: String, plan: String) -> SbdActivateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/ActivateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoActivateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -417,7 +417,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#deactivate-subscriber
     public func DeactivateSubscriber(token: String, subscriber: String) -> SbdDeactivateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DeactivateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoDeactivateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -435,7 +435,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#resume-subscriber
     public func ResumeSubscriber(token: String, subscriber: String) -> SbdResumeSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/ResumeSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoResumeSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -453,7 +453,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#suspend-subscriber-1
     public func SuspendSubscriber(token: String, subscriber: String) -> SbdSuspendSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/SuspendSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoSuspendSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber)
@@ -471,7 +471,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#change-subscriber
     public func ChangeSubscriber(token: String, subscriber: String, plan: String) -> SbdChangeSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/ChangeSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoChangeSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -581,7 +581,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#swap-subscriber
     public func ReassociateSubscriber(token: String, subscriber: String, hardware: String) -> SbdReassociateSubscriberResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/ReassociateSubscriber") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoReassociateSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
@@ -600,7 +600,7 @@ public struct Sbd
     // https://docs.cloudloop.com/reference#assign-billing-group
     public func AssignBillingGroup(token: String, subscriber: String, billingGroup: String) -> SbdAssignBillingGroupResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/AssignBillingGroup") else {return nil}
+        guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoAssignBillingGroup") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "subscriber", value: subscriber),
