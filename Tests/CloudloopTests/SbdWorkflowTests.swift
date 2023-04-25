@@ -17,7 +17,7 @@
         
         func testSendMessage() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.sendMessage(payload: "test")
+            let result = workflow.sendMessage(payload: "74657374", receiverHardwareId: "hardware")
             
             switch result {
                 case .success:
@@ -29,6 +29,83 @@
                     print(reason)
                     XCTFail()
                 default:
+                    XCTFail()
+            }
+        }
+        
+        func testReceiveMessages() {
+            guard let now = Calendar.current.date(byAdding: .hour, value: -5, to: Date.now) else {
+                XCTFail()
+                return
+            }
+            
+            guard let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -9, to: now) else {
+                XCTFail()
+                return
+            }
+            
+            let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo)
+            switch retrieveResult {
+                case .success:
+                    print("retrieve succeeded")
+                case .sbdError(let sBDErrorResult):
+                    print(sBDErrorResult)
+                    XCTFail()
+                case .failure(let reason):
+                    print(reason)
+                    XCTFail()
+                case .messages(let messages):
+                    print("first message received: \(messages.messages[0].payload)")
+                default:
+                    print("retrieveMessagesResult default case reached: \(retrieveResult)")
+                    XCTFail()
+            }
+        }
+        
+        func testSendAndReceiveMessages() {
+            let senderWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            
+            let sendResult = senderWorkflow.sendMessage(payload: "74657374", receiverHardwareId: "hardware")
+
+            switch sendResult {
+                case .success:
+                    print("send succeeded")
+                case .sbdError(let sBDErrorResult):
+                    print(sBDErrorResult)
+                    XCTFail()
+                case .failure(let reason):
+                    print(reason)
+                    XCTFail()
+                default:
+                    XCTFail()
+            }
+            
+            guard let now = Calendar.current.date(byAdding: .hour, value: -5, to: Date.now) else {
+                XCTFail()
+                return
+            }
+            
+            guard let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -9, to: now) else {
+                XCTFail()
+                return
+            }
+            
+            let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo)
+            switch retrieveResult {
+                case .success:
+                    print("retrieve succeeded")
+                case .sbdError(let sBDErrorResult):
+                    print(sBDErrorResult)
+                    XCTFail()
+                case .failure(let reason):
+                    print(reason)
+                    XCTFail()
+                case .messages(let messages):
+                    print("first message received: \(messages.messages[0].payload)")
+                default:
+                    print("retrieveMessagesResult default case reached: \(retrieveResult)")
                     XCTFail()
             }
         }

@@ -95,12 +95,23 @@ public struct DataMT
 			URLQueryItem(name: "from", value: from),
 			URLQueryItem(name: "to", value: to)
         ]
-        guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let url = components.url else {
+            print("Could not make a URL from the provided options")
+            return nil
+        }
+        
+        guard let resultData = try? Data(contentsOf: url) else {
+            print("Could not make URL contents into data")
+            return nil
+        }
+        
         let dataString = String(decoding: resultData, as: UTF8.self)
-        print(dataString)
+        print("\n URL data as string: \(dataString) \n")
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(DataMTDataMTGetMessagesResult.self, from: resultData) else {return nil}
+        guard let result = try? decoder.decode(DataMTDataMTGetMessagesResult.self, from: resultData) else {
+            print("Failed to decode GetMessages")
+            return nil
+        }
 
         return result
     }

@@ -6,7 +6,8 @@ public enum CloudloopResponse: Codable
     case success
     case sbdError(SBDErrorResult)
     case failure(reason: String)
-    case messages(DataMORetrieveMessageLongPollResult)
+    case messages(DataMTDataMTGetMessagesResult)
+    case messagesLongPolled(DataMORetrieveMessageLongPollResult)
 }
 
 extension CloudloopResponse
@@ -116,12 +117,12 @@ public class SbdWorkflow
                 return
             }
             
-            let destinations = getSubscriberResult.subscriber.destinations
-            
-            for destination in destinations
-            {
-                let _ = Sbd().DeleteDestination(token: token, destination: destination.destination)
-            }
+//            let destinations = getSubscriberResult.subscriber.destinations
+//
+//            for destination in destinations
+//            {
+//                let _ = Sbd().DeleteDestination(token: token, destination: destination.destination)
+//            }
             
             guard Sbd().DeactivateSubscriber(token: token, subscriber: subscriber) != nil else
             {
@@ -187,34 +188,6 @@ public class SbdWorkflow
             
             print("Cloudloop.newDestination: Retrieved the subscriber information: \(subscriberResult.subscriber.id)")
             
-            let destinations = subscriberResult.subscriber.destinations
-            
-            if destinations.count > 0 {
-                print("Deleting previous destinations")
-                for destination in destinations
-                {
-                    let destinationID = destination.id
-                    
-                    // If the current destination is already the same as the requested destination return success
-                    // TODO: Are we checking the right things?
-                    //            print("Current destination type \(destination.type) and ID \(destination.id)")
-                    //            print("requested destination type \(type) and id \(nextDestination)")
-                    
-                    //            if destination.type == type && destination.id == nextDestination
-                    //            {
-                    //                print("Current destination type \(destination.type) and destination ID \(destination.id) are the same as the requested type \(type) and id \(nextDestination)")
-                    //                return .success
-                    //            }
-                    
-                    guard Sbd().DeleteDestination(token: token, destination: destinationID) != nil else
-                    {
-                        let failure = "Delete destination request failed for destination ID \(destinationID)"
-                        print(failure)
-                        return .failure(reason: failure)
-                    }
-                }
-            }
-            
             // create new destination
             guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: nextDestination, type: type, moack: moack, geodata: geodata) else
             {
@@ -254,11 +227,11 @@ public class SbdWorkflow
         
     }
     
-    public func sendMessage(payload: String, flushMT: Bool = false) -> CloudloopResponse
+    public func sendMessage(payload: String, receiverHardwareId: String, flushMT: Bool = false) -> CloudloopResponse
     {
         refreshInfo()
         
-        guard DataMT().SendMessage(token: self.token, hardware: self.hardware, payload: payload, flushMT: flushMT) != nil else
+        guard DataMT().SendMessage(token: self.token, hardware: receiverHardwareId, payload: payload, flushMT: flushMT) != nil else
         {
             let failure = "Failed to send new message: "
             print(failure)
@@ -272,6 +245,46 @@ public class SbdWorkflow
         refreshInfo()
         
         guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 60, lastMessageReceived: lastMessageRetrieved) else {
+            let failure = "Failed to retrieve messages: "
+            print(failure)
+            return .failure(reason: failure)
+        }
+        
+        return .messagesLongPolled(result)
+    }
+    
+    // THIS NEEDS TO BE IN UTC
+    public func retrieveMessages(lastChecked: Date) -> CloudloopResponse{
+        refreshInfo()
+        
+        let calendar = Calendar.current
+        let nowUTC = Date()
+//        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
+//        guard let currentLocalDate = calendar.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {
+//            return .failure(reason: "Failed to fetch the local date")
+//        }
+        
+        let dateRangeComponents = calendar.dateComponents([.day], from: lastChecked, to: nowUTC)
+        guard let daysSinceLastChecked = dateRangeComponents.day else {
+            return .failure(reason: "Couldn't calculate the days passed since last checked")
+        }
+        
+        var from = lastChecked
+//        if daysSinceLastChecked >= 10 {
+//            print("Messages are only stored in the Iridium network for ten days")
+//            print("Messages were last checked ten or more days ago.  Checking for messages received in the last ten days")
+//            guard let tenDaysAgo = calendar.date(byAdding: .day, value: -10, to: currentLocalDate) else {
+//                return .failure(reason: "Couldn't calculate ten days before current date")
+//            }
+//
+//            from = tenDaysAgo
+//        }
+        
+        let dateFormatter = Date.ISO8601FormatStyle()
+        let formattedFrom = from.formatted(dateFormatter).dropLast(1)
+        let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
+        
+        guard let result = DataMT().GetMessages(token: self.token, hardware: self.hardware, from: String(formattedFrom), to: String(formattedTo)) else {
             let failure = "Failed to retrieve messages: "
             print(failure)
             return .failure(reason: failure)

@@ -814,7 +814,7 @@ public struct SBDGetSubscriber: Codable
 	public let lastSeen: String
 	public let contract: SBDContract
 	public let billingGroup: String
-	public let destinations: [SBDDestination]
+//	public let destinations: [SBDDestination]
 	public let name: String
 	public let description: String?
 	public let id: String
@@ -822,13 +822,13 @@ public struct SBDGetSubscriber: Codable
 	public let account: String
 	public let hardware: HardwareResult
 
-    public init(token: String, createdAt: String, lastSeen: String, contract: SBDContract, billingGroup: String, destinations: [SBDDestination], name: String, description: String, id: String, customMonitorThreshold: Float?, account: String, hardware: HardwareResult)
+    public init(token: String, createdAt: String, lastSeen: String, contract: SBDContract, billingGroup: String, name: String, description: String, id: String, customMonitorThreshold: Float?, account: String, hardware: HardwareResult)
     {
 		self.createdAt = createdAt
 		self.lastSeen = lastSeen
 		self.contract = contract
 		self.billingGroup = billingGroup
-		self.destinations = destinations
+		// self.destinations = destinations
 		self.name = name
 		self.description = description
 		self.id = id
