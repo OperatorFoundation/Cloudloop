@@ -17,7 +17,7 @@
         
         func testSendMessage() {
             let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.sendMessage(payload: "74657374", receiverHardwareId: "hardware")
+            let result = workflow.sendMessage(payload: "74657374", receiverIMEI: "hardware")
             
             switch result {
                 case .success:
@@ -66,7 +66,7 @@
         func testSendAndReceiveMessages() {
             let senderWorkflow = SbdWorkflow(token: "token", imei: "imei")
             
-            let sendResult = senderWorkflow.sendMessage(payload: "74657374", receiverHardwareId: "hardware")
+            let sendResult = senderWorkflow.sendMessage(payload: "74657374", receiverIMEI: "hardware")
 
             switch sendResult {
                 case .success:

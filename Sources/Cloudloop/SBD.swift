@@ -235,12 +235,11 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-subscriber
-    public func GetSubscriber(token: String, subscriber: String, imei: String) throws -> SbdGetSubscriberResult?
+    public func GetSubscriber(token: String, imei: String) throws -> SbdGetSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetSubscriber") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "subscriber", value: subscriber),
 			URLQueryItem(name: "imei", value: imei)
         ]
         

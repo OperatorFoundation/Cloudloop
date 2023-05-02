@@ -111,7 +111,7 @@ public class SbdWorkflow
         
         do
         {
-            guard let getSubscriberResult = try Sbd().GetSubscriber(token: token, subscriber: subscriberID, imei: imei) else
+            guard let getSubscriberResult = try Sbd().GetSubscriber(token: token, imei: imei) else
             {
                 print("Could not find Subscriber with provided info.")
                 return
@@ -179,7 +179,7 @@ public class SbdWorkflow
         
         do
         {
-            guard let subscriberResult = try Sbd().GetSubscriber(token: token, subscriber: subscriber, imei: imei) else
+            guard let subscriberResult = try Sbd().GetSubscriber(token: token, imei: imei) else
             {
                 let failure = "Get subscriber request failed"
                 print(failure)
@@ -227,11 +227,18 @@ public class SbdWorkflow
         
     }
     
-    public func sendMessage(payload: String, receiverHardwareId: String, flushMT: Bool = false) -> CloudloopResponse
+    public func sendMessage(payload: String, receiverIMEI: String, flushMT: Bool = false) -> CloudloopResponse
     {
         refreshInfo()
         
-        guard DataMT().SendMessage(token: self.token, hardware: receiverHardwareId, payload: payload, flushMT: flushMT) != nil else
+        guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: receiverIMEI) else
+        {
+            let failureMessage = "Failed to get a valid hardware ID response for the provided IMEI: \(imei)"
+            print(failureMessage)
+            return .failure(reason: failureMessage)
+        }
+        
+        guard DataMT().SendMessage(token: self.token, hardware: hardwareResponse.hardware.id, payload: payload, flushMT: flushMT) != nil else
         {
             let failure = "Failed to send new message: "
             print(failure)

@@ -14,7 +14,7 @@
             
             do
             {
-                let sbd = try Sbd().GetSubscriber(token: token!, subscriber: subscriber, imei: imei!)
+                let sbd = try Sbd().GetSubscriber(token: token!, imei: imei!)
                 XCTAssertNotNil(sbd)
             }
             catch

@@ -57,12 +57,11 @@ public struct Hardware
     }
 
     // https://docs.cloudloop.com/reference#get-hardware
-    public func GetHardware(token: String, hardware: String, imei: String) -> HardwareGetHardwareResult?
+    public func GetHardware(token: String, imei: String) -> HardwareGetHardwareResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/GetHardware") else {return nil}
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
-			URLQueryItem(name: "hardware", value: hardware),
 			URLQueryItem(name: "imei", value: imei)
         ]
         guard let url = components.url else {return nil}
