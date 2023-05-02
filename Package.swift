@@ -21,12 +21,14 @@ let package = Package(
             targets: ["CloudloopSbd"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/OperatorFoundation/Datable", branch: "main"),
         .package(url: "https://github.com/OperatorFoundation/Gardener", branch: "main"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftHexTools.git", branch: "main")
     ],
     targets: [
         .target(
             name: "Cloudloop",
-            dependencies: [],
+            dependencies: ["Datable", "SwiftHexTools"],
             exclude: ["README.md"]
         ),
         .target(

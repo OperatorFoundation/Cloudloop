@@ -311,7 +311,8 @@ func generateResultInit(resultType: ResultType) -> String
 {
     let parameters = generateInitParameters(parameters: resultType.fields)
     let functionBody = generateInitBody(resultType: resultType)
-    if (resultType.fields.count == 0) {
+    if (resultType.fields.count == 0)
+    {
         return """
             public init(token: String)
             {

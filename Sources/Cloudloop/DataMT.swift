@@ -3,6 +3,9 @@
 
 import Foundation
 
+import Datable
+import SwiftHexTools
+
 public struct DataMTSendMessageResult: Codable
 {
 	public let requests: [Requests]
@@ -54,7 +57,7 @@ public struct DataMT
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "hardware", value: hardware),
-			URLQueryItem(name: "payload", value: payload),
+            URLQueryItem(name: "payload", value: payload.data.hex),
             URLQueryItem(name: "flushMt", value: String(flushMT))
         ]
         guard let url = components.url else {return nil}
