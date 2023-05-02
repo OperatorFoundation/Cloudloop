@@ -3,7 +3,7 @@
 
 import Foundation
 
-public struct DataMODataMOGetMessagesResult: Codable
+public struct DataMOGetMessagesResult: Codable
 {
 	public let messages: [Messages]
 
@@ -30,7 +30,7 @@ public struct DataMO
    public init() {}
 
     // https://docs.cloudloop.com/reference#retrieve-messages
-    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMODataMOGetMessagesResult?
+    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMOGetMessagesResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMo/GetMessages") else {return nil}
         components.queryItems = [
@@ -52,7 +52,7 @@ public struct DataMO
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\n URL data as string: \(dataString) \n")
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(DataMODataMOGetMessagesResult.self, from: resultData) else {
+        guard let result = try? decoder.decode(DataMOGetMessagesResult.self, from: resultData) else {
             print("Failed to decode GetMessages")
             return nil
         }

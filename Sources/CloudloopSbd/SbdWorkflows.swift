@@ -6,7 +6,7 @@ public enum CloudloopResponse: Codable
     case success
     case sbdError(SBDErrorResult)
     case failure(reason: String)
-    case messages(DataMTDataMTGetMessagesResult)
+    case messages(DataMOGetMessagesResult)
     case messagesLongPolled(DataMORetrieveMessageLongPollResult)
 }
 
@@ -261,7 +261,7 @@ public class SbdWorkflow
     }
     
     // THIS NEEDS TO BE IN UTC
-    public func retrieveMessages(lastChecked: Date) -> CloudloopResponse{
+    public func retrieveMessages(lastChecked: Date, senderIMEI: String) -> CloudloopResponse{
         refreshInfo()
         
         let calendar = Calendar.current
@@ -291,7 +291,15 @@ public class SbdWorkflow
         let formattedFrom = from.formatted(dateFormatter).dropLast(1)
         let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
         
-        guard let result = DataMT().GetMessages(token: self.token, hardware: self.hardware, from: String(formattedFrom), to: String(formattedTo)) else {
+        guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: senderIMEI) else
+        {
+            let failureMessage = "Failed to get a valid hardware ID response for the provided IMEI: \(imei)"
+            print(failureMessage)
+            return .failure(reason: failureMessage)
+        }
+        
+        guard let result = DataMO().GetMessages(token: self.token, hardware: hardwareResponse.hardware.id, from: String(formattedFrom), to: String(formattedTo)) else
+        {
             let failure = "Failed to retrieve messages: "
             print(failure)
             return .failure(reason: failure)

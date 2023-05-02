@@ -45,7 +45,7 @@
             }
             
             let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
-            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo)
+            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo, senderIMEI: "30043")
             switch retrieveResult {
                 case .success:
                     print("retrieve succeeded")
@@ -92,7 +92,7 @@
             }
             
             let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
-            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo)
+            let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo, senderIMEI: "3004340")
             switch retrieveResult {
                 case .success:
                     print("retrieve succeeded")
