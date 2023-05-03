@@ -2,22 +2,11 @@
     @testable import Cloudloop
     @testable import CloudloopSbd
 
-    final class SbdWorkflowTests: XCTestCase {
-        
-        
-        func testModemSetup() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
-            workflow.modemSetup(subscriberName: "subscriberName", billingGroupName: "billingGroupName")
-        }
-        
-        func testModemAssign() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
-            workflow.modemAssign(planName: "planName")
-        }
-        
+    final class SbdWorkflowTests: XCTestCase
+{
         func testSendMessage() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.sendMessage(payload: "74657374", receiverIMEI: "hardware")
+            let workflow = SbdWorkflow(token: "token")
+            let result = workflow.sendMessage(payload: "Hello world!", receiverIMEI: "hardware")
             
             switch result {
                 case .success:
@@ -44,7 +33,7 @@
                 return
             }
             
-            let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            let receiverWorkflow = SbdWorkflow(token: "token")
             let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo, senderIMEI: "30043")
             switch retrieveResult {
                 case .success:
@@ -64,7 +53,7 @@
         }
         
         func testSendAndReceiveMessages() {
-            let senderWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            let senderWorkflow = SbdWorkflow(token: "token")
             
             let sendResult = senderWorkflow.sendMessage(payload: "74657374", receiverIMEI: "hardware")
 
@@ -91,7 +80,7 @@
                 return
             }
             
-            let receiverWorkflow = SbdWorkflow(token: "token", imei: "imei")
+            let receiverWorkflow = SbdWorkflow(token: "token")
             let retrieveResult = receiverWorkflow.retrieveMessages(lastChecked: tenDaysAgo, senderIMEI: "3004340")
             switch retrieveResult {
                 case .success:
@@ -110,27 +99,10 @@
             }
         }
         
-//        func testSendMessages() {
-//            let workflow = SbdWorkflow(token: "token", imei: "imei")
-//            guard workflow.sendMessage(recipients: ["Recipients"], message: "message") != nil else {
-//                XCTFail()
-//                return
-//            }
-//        }
-        
-//        func testRefreshMessages() {
-//            let (token, imei) = setTokenImei()
-//            let workflow = SbdWorkflow(token: token!, imei: imei!)
-//
-//            guard workflow.refreshMessages(messageCheckTime: 10) != nil else {
-//                XCTFail()
-//                return
-//            }
-//        }
         
         func testDestination() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
-            let result = workflow.newDestination(nextDestination: "destination", type: "IMEI")
+            let workflow = SbdWorkflow(token: "token")
+            let result = workflow.newDestination(deviceIMEI: "deviceIMEI", destination: "destination", type: "IMEI")
             
             switch result {
                 case .success:
@@ -144,11 +116,6 @@
                 default:
                     XCTFail()
             }
-        }
-        
-        func testShutdown() {
-            let workflow = SbdWorkflow(token: "token", imei: "imei")
-            workflow.modemShutdown(subscriberID: "subscriberID")
         }
         
     }

@@ -7,7 +7,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public struct SbdSBDCreateSubscriberResult: Codable
+public struct SbdCreateSubscriberResult: Codable
 {
 	public let subscriber: SBDCreateSubscriber
 
@@ -216,7 +216,7 @@ public struct Sbd
    public init() {}
 
     // https://docs.cloudloop.com/reference#create
-    public func CreateSubscriber(token: String, hardware: String, name: String? = nil) -> SbdSBDCreateSubscriberResult?
+    public func CreateSubscriber(token: String, hardware: String, name: String? = nil) -> SbdCreateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/CreateSubscriber") else {return nil}
         components.queryItems = [
@@ -229,7 +229,7 @@ public struct Sbd
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nCreateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(SbdSBDCreateSubscriberResult.self, from: resultData) else {return nil}
+        guard let result = try? decoder.decode(SbdCreateSubscriberResult.self, from: resultData) else {return nil}
 
         return result
     }
