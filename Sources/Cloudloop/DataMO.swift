@@ -5,9 +5,9 @@ import Foundation
 
 public struct DataMOGetMessagesResult: Codable
 {
-	public let messages: [Messages]
+	public let messages: [CloudloopMessage]
 
-    public init(token: String, messages: [Messages])
+    public init(token: String, messages: [CloudloopMessage])
     {
 		self.messages = messages
     }
@@ -16,9 +16,9 @@ public struct DataMOGetMessagesResult: Codable
 public struct DataMORetrieveMessageLongPollResult: Codable
 {
 	public let lastMessageRetreived: String
-	public let messages: [Messages]
+	public let messages: [CloudloopMessage]
 
-    public init(token: String, lastMessageRetreived: String, messages: [Messages])
+    public init(token: String, lastMessageRetreived: String, messages: [CloudloopMessage])
     {
 		self.lastMessageRetreived = lastMessageRetreived
 		self.messages = messages

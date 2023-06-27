@@ -474,7 +474,7 @@ public struct SBDGetPlans: Codable
     }
 }
 
-public struct Messages: Codable
+public struct CloudloopMessage: Codable
 {
 	public let id: String
 	public let hardware: String
