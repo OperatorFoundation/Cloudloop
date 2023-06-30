@@ -217,6 +217,8 @@ public class SbdWorkflow
         }
         
         var from = lastChecked
+        
+        // TODO: Limit the last checked to no more than 10 days
 //        if daysSinceLastChecked >= 10 {
 //            print("Messages are only stored in the Iridium network for ten days")
 //            print("Messages were last checked ten or more days ago.  Checking for messages received in the last ten days")
@@ -227,9 +229,15 @@ public class SbdWorkflow
 //            from = tenDaysAgo
 //        }
         
-        let dateFormatter = Date.ISO8601FormatStyle()
-        let formattedFrom = from.formatted(dateFormatter).dropLast(1)
-        let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        let formattedFrom = formatter.string(from: from).dropLast(1)
+        let formattedTo = formatter.string(from: nowUTC).dropLast(1)
+        
+        /// This version of date formatting is not currently supported on Linux
+//        let dateFormatter = Date.ISO8601FormatStyle()
+//        let formattedFrom = from.formatted(dateFormatter).dropLast(1)
+//        let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
         
         guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: senderIMEI) else
         {
