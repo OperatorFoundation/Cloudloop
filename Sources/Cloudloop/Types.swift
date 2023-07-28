@@ -481,24 +481,16 @@ public struct CloudloopMessage: Codable
 	public let payload: String
 	public let txAt: String
 	public let rxAt: String
-	public let cdrReference: Float
-	public let cepRadius: Float
-	public let latitude: Float
-	public let longitude: Float
 	public let momsn: Float
 	public let status: String
 
-    public init(token: String, id: String, hardware: String, payload: String, txAt: String, rxAt: String, cdrReference: Float, cepRadius: Float, latitude: Float, longitude: Float, momsn: Float, status: String)
+    public init(token: String, id: String, hardware: String, payload: String, txAt: String, rxAt: String, momsn: Float, status: String)
     {
 		self.id = id
 		self.hardware = hardware
 		self.payload = payload
 		self.txAt = txAt
 		self.rxAt = rxAt
-		self.cdrReference = cdrReference
-		self.cepRadius = cepRadius
-		self.latitude = latitude
-		self.longitude = longitude
 		self.momsn = momsn
 		self.status = status
     }

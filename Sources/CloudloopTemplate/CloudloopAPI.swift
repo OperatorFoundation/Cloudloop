@@ -222,10 +222,6 @@ public struct CloudloopAPI
                  ("payload", .string),
                  ("txAt", .string),
                  ("rxAt", .string),
-                 ("cdrReference", .float),
-                 ("cepRadius", .float),
-                 ("latitude", .float),
-                 ("longitude", .float),
                  ("momsn", .float),
                  ("status", .string)
             ]),
