@@ -478,13 +478,13 @@ public struct CloudloopMessage: Codable
 {
 	public let id: String
 	public let hardware: String
-	public let payload: String
+	public let payload: String?
 	public let txAt: String
 	public let rxAt: String
 	public let momsn: Float
 	public let status: String
 
-    public init(token: String, id: String, hardware: String, payload: String, txAt: String, rxAt: String, momsn: Float, status: String)
+    public init(token: String, id: String, hardware: String, payload: String?, txAt: String, rxAt: String, momsn: Float, status: String)
     {
 		self.id = id
 		self.hardware = hardware

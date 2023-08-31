@@ -219,7 +219,7 @@ public struct CloudloopAPI
             ResultType(name: "Messages", fields: [
                  ("id", .string),
                  ("hardware", .string),
-                 ("payload", .string),
+                 ("payload", .optional(.string)),
                  ("txAt", .string),
                  ("rxAt", .string),
                  ("momsn", .float),
