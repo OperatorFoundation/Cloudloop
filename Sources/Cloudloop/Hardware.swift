@@ -59,19 +59,43 @@ public struct Hardware
     // https://docs.cloudloop.com/reference#get-hardware
     public func GetHardware(token: String, imei: String) -> HardwareGetHardwareResult?
     {
-        guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/GetHardware") else {return nil}
+        let urlString = "https://api.cloudloop.com/Hardware/GetHardware"
+        guard var components = URLComponents(string: urlString) else
+        {
+            print("Failed to create a url for \(urlString)")
+            return nil
+        }
+        
         components.queryItems = [
             URLQueryItem(name: "token", value: token),
 			URLQueryItem(name: "imei", value: imei)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
-        let dataString = String(decoding: resultData, as: UTF8.self)
-        print(dataString)
-        let decoder = JSONDecoder()
-        guard let result = try? decoder.decode(HardwareGetHardwareResult.self, from: resultData) else {return nil}
-
-        return result
+        
+        do
+        {
+            let resultData = try Data(contentsOf: url)
+            
+            let dataString = String(decoding: resultData, as: UTF8.self)
+            print("Received a result from GetHardware request: \(dataString)")
+            
+            do
+            {
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(HardwareGetHardwareResult.self, from: resultData)
+                return result
+            }
+            catch (let jsonError)
+            {
+                print("Failed to decode the GetHardware result: \(jsonError)")
+                return nil
+            }
+        }
+        catch (let resultError)
+        {
+            print("Received an error from GetHardware request: \(resultError)")
+            return nil
+        }
     }
 
     // https://docs.cloudloop.com/reference#search-hardware
