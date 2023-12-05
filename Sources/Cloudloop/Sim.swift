@@ -38,7 +38,7 @@ public struct Sim
    public init() {}
 
     // https://docs.cloudloop.com/reference#create-sim
-    public func CreateSim(token: String, iccid: String) async -> SimCreateSimResult?
+    public func CreateSim(token: String, iccid: String) -> SimCreateSimResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sim/CreateSim") else {return nil}
         components.queryItems = [
@@ -46,7 +46,7 @@ public struct Sim
 			URLQueryItem(name: "iccid", value: iccid)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -56,7 +56,7 @@ public struct Sim
     }
 
     // https://docs.cloudloop.com/reference#get-sim
-    public func GetSim(token: String, sim: String) async -> SimGetSimResult?
+    public func GetSim(token: String, sim: String) -> SimGetSimResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sim/GetSim") else {return nil}
         components.queryItems = [
@@ -64,7 +64,7 @@ public struct Sim
 			URLQueryItem(name: "sim", value: sim)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -74,7 +74,7 @@ public struct Sim
     }
 
     // https://docs.cloudloop.com/reference#get-sims
-    public func SearchSims(token: String) async -> SimSearchSimsResult?
+    public func SearchSims(token: String) -> SimSearchSimsResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sim/GetSims") else {return nil}
         components.queryItems = [
@@ -82,7 +82,7 @@ public struct Sim
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()

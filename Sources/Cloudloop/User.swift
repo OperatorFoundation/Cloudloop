@@ -18,7 +18,7 @@ public struct User
    public init() {}
 
     // https://docs.cloudloop.com/reference#generate-token
-    public func GenerateToken(token: String) async -> UserGenerateTokenResult?
+    public func GenerateToken(token: String) -> UserGenerateTokenResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/User/DoGenerateToken") else {return nil}
         components.queryItems = [
@@ -26,7 +26,7 @@ public struct User
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()

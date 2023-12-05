@@ -38,7 +38,7 @@ public struct Hardware
    public init() {}
 
     // https://docs.cloudloop.com/reference#create-hardware
-    public func CreateHardware(token: String, imei: String, type: String) async -> HardwareCreateHardwareResult?
+    public func CreateHardware(token: String, imei: String, type: String) -> HardwareCreateHardwareResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/CreateHardware") else {return nil}
         components.queryItems = [
@@ -47,7 +47,7 @@ public struct Hardware
 			URLQueryItem(name: "type", value: type)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -57,7 +57,7 @@ public struct Hardware
     }
 
     // https://docs.cloudloop.com/reference#get-hardware
-    public func GetHardware(token: String, imei: String) async -> HardwareGetHardwareResult?
+    public func GetHardware(token: String, imei: String) -> HardwareGetHardwareResult?
     {
         let urlString = "https://api.cloudloop.com/Hardware/GetHardware"
         guard var components = URLComponents(string: urlString) else
@@ -74,7 +74,7 @@ public struct Hardware
         
         do
         {
-            let resultData = try await Data(contentsOf: url)
+            let resultData = try Data(contentsOf: url)
 
             let dataString = String(decoding: resultData, as: UTF8.self)
             print("Received a result from GetHardware request: \(dataString)")
@@ -99,7 +99,7 @@ public struct Hardware
     }
 
     // https://docs.cloudloop.com/reference#search-hardware
-    public func SearchHardware(token: String) async -> HardwareSearchHardwareResult?
+    public func SearchHardware(token: String) -> HardwareSearchHardwareResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Hardware/GetHardwares") else {return nil}
         components.queryItems = [
@@ -107,7 +107,7 @@ public struct Hardware
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()

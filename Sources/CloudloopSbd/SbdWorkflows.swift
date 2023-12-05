@@ -36,11 +36,11 @@ public class SbdWorkflow
     }
     
     // TODO: subscriber name could be optional
-    public func modemSetup(subscriberName: String, billingGroupName: String, imei: String, hardwareType: String = "IRIDIUM_SBD") async -> (hardware: HardwareCreateHardwareResult, subscriber: SbdCreateSubscriberResult)?
+    public func modemSetup(subscriberName: String, billingGroupName: String, imei: String, hardwareType: String = "IRIDIUM_SBD") -> (hardware: HardwareCreateHardwareResult, subscriber: SbdCreateSubscriberResult)?
     {
         print("Setting up \(hardwareType) modem...")
         // create hardware
-        guard let createHardwareResult = await Hardware().CreateHardware(token: token, imei: imei, type: hardwareType) else {
+        guard let createHardwareResult = Hardware().CreateHardware(token: token, imei: imei, type: hardwareType) else {
             print("Hardware could not be created.")
             return nil
         }
@@ -49,13 +49,13 @@ public class SbdWorkflow
         let hardware = createHardwareResult.hardware.id
         
         // create subscriber
-        guard let createSubscriberResult = await Sbd().CreateSubscriber(token: token, hardware: hardware, name: subscriberName) else {
+        guard let createSubscriberResult = Sbd().CreateSubscriber(token: token, hardware: hardware, name: subscriberName) else {
             print("Subscriber could not be created.")
             return nil
         }
                 
         // create billingGroup
-        guard let createBillingGroupResult = await Account().CreateBillingGroup(token: token, name: billingGroupName) else {
+        guard let createBillingGroupResult = Account().CreateBillingGroup(token: token, name: billingGroupName) else {
             print("BillingGroup could not be created.")
             return nil
         }
@@ -63,7 +63,7 @@ public class SbdWorkflow
         print("Created a billing group: \(createBillingGroupResult)")
         
         // get and print plans
-        guard let getPlansResult = await Sbd().GetPlans(token: token) else {
+        guard let getPlansResult = Sbd().GetPlans(token: token) else {
             print("could not get plans")
             return nil
         }
@@ -83,13 +83,13 @@ public class SbdWorkflow
     public func modemAssign(planName: String, subscriber: String, billingGroup: String) async
     {
         // activate subscriber with chosen plan
-        guard await Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
+        guard Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
             print("Subscriber activation failed")
             return
         }
         
         // assign billingGroup
-        guard await Sbd().AssignBillingGroup(token: token, subscriber: subscriber, billingGroup: billingGroup) != nil else {
+        guard Sbd().AssignBillingGroup(token: token, subscriber: subscriber, billingGroup: billingGroup) != nil else {
             print("Billing Group could not be assigned.")
             return
         }
@@ -99,13 +99,13 @@ public class SbdWorkflow
     {
         do
         {
-            guard let getSubscriberResult = try await Sbd().GetSubscriber(token: token, imei: imei) else
+            guard let getSubscriberResult = try Sbd().GetSubscriber(token: token, imei: imei) else
             {
                 print("Could not find Subscriber with provided info.")
                 return
             }
             
-            guard await Sbd().DeactivateSubscriber(token: token, subscriber: getSubscriberResult.subscriber.id) != nil else
+            guard Sbd().DeactivateSubscriber(token: token, subscriber: getSubscriberResult.subscriber.id) != nil else
             {
                 print("failed to deactivate subscriber")
                 return

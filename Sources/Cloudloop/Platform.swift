@@ -18,7 +18,7 @@ public struct Platform
    public init() {}
 
     // https://docs.cloudloop.com/reference#ping
-    public func Ping(token: String) async -> PlatformPingResult?
+    public func Ping(token: String) -> PlatformPingResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Platform/Ping") else {return nil}
         components.queryItems = [
@@ -26,7 +26,7 @@ public struct Platform
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+        guard let resultData = try? Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
