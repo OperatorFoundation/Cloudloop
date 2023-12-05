@@ -80,7 +80,7 @@ public class SbdWorkflow
         return(createHardwareResult, createSubscriberResult)
     }
     
-    public func modemAssign(planName: String, subscriber: String, billingGroup: String) async
+    public func modemAssign(planName: String, subscriber: String, billingGroup: String)
     {
         // activate subscriber with chosen plan
         guard Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
@@ -95,7 +95,7 @@ public class SbdWorkflow
         }
     }
     
-    public func modemShutdown(imei: String) async
+    public func modemShutdown(imei: String)
     {
         do
         {
