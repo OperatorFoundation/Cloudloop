@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Cloudloop",
-    platforms: [.macOS(.v13), .iOS(.v15)],
+    platforms: [.macOS(.v13), .iOS(.v16)],
     products: [
         .library(
             name: "Cloudloop",
@@ -21,6 +21,7 @@ let package = Package(
             targets: ["CloudloopSbd"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/OperatorFoundation/Chord", branch: "main"),
         .package(url: "https://github.com/OperatorFoundation/Datable", branch: "main"),
         .package(url: "https://github.com/OperatorFoundation/Gardener", branch: "main"),
         .package(url: "https://github.com/OperatorFoundation/SwiftHexTools.git", branch: "main")
@@ -28,7 +29,7 @@ let package = Package(
     targets: [
         .target(
             name: "Cloudloop",
-            dependencies: ["Datable", "SwiftHexTools"],
+            dependencies: ["Chord", "Datable", "SwiftHexTools"],
             exclude: ["README.md"]
         ),
         .target(

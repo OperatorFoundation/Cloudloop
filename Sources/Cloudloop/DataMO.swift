@@ -30,7 +30,7 @@ public struct DataMO
    public init() {}
 
     // https://docs.cloudloop.com/reference#retrieve-messages
-    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMOGetMessagesResult?
+    public func GetMessages(token: String, hardware: String, from: String, to: String) async -> DataMOGetMessagesResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMo/GetMessages") else {return nil}
         components.queryItems = [
@@ -44,7 +44,7 @@ public struct DataMO
             return nil
         }
         
-        guard let resultData = try? Data(contentsOf: url) else {
+        guard let resultData = try? await Data(contentsOf: url) else {
             print("Could not make URL contents into data")
             return nil
         }
@@ -61,7 +61,7 @@ public struct DataMO
     }
 
     // https://docs.cloudloop.com/reference#retrieve-messages-long-poll
-    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) -> DataMORetrieveMessageLongPollResult?
+    public func GetMessagesPolled(token: String, maxPollTime: Int32, lastMessageReceived: String?) async -> DataMORetrieveMessageLongPollResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMo/GetMessagesPolled") else {return nil}
         components.queryItems = [
@@ -73,7 +73,7 @@ public struct DataMO
             print("Could not make a URL from the provided options")
             return nil
         }
-        guard let resultData = try? Data(contentsOf: url) else {
+        guard let resultData = try? await Data(contentsOf: url) else {
             print("Could not make URL contents into data")
             return nil
         }

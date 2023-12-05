@@ -51,7 +51,7 @@ public struct DataMT
    public init() {}
 
     // https://docs.cloudloop.com/reference#send-message
-    public func SendMessage(token: String, hardware: String, payload: String, flushMT: Bool = false) -> DataMTSendMessageResult?
+    public func SendMessage(token: String, hardware: String, payload: String, flushMT: Bool = false) async -> DataMTSendMessageResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/DoSendMessage") else {return nil}
         components.queryItems = [
@@ -61,7 +61,7 @@ public struct DataMT
             URLQueryItem(name: "flushMt", value: String(flushMT))
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -71,7 +71,7 @@ public struct DataMT
     }
 
     // https://docs.cloudloop.com/reference#get-message-status
-    public func GetMessage(token: String, message: String) -> DataMTGetMessageResult?
+    public func GetMessage(token: String, message: String) async -> DataMTGetMessageResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessage") else {return nil}
         components.queryItems = [
@@ -79,7 +79,7 @@ public struct DataMT
 			URLQueryItem(name: "message", value: message)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -89,7 +89,7 @@ public struct DataMT
     }
 
     // https://docs.cloudloop.com/reference#get-messages
-    public func GetMessages(token: String, hardware: String, from: String, to: String) -> DataMTDataMTGetMessagesResult?
+    public func GetMessages(token: String, hardware: String, from: String, to: String) async -> DataMTDataMTGetMessagesResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessages") else {return nil}
         components.queryItems = [
@@ -103,7 +103,7 @@ public struct DataMT
             return nil
         }
         
-        guard let resultData = try? Data(contentsOf: url) else {
+        guard let resultData = try? await Data(contentsOf: url) else {
             print("Could not make URL contents into data")
             return nil
         }
@@ -120,7 +120,7 @@ public struct DataMT
     }
 
     // https://docs.cloudloop.com/reference#getmessagespolled
-    public func GetMessagesPolled(token: String, lastMessageRetrieved: String, maxPollTime: Int32) -> DataMTGetMessagesPolledResult?
+    public func GetMessagesPolled(token: String, lastMessageRetrieved: String, maxPollTime: Int32) async -> DataMTGetMessagesPolledResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/DataMt/GetMessagesPolled") else {return nil}
         components.queryItems = [
@@ -129,7 +129,7 @@ public struct DataMT
 			URLQueryItem(name: "maxPollTime", value: String(maxPollTime))
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()

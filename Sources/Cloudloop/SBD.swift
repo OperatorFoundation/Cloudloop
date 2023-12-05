@@ -216,7 +216,7 @@ public struct Sbd
    public init() {}
 
     // https://docs.cloudloop.com/reference#create
-    public func CreateSubscriber(token: String, hardware: String, name: String? = nil) -> SbdCreateSubscriberResult?
+    public func CreateSubscriber(token: String, hardware: String, name: String? = nil) async -> SbdCreateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/CreateSubscriber") else {return nil}
         components.queryItems = [
@@ -225,7 +225,7 @@ public struct Sbd
 			URLQueryItem(name: "name", value: name ?? "")
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nCreateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -235,7 +235,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-subscriber
-    public func GetSubscriber(token: String, imei: String) throws -> SbdGetSubscriberResult?
+    public func GetSubscriber(token: String, imei: String) async throws -> SbdGetSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetSubscriber") else {return nil}
         components.queryItems = [
@@ -244,7 +244,7 @@ public struct Sbd
         ]
         
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
 //        let dataString = String(decoding: resultData, as: UTF8.self)
 //        print("\nGetSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -268,7 +268,7 @@ public struct Sbd
     
 
     // https://docs.cloudloop.com/reference#search-subscribers
-    public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) -> SBDResult?
+    public func SearchSubscribers(token: String, query: String? = nil, status: String? = nil, hardware: String? = nil) async -> SBDResult?
     {
         print("SBD.SearchSubscribers() called")
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetSubscribers") else {return nil}
@@ -291,8 +291,8 @@ public struct Sbd
         }
         
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
-        
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+
         print("Retrieved data contents of \(url.path): ")
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nSearchSubscribers response: \(dataString)")
@@ -319,7 +319,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-usage
-    public func GetUsage(token: String, subscriber: String, year: Int32, month: Int32) -> SbdGetUsageResult?
+    public func GetUsage(token: String, subscriber: String, year: Int32, month: Int32) async -> SbdGetUsageResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetUsage") else {return nil}
         components.queryItems = [
@@ -329,7 +329,7 @@ public struct Sbd
 			URLQueryItem(name: "month", value: String(month))
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nGetUsage response: \(dataString)")
         let decoder = JSONDecoder()
@@ -339,7 +339,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-usage-summary
-    public func GetUsageSummary(token: String, subscriber: String, year: Int32, month: Int32) -> SbdGetUsageSummaryResult?
+    public func GetUsageSummary(token: String, subscriber: String, year: Int32, month: Int32) async -> SbdGetUsageSummaryResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetUsageSummary") else {return nil}
         components.queryItems = [
@@ -349,7 +349,7 @@ public struct Sbd
 			URLQueryItem(name: "month", value: String(month))
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nGetUsage response: \(dataString)")
         let decoder = JSONDecoder()
@@ -359,7 +359,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-plans
-    public func GetPlans(token: String) -> SbdGetPlansResult?
+    public func GetPlans(token: String) async -> SbdGetPlansResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetPlans") else {return nil}
         components.queryItems = [
@@ -367,7 +367,7 @@ public struct Sbd
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nGetPlans response: \(dataString)")
         let decoder = JSONDecoder()
@@ -377,7 +377,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#get-contracts
-    public func GetContracts(token: String, subscriber: String) -> SbdGetContractsResult?
+    public func GetContracts(token: String, subscriber: String) async -> SbdGetContractsResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/GetContracts") else {return nil}
         components.queryItems = [
@@ -385,7 +385,7 @@ public struct Sbd
 			URLQueryItem(name: "subscriber", value: subscriber)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nGetContracts response: \(dataString)")
         let decoder = JSONDecoder()
@@ -395,7 +395,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#activate-subscriber
-    public func ActivateSubscriber(token: String, subscriber: String, plan: String) -> SbdActivateSubscriberResult?
+    public func ActivateSubscriber(token: String, subscriber: String, plan: String) async -> SbdActivateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoActivateSubscriber") else {return nil}
         components.queryItems = [
@@ -404,7 +404,7 @@ public struct Sbd
 			URLQueryItem(name: "plan", value: plan)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("ActivateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -414,7 +414,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#deactivate-subscriber
-    public func DeactivateSubscriber(token: String, subscriber: String) -> SbdDeactivateSubscriberResult?
+    public func DeactivateSubscriber(token: String, subscriber: String) async -> SbdDeactivateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoDeactivateSubscriber") else {return nil}
         components.queryItems = [
@@ -422,7 +422,7 @@ public struct Sbd
 			URLQueryItem(name: "subscriber", value: subscriber)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nDeactivateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -432,7 +432,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#resume-subscriber
-    public func ResumeSubscriber(token: String, subscriber: String) -> SbdResumeSubscriberResult?
+    public func ResumeSubscriber(token: String, subscriber: String) async -> SbdResumeSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoResumeSubscriber") else {return nil}
         components.queryItems = [
@@ -440,7 +440,7 @@ public struct Sbd
 			URLQueryItem(name: "subscriber", value: subscriber)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nResumeSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -450,7 +450,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#suspend-subscriber-1
-    public func SuspendSubscriber(token: String, subscriber: String) -> SbdSuspendSubscriberResult?
+    public func SuspendSubscriber(token: String, subscriber: String) async -> SbdSuspendSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoSuspendSubscriber") else {return nil}
         components.queryItems = [
@@ -458,7 +458,7 @@ public struct Sbd
 			URLQueryItem(name: "subscriber", value: subscriber)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nSuspendSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -468,7 +468,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#change-subscriber
-    public func ChangeSubscriber(token: String, subscriber: String, plan: String) -> SbdChangeSubscriberResult?
+    public func ChangeSubscriber(token: String, subscriber: String, plan: String) async -> SbdChangeSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoChangeSubscriber") else {return nil}
         components.queryItems = [
@@ -477,7 +477,7 @@ public struct Sbd
 			URLQueryItem(name: "plan", value: plan)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nChangeSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -487,7 +487,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#update-subscriber
-    public func UpdateSubscriber(token: String, subscriber: String, name: String, description: String) -> SbdUpdateSubscriberResult?
+    public func UpdateSubscriber(token: String, subscriber: String, name: String, description: String) async -> SbdUpdateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/UpdateSubscriber") else {return nil}
         components.queryItems = [
@@ -497,7 +497,7 @@ public struct Sbd
 			URLQueryItem(name: "description", value: description)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nUpdateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -507,7 +507,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#create-destination
-    public func CreateDestination(token: String, subscriber: String, destination: String, type: String, moack: Bool, geodata: Bool) -> SBDResult?
+    public func CreateDestination(token: String, subscriber: String, destination: String, type: String, moack: Bool, geodata: Bool) async -> SBDResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/CreateDestination") else {return nil}
         components.queryItems = [
@@ -519,7 +519,7 @@ public struct Sbd
 			URLQueryItem(name: "geodata", value: String(geodata))
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
 //        let dataString = String(decoding: resultData, as: UTF8.self)
 //        print("\nCreate destination response: \(dataString)")
         
@@ -547,7 +547,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#delete-destination
-    public func DeleteDestination(token: String, destination: String) -> SBDResult?
+    public func DeleteDestination(token: String, destination: String) async -> SBDResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DeleteDestination") else {return nil}
         components.queryItems = [
@@ -555,8 +555,8 @@ public struct Sbd
 			URLQueryItem(name: "destination", value: destination)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
-        
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
+
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("SBD Delete Destination response: \n\(dataString)")
         
@@ -578,7 +578,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#swap-subscriber
-    public func ReassociateSubscriber(token: String, subscriber: String, hardware: String) -> SbdReassociateSubscriberResult?
+    public func ReassociateSubscriber(token: String, subscriber: String, hardware: String) async -> SbdReassociateSubscriberResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoReassociateSubscriber") else {return nil}
         components.queryItems = [
@@ -587,7 +587,7 @@ public struct Sbd
 			URLQueryItem(name: "hardware", value: hardware)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("ReassociateSubscriber response: \(dataString)")
         let decoder = JSONDecoder()
@@ -597,7 +597,7 @@ public struct Sbd
     }
 
     // https://docs.cloudloop.com/reference#assign-billing-group
-    public func AssignBillingGroup(token: String, subscriber: String, billingGroup: String) -> SbdAssignBillingGroupResult?
+    public func AssignBillingGroup(token: String, subscriber: String, billingGroup: String) async -> SbdAssignBillingGroupResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Sbd/DoAssignBillingGroup") else {return nil}
         components.queryItems = [
@@ -606,7 +606,7 @@ public struct Sbd
 			URLQueryItem(name: "billingGroup", value: billingGroup)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print("\nAssignBillingGroup response: \(dataString)")
         let decoder = JSONDecoder()

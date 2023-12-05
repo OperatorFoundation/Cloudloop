@@ -36,11 +36,11 @@ public class SbdWorkflow
     }
     
     // TODO: subscriber name could be optional
-    public func modemSetup(subscriberName: String, billingGroupName: String, imei: String, hardwareType: String = "IRIDIUM_SBD") -> (hardware: HardwareCreateHardwareResult, subscriber: SbdCreateSubscriberResult)?
+    public func modemSetup(subscriberName: String, billingGroupName: String, imei: String, hardwareType: String = "IRIDIUM_SBD") async -> (hardware: HardwareCreateHardwareResult, subscriber: SbdCreateSubscriberResult)?
     {
         print("Setting up \(hardwareType) modem...")
         // create hardware
-        guard let createHardwareResult = Hardware().CreateHardware(token: token, imei: imei, type: hardwareType) else {
+        guard let createHardwareResult = await Hardware().CreateHardware(token: token, imei: imei, type: hardwareType) else {
             print("Hardware could not be created.")
             return nil
         }
@@ -49,13 +49,13 @@ public class SbdWorkflow
         let hardware = createHardwareResult.hardware.id
         
         // create subscriber
-        guard let createSubscriberResult = Sbd().CreateSubscriber(token: token, hardware: hardware, name: subscriberName) else {
+        guard let createSubscriberResult = await Sbd().CreateSubscriber(token: token, hardware: hardware, name: subscriberName) else {
             print("Subscriber could not be created.")
             return nil
         }
                 
         // create billingGroup
-        guard let createBillingGroupResult = Account().CreateBillingGroup(token: token, name: billingGroupName) else {
+        guard let createBillingGroupResult = await Account().CreateBillingGroup(token: token, name: billingGroupName) else {
             print("BillingGroup could not be created.")
             return nil
         }
@@ -63,7 +63,7 @@ public class SbdWorkflow
         print("Created a billing group: \(createBillingGroupResult)")
         
         // get and print plans
-        guard let getPlansResult = Sbd().GetPlans(token: token) else {
+        guard let getPlansResult = await Sbd().GetPlans(token: token) else {
             print("could not get plans")
             return nil
         }
@@ -80,32 +80,32 @@ public class SbdWorkflow
         return(createHardwareResult, createSubscriberResult)
     }
     
-    public func modemAssign(planName: String, subscriber: String, billingGroup: String)
+    public func modemAssign(planName: String, subscriber: String, billingGroup: String) async
     {
         // activate subscriber with chosen plan
-        guard Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
+        guard await Sbd().ActivateSubscriber(token: token, subscriber: subscriber, plan: planName) != nil else {
             print("Subscriber activation failed")
             return
         }
         
         // assign billingGroup
-        guard Sbd().AssignBillingGroup(token: token, subscriber: subscriber, billingGroup: billingGroup) != nil else {
+        guard await Sbd().AssignBillingGroup(token: token, subscriber: subscriber, billingGroup: billingGroup) != nil else {
             print("Billing Group could not be assigned.")
             return
         }
     }
     
-    public func modemShutdown(imei: String)
+    public func modemShutdown(imei: String) async
     {
         do
         {
-            guard let getSubscriberResult = try Sbd().GetSubscriber(token: token, imei: imei) else
+            guard let getSubscriberResult = try await Sbd().GetSubscriber(token: token, imei: imei) else
             {
                 print("Could not find Subscriber with provided info.")
                 return
             }
             
-            guard Sbd().DeactivateSubscriber(token: token, subscriber: getSubscriberResult.subscriber.id) != nil else
+            guard await Sbd().DeactivateSubscriber(token: token, subscriber: getSubscriberResult.subscriber.id) != nil else
             {
                 print("failed to deactivate subscriber")
                 return
@@ -123,14 +123,14 @@ public class SbdWorkflow
     /// destination: String - What is supplied will vary on the type requested
     /// type: String - DIRECT_IP, EMAIL, IMEI, CLOUDLOOP
     ///
-    public func newDestination(deviceIMEI: String, destination: String, type: String, moack: Bool = false, geodata: Bool = false) -> CloudloopResponse
+    public func newDestination(deviceIMEI: String, destination: String, type: String, moack: Bool = false, geodata: Bool = false) async -> CloudloopResponse
     {
         print("Cloudloop.newDestination() called.")
         
         do
         {
             // This is information about the device/modem should not be used from a device that does not have a modem
-            guard let subscriberResult = try Sbd().GetSubscriber(token: token, imei: deviceIMEI) else
+            guard let subscriberResult = try await Sbd().GetSubscriber(token: token, imei: deviceIMEI) else
             {
                 let failure = "Get subscriber request failed"
                 print(failure)
@@ -138,7 +138,7 @@ public class SbdWorkflow
             }
             
             // create new destination
-            guard let result = Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: destination, type: type, moack: moack, geodata: geodata) else
+            guard let result = await Sbd().CreateDestination(token: token, subscriber: subscriberResult.subscriber.id, destination: destination, type: type, moack: moack, geodata: geodata) else
             {
                 let failure = "Failed to create a new destination for subscriber \(subscriberResult.subscriber.id): Invalid destination"
                 print(failure)
@@ -172,16 +172,16 @@ public class SbdWorkflow
         }
     }
     
-    public func sendMessage(payload: String, receiverIMEI: String, flushMT: Bool = false) -> CloudloopResponse
+    public func sendMessage(payload: String, receiverIMEI: String, flushMT: Bool = false) async -> CloudloopResponse
     {
-        guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: receiverIMEI) else
+        guard let hardwareResponse = await Hardware().GetHardware(token: self.token, imei: receiverIMEI) else
         {
             let failureMessage = "Failed to get a valid hardware ID response for the provided IMEI: \(receiverIMEI)"
             print(failureMessage)
             return .failure(reason: failureMessage)
         }
         
-        guard let result = DataMT().SendMessage(token: self.token, hardware: hardwareResponse.hardware.id, payload: payload, flushMT: flushMT) else
+        guard let result = await DataMT().SendMessage(token: self.token, hardware: hardwareResponse.hardware.id, payload: payload, flushMT: flushMT) else
         {
             let failure = "DataMT().SendMessage() returned nil."
             print(failure)
@@ -194,9 +194,9 @@ public class SbdWorkflow
     
     /// This action is designed for receiving new messages from any Hardware in your account
     /// To retrieve messages from a specific subscriber use retrieveMessages() instead
-    public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) -> CloudloopResponse
+    public func retrieveMessagesPolled(lastMessageRetrieved: String? = nil) async -> CloudloopResponse
     {
-        guard let result = DataMO().GetMessagesPolled(token: self.token, maxPollTime: 60, lastMessageReceived: lastMessageRetrieved) else {
+        guard let result = await DataMO().GetMessagesPolled(token: self.token, maxPollTime: 60, lastMessageReceived: lastMessageRetrieved) else {
             let failure = "Failed to retrieve messages: "
             print(failure)
             return .failure(reason: failure)
@@ -206,7 +206,7 @@ public class SbdWorkflow
     }
     
     /// Use this action to retrieve mobile-originated (MO) messages for the specified Hardware within the specified date period.
-    public func retrieveMessages(lastChecked: Date, senderIMEI: String) -> CloudloopResponse
+    public func retrieveMessages(lastChecked: Date, senderIMEI: String) async -> CloudloopResponse
     {
         // this needs to be in UTC
         let calendar = Calendar.current
@@ -239,14 +239,14 @@ public class SbdWorkflow
 //        let formattedFrom = from.formatted(dateFormatter).dropLast(1)
 //        let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
         
-        guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: senderIMEI) else
+        guard let hardwareResponse = await Hardware().GetHardware(token: self.token, imei: senderIMEI) else
         {
             let failureMessage = "Failed to get a valid hardware ID response for the provided IMEI: \(senderIMEI)"
             print(failureMessage)
             return .failure(reason: failureMessage)
         }
         
-        guard let result = DataMO().GetMessages(token: self.token, hardware: hardwareResponse.hardware.id, from: String(formattedFrom), to: String(formattedTo)) else
+        guard let result = await DataMO().GetMessages(token: self.token, hardware: hardwareResponse.hardware.id, from: String(formattedFrom), to: String(formattedTo)) else
         {
             let failure = "Failed to retrieve messages: "
             print(failure)

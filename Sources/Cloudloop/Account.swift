@@ -3,6 +3,8 @@
 
 import Foundation
 
+import Chord
+
 public struct AccountCreateBillingGroupResult: Codable
 {
 	public let billingGroup: CreateBillingGroup
@@ -38,7 +40,7 @@ public struct Account
    public init() {}
 
     // https://docs.cloudloop.com/reference#create-billing-group
-    public func CreateBillingGroup(token: String, name: String) -> AccountCreateBillingGroupResult?
+    public func CreateBillingGroup(token: String, name: String) async -> AccountCreateBillingGroupResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Account/CreateBillingGroup") else {return nil}
         components.queryItems = [
@@ -46,7 +48,7 @@ public struct Account
 			URLQueryItem(name: "name", value: name)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -56,7 +58,7 @@ public struct Account
     }
 
     // https://docs.cloudloop.com/reference#get-billing-groups
-    public func GetBillingGroups(token: String) -> AccountGetBillingGroupsResult?
+    public func GetBillingGroups(token: String) async -> AccountGetBillingGroupsResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Account/GetBillingGroups") else {return nil}
         components.queryItems = [
@@ -64,7 +66,7 @@ public struct Account
 
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
@@ -74,7 +76,7 @@ public struct Account
     }
 
     // https://docs.cloudloop.com/reference#delete-billing-group
-    public func DeleteBillingGroup(token: String, BillingGroup: String) -> AccountDeleteBillingGroupResult?
+    public func DeleteBillingGroup(token: String, BillingGroup: String) async -> AccountDeleteBillingGroupResult?
     {
         guard var components = URLComponents(string: "https://api.cloudloop.com/Account/DeleteBillingGroup") else {return nil}
         components.queryItems = [
@@ -82,7 +84,7 @@ public struct Account
 			URLQueryItem(name: "BillingGroup", value: BillingGroup)
         ]
         guard let url = components.url else {return nil}
-        guard let resultData = try? Data(contentsOf: url) else {return nil}
+        guard let resultData = try? await Data(contentsOf: url) else {return nil}
         let dataString = String(decoding: resultData, as: UTF8.self)
         print(dataString)
         let decoder = JSONDecoder()
