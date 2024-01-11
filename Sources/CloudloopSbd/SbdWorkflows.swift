@@ -216,37 +216,21 @@ public class SbdWorkflow
             return .failure(reason: "Couldn't calculate the days passed since last checked")
         }
         
-        var from = lastChecked
-        
-        // TODO: Limit the last checked to no more than 10 days
-//        if daysSinceLastChecked >= 10 {
-//            print("Messages are only stored in the Iridium network for ten days")
-//            print("Messages were last checked ten or more days ago.  Checking for messages received in the last ten days")
-//            guard let tenDaysAgo = calendar.date(byAdding: .day, value: -10, to: currentLocalDate) else {
-//                return .failure(reason: "Couldn't calculate ten days before current date")
-//            }
-//
-//            from = tenDaysAgo
-//        }
-        
+        let from = lastChecked
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
         let formattedFrom = formatter.string(from: from).dropLast(1)
         let formattedTo = formatter.string(from: nowUTC).dropLast(1)
         
-        /// This version of date formatting is not currently supported on Linux
-//        let dateFormatter = Date.ISO8601FormatStyle()
-//        let formattedFrom = from.formatted(dateFormatter).dropLast(1)
-//        let formattedTo = nowUTC.formatted(dateFormatter).dropLast(1)
-        
-        guard let hardwareResponse = Hardware().GetHardware(token: self.token, imei: senderIMEI) else
+        // Get the hardware ID associated with this IMEI
+        guard let hardwareID = getHardwareID(imei: senderIMEI) else
         {
             let failureMessage = "Failed to get a valid hardware ID response for the provided IMEI: \(senderIMEI)"
             print(failureMessage)
             return .failure(reason: failureMessage)
         }
         
-        guard let result = DataMO().GetMessages(token: self.token, hardware: hardwareResponse.hardware.id, from: String(formattedFrom), to: String(formattedTo)) else
+        guard let result = DataMO().GetMessages(token: self.token, hardware: hardwareID, from: String(formattedFrom), to: String(formattedTo)) else
         {
             let failure = "Failed to retrieve messages: "
             print(failure)
@@ -254,5 +238,22 @@ public class SbdWorkflow
         }
         
         return .messages(result)
+    }
+    
+    
+    func getHardwareID(imei: String) -> String?
+    {
+        var hardwareResponse = Hardware().GetHardware(token: self.token, imei: imei)
+        
+        // Sometimes this fails, if so try one more time
+        if hardwareResponse == nil
+        {
+            let tryAgain = Hardware().GetHardware(token: self.token, imei: imei)
+            return tryAgain?.hardware.id
+        }
+        else
+        {
+            return hardwareResponse?.hardware.id
+        }
     }
 }
